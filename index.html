@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PAGE FLIP · 테스트앨범</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="app">
+    <section id="shelfView" class="view active">
+      <header class="topbar">
+        <div class="brandblock">
+          <div class="eyebrow">YOUNGCHOON'S PHOTO BOOK</div>
+          <h1>영춘이의 사진책</h1>
+          <p>기억하고 싶은 순간들을 책으로</p>
+        </div>
+        <div class="controls">
+          <input id="search" type="search" placeholder="앨범 이름 검색" aria-label="앨범 이름 검색" />
+          <select id="sortSelect" aria-label="정렬">
+            <option value="newest">최신순</option>
+            <option value="oldest">오래된순</option>
+            <option value="name">이름순</option>
+          </select>
+          <select id="yearSelect" aria-label="연도 선택">
+            <option value="all">전체 연도</option>
+            <option value="2026">2026</option>
+          </select>
+        </div>
+      </header>
+      <div class="shelf-section" data-year="2026">
+        <div class="yearline"><span>2026</span><small>1권</small></div>
+        <div class="bookshelf">
+          <button class="bookcard" id="openAlbum" aria-label="테스트앨범 열기">
+            <div class="bookcover-mini">
+              <img src="webp/014.webp" alt="테스트앨범 표지" />
+              <div class="mini-title">테스트앨범</div>
+              <div class="mini-date">2026.08.07</div>
+            </div>
+          </button>
+        </div>
+        <div class="wood-shelf"></div>
+      </div>
+    </section>
+
+    <section id="coverView" class="view">
+      <header class="cover-topbar">
+        <button class="text-btn" data-back-shelf>← 책장으로 돌아가기</button>
+        <div class="eyebrow">YOUNGCHOON'S PHOTO BOOK</div>
+        <button id="shareBtn" class="icon-btn" title="공유" aria-label="앨범 공유">↗</button>
+      </header>
+      <div class="cover-stage">
+        <div class="physical-book">
+          <div class="spine"></div>
+          <div class="cover-photo-wrap"><img src="webp/014.webp" alt="테스트앨범 대표 사진" /></div>
+          <div class="cover-caption">테스트앨범</div>
+          <div class="cover-date">2026.08.07</div>
+          <div class="cover-summary">뱅크시 특별전에서 남긴 하루의 기록</div>
+          <div class="cover-meta">사진 15장 · 자동 편집</div>
+          <div class="story-mark">✎ 그날의 기록이 있는 앨범</div>
+        </div>
+        <button id="openReader" class="primary-btn">▭ 책 펼치기</button>
+        <div class="thumb-panel">
+          <div class="thumb-strip" id="thumbStrip"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="readerView" class="view reader-view">
+      <header class="reader-topbar">
+        <button class="text-btn light" data-back-cover>← 표지로</button>
+        <div>
+          <strong>테스트앨범</strong>
+          <span>2026.08.07</span>
+        </div>
+        <button id="fullscreenBtn" class="text-btn light">전체화면</button>
+      </header>
+      <div id="bookArea" class="book-area">
+        <div id="book" class="open-book">
+          <div id="spread" class="spread"></div>
+          <div class="curl-shadow" aria-hidden="true"></div><div id="pageCurl" class="page-curl" aria-hidden="true"></div>
+          <button class="nav-zone prev" id="prevBtn" aria-label="이전 페이지">‹</button>
+          <button class="nav-zone next" id="nextBtn" aria-label="다음 페이지">›</button>
+        </div>
+      </div>
+      <footer class="reader-footer">
+        <span id="pageIndicator">1 / 1</span>
+        <span class="hint">오른쪽 아래 모서리를 드래그하거나 ← → 키를 사용하세요</span>
+      </footer>
+    </section>
+  </main>
+  <div id="storyModal" class="story-modal" role="dialog" aria-modal="true" aria-label="그날의 기록">
+    <article class="story-sheet">
+      <button id="storyClose" class="story-close" aria-label="닫기">×</button>
+      <div class="essay-kicker">YOUNGCHOON'S NOTE</div>
+      <h2>그날의 기록</h2><div class="date">Banksy Still Here · 2026.08.07</div>
+      <p id="storyText"></p>
+    </article>
+  </div>
+  <div id="shareToast" class="share-toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
