@@ -2,5 +2,16 @@
   "id": "elders",
   "title": "장로합창단 앨범 책장",
   "subtitle": "장로합창단의 찬양과 연주 기록",
-  "albums": []
+  "albums": [
+    {
+      "id": "album-1786395267407",
+      "title": "눈썹문신",
+      "date": "2026-08-03",
+      "summary": "눈썹문신",
+      "cover": "../../albums/album-1786395267407/photos/001.webp",
+      "album": "../../albums/album-1786395267407/album.json",
+      "photoCount": 1,
+      "updatedAt": "2026-08-10T20:54:31.360Z"
+    }
+  ]
 }
