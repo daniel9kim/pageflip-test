@@ -7,8 +7,17 @@
   "shelf": "테스트 책장",
   "photoCount": 1,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-10T09:53:41.459Z",
-  "updatedAt": "2026-08-10T09:53:41.459Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786355621459/photos/001.webp",
+      "originalName": "KakaoTalk_20260806_075649703_04.jpg",
+      "width": 864,
+      "height": 1536,
+      "bytes": 105816
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-10T09:53:53.368Z"
 }
