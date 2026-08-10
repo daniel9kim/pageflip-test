@@ -28,9 +28,14 @@
       btn.className='bookcard';
       btn.innerHTML='<div class="book"><img src="'+escapeAttr(a.cover||'')+'" alt=""><div class="title">'+escapeHtml(a.title||'앨범')+'</div><div class="date">'+String(a.date||'').replaceAll('-','.')+'</div></div>';
 
-      // GitHub Pages의 공통 Viewer를 사용합니다.
       btn.onclick=()=>{
-        location.href='../../viewer/?album='+encodeURIComponent(a.album);
+        // shelf.json 안의 상대경로를 현재 책장 URL 기준으로 먼저 절대 URL로 변환
+        // 예: ../../albums/album-123/album.json
+        //  -> https://daniel9kim.github.io/pageflip-test/albums/album-123/album.json
+        const absoluteAlbumUrl=new URL(a.album, location.href).href;
+
+        // 공통 GitHub Pages Viewer로 절대 album.json URL을 전달
+        location.href='../../viewer/?album='+encodeURIComponent(absoluteAlbumUrl);
       };
 
       row.appendChild(btn);
