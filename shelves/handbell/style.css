@@ -1,0 +1,9 @@
+
+:root{--cream:#f7f0e7;--paper:#fffdf8;--ink:#3b2a1e;--muted:#8a7767}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:"Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;color:var(--ink);background:linear-gradient(#fffdf9,#f4eadc)}
+header{text-align:center;padding:42px 5vw 26px;border-bottom:1px solid #e6dccf;background:#fffdf9}
+.eyebrow{font-family:Georgia,serif;letter-spacing:.14em;font-size:12px}h1{font-family:Georgia,"Noto Serif KR",serif;font-weight:500;font-size:42px;margin:9px 0}header p{color:var(--muted);margin:0}
+main{max-width:1160px;margin:auto;padding:34px 4vw 60px}.yearline{display:flex;gap:12px;align-items:baseline;margin-bottom:16px}.yearline span{font:28px Georgia,serif}.yearline small{color:var(--muted)}
+.bookshelf{display:flex;gap:26px;align-items:flex-end;min-height:300px;padding:8px 20px 0}.bookcard{border:0;background:none;cursor:pointer;text-align:left}.book{width:180px;height:245px;background:#f5eadb;padding:14px;box-shadow:0 14px 22px rgba(75,48,26,.28),inset 9px 0 10px rgba(150,117,82,.15);border-radius:3px;transition:.25s;position:relative}.book:hover{transform:translateY(-12px) rotateY(-4deg)}.book img{width:100%;height:165px;object-fit:cover;border:1px solid #e3d8ca}.title{font-family:Georgia,"Noto Serif KR",serif;font-size:19px;margin-top:9px}.date{font-size:12px;color:var(--muted);margin-top:4px}.wood{height:18px;border-radius:3px;background:linear-gradient(#deb98d,#b98554);box-shadow:0 11px 14px rgba(77,50,29,.27)}
+.empty{padding:70px 20px;text-align:center;color:var(--muted);background:rgba(255,255,255,.45);border-radius:18px}.privacy{text-align:center;margin-top:32px;color:#9a8877;font-size:12px}
+@media(max-width:760px){h1{font-size:31px}.bookshelf{padding-left:5px}.book{width:150px;height:215px}.book img{height:140px}}
