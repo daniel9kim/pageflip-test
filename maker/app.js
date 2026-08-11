@@ -211,7 +211,7 @@ document.querySelector('#make').onclick=async()=>{
       <div class="planrow"><span>Commit</span><span class="tag ready">${(final.commit||'').slice(0,10)}</span></div>
       <div class="planrow"><span>등록 책장</span><span class="tag ready">${final.shelfTitle||metadata.shelf}</span></div>
       <div class="planrow"><span>책장 등록</span><span class="tag ready">완료</span></div>
-      <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" type="button" onclick="window.open('../viewer/?album='+encodeURIComponent('../albums/${albumId}/album.json'),'_blank')">사진책 보기</button></span></div>`;
+      <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" type="button" onclick="window.open('../viewer/?album='+encodeURIComponent('https://daniel9kim.github.io/pageflip-test/albums/${albumId}/album.json'),'_blank')">사진책 보기</button></span></div>`;
     plan.scrollIntoView({behavior:'smooth',block:'center'});
   }catch(e){
     fill.style.width='100%';
