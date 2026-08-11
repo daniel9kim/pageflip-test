@@ -352,22 +352,54 @@ shareBtn.onclick=async()=>{
   try{
     const params=new URLSearchParams(location.search);
     const albumParam=params.get('album');
-    if(!albumParam) throw new Error('앨범 경로가 없습니다.');
 
-    albumUrl=new URL(albumParam,location.href);
-    const r=await fetch(albumUrl.href,{cache:'no-store'});
-    if(!r.ok) throw new Error(`album.json을 불러오지 못했습니다. (${r.status})`);
+    if(!albumParam){
+      throw new Error('앨범 경로가 없습니다.');
+    }
+
+    // Maker에서 전달받은 album.json 주소
+    // 절대 URL이면 그대로 사용하고,
+    // 상대 URL일 때만 Viewer 주소를 기준으로 계산한다.
+    if(/^https?:\/\//i.test(albumParam)){
+      albumUrl=new URL(albumParam);
+    }else{
+      albumUrl=new URL(albumParam,location.href);
+    }
+
+    console.log('PAGE FLIP albumParam:',albumParam);
+    console.log('PAGE FLIP albumUrl:',albumUrl.href);
+
+    const r=await fetch(albumUrl.href,{
+      method:'GET',
+      cache:'no-store'
+    });
+
+    console.log('PAGE FLIP fetch status:',r.status);
+    console.log('PAGE FLIP fetch url:',r.url);
+
+    if(!r.ok){
+      throw new Error(
+        `album.json을 불러오지 못했습니다. (${r.status})\n${albumUrl.href}`
+      );
+    }
 
     album=await r.json();
     photos=normalizePhotos(album.photos);
     story=album.story||'';
+
     buildSpreads();
     bindAlbum();
     render();
+
   }catch(err){
     const e=document.querySelector('#loadError');
-    e.textContent='앨범을 불러오지 못했습니다: '+err.message;
+
+    e.textContent=
+      '앨범을 불러오지 못했습니다: '+
+      err.message;
+
     e.style.display='block';
-    console.error(err);
+
+    console.error('PAGE FLIP Viewer Error:',err);
   }
 })();
