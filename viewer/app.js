@@ -66,45 +66,56 @@ function normalizePhotos(list){
 
 function buildSpreads(){
   const base=[];
-  let i=0;
 
-  while(i<photos.length){
+  for(let i=0;i<photos.length;){
     const p=photos[i];
     const n=photos[i+1];
 
     if(p.orientation==='landscape'){
       base.push({type:'landscape',items:[p],start:i});
       i++;
-      continue;
-    }
-
-    if(p.orientation==='square'){
+    }else if(p.orientation==='square'){
       base.push({type:'square',items:[p],start:i});
       i++;
-      continue;
-    }
-
-    if(n && p.orientation==='portrait' && n.orientation==='portrait'){
+    }else if(n&&n.orientation==='portrait'){
       base.push({type:'pair',items:[p,n],start:i});
       i+=2;
-      continue;
-    }
-
-    if(p.orientation==='portrait'){
+    }else{
+      // 홀수로 남은 세로 사진은 빈 페이지 대신 이야기 페이지와 짝지음
       base.push({type:'portrait-story',items:[p],start:i});
       i++;
-      continue;
     }
-
-    base.push({type:'pair',items:[p,null],start:i});
-    i++;
   }
 
-  spreads=[
-    {type:'info',items:[]},
-    ...base,
-    {type:'essay',items:[]}
-  ];
+  spreads=story.trim()?[{type:'essay'},...base]:base;
+}
+
+function bindAlbum(){
+  const title=album.title||'제목 없는 앨범';
+  const date=formatDate(album.date);
+  const summary=album.summary||'';
+  const coverIndex=Math.max(0,Math.min(Number(album.coverIndex||0),photos.length-1));
+  const coverPhoto=photos[coverIndex]||photos[0];
+
+  document.title='PAGE FLIP · '+title;
+  document.querySelector('#coverImg').src=photoSrc(coverPhoto);
+  document.querySelector('#coverTitle').textContent=title;
+  document.querySelector('#coverDate').textContent=date;
+  document.querySelector('#coverSummary').textContent=summary;
+  document.querySelector('#coverMeta').textContent=`사진 ${photos.length}장 · 자동 편집`;
+  document.querySelector('#storyMark').style.display=story.trim()?'':'none';
+  document.querySelector('#readerTitle').textContent=title;
+  document.querySelector('#readerDate').textContent=date;
+  document.querySelector('#storyDate').textContent=[album.subtitle||'',date].filter(Boolean).join(' · ');
+
+  const strip=document.querySelector('#thumbStrip');
+  strip.innerHTML='';
+  photos.slice(0,8).forEach(p=>{
+    const img=document.createElement('img');
+    img.src=photoSrc(p);
+    img.alt='미리보기';
+    strip.appendChild(img);
+  });
 }
 
 function makeStoryPage(side){
@@ -114,14 +125,14 @@ function makeStoryPage(side){
   d.style.alignItems='center';
   d.style.justifyContent='center';
   d.style.textAlign='center';
-  d.style.padding='42px';
+  d.style.padding='44px';
 
   const box=document.createElement('div');
-  box.style.maxWidth='250px';
+  box.style.maxWidth='260px';
   box.style.color='#6f5239';
 
   const date=document.createElement('div');
-  date.textContent=album?.date||'';
+  date.textContent=formatDate(album?.date||'');
   date.style.fontSize='13px';
   date.style.letterSpacing='.12em';
   date.style.marginBottom='20px';
@@ -141,7 +152,7 @@ function makeStoryPage(side){
   line.style.margin='0 auto 18px';
 
   const text=document.createElement('div');
-  text.textContent=album?.summary||album?.story||'그날의 기록';
+  text.textContent=album?.summary||'그날의 기록';
   text.style.fontSize='14px';
   text.style.lineHeight='1.9';
   text.style.color='#826b56';
@@ -153,6 +164,7 @@ function makeStoryPage(side){
   n.className='page-number';
   n.textContent='';
   d.appendChild(n);
+
   return d;
 }
 
