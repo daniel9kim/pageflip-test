@@ -5,10 +5,52 @@
   "summary": "눈썹 8",
   "story": "눈썹 8",
   "shelf": "장로합창단",
+  "shelfKey": "elders",
   "photoCount": 5,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-11T13:27:44.676Z",
-  "updatedAt": "2026-08-11T13:27:44.676Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786454864676/photos/001.webp",
+      "originalName": "KakaoTalk_20260806_075649703_04.jpg",
+      "width": 864,
+      "height": 1536,
+      "bytes": 105816
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786454864676/photos/002.webp",
+      "originalName": "KakaoTalk_20260806_075649703_01.jpg",
+      "width": 893,
+      "height": 1587,
+      "bytes": 158296
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786454864676/photos/003.webp",
+      "originalName": "KakaoTalk_20260806_075649703_02.jpg",
+      "width": 848,
+      "height": 1504,
+      "bytes": 76556
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786454864676/photos/004.webp",
+      "originalName": "KakaoTalk_20260806_075649703_03.jpg",
+      "width": 864,
+      "height": 1536,
+      "bytes": 81382
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786454864676/photos/005.webp",
+      "originalName": "KakaoTalk_20260806_075649703.jpg",
+      "width": 1050,
+      "height": 1400,
+      "bytes": 130998
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-11T13:28:03.159Z"
 }
