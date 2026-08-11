@@ -1,3 +1,4 @@
+// PAGE FLIP Viewer V9.1 — orientation-aware automatic photo layout
 let album=null;
 let photos=[];
 let story='';
@@ -36,15 +37,31 @@ function photoSrc(p){
   if(!p) return '';
   if(p.url) return p.url;
   if(p.src) return p.src;
+  // Maker V8 album.json stores photos in the same album folder's /photos directory.
   return new URL('photos/'+(p.file||p.f||''), albumUrl).href;
 }
 
 function normalizePhotos(list){
-  return (list||[]).map((p,i)=>({
-    ...p,
-    file:p.file||p.f||String(i+1).padStart(3,'0')+'.webp',
-    orientation:p.orientation || p.o || ((p.width&&p.height&&p.width>p.height)?'landscape':'portrait')
-  }));
+  return (list||[]).map((p,i)=>{
+    const width=Number(p.width||0);
+    const height=Number(p.height||0);
+    let orientation=p.orientation||p.o||'';
+
+    if(!orientation && width>0 && height>0){
+      const ratio=width/height;
+      if(ratio>=0.88 && ratio<=1.14) orientation='square';
+      else if(ratio>1.14) orientation='landscape';
+      else orientation='portrait';
+    }
+
+    if(!orientation) orientation='portrait';
+
+    return {
+      ...p,
+      file:p.file||p.f||String(i+1).padStart(3,'0')+'.webp',
+      orientation
+    };
+  });
 }
 
 function buildSpreads(){
@@ -53,6 +70,9 @@ function buildSpreads(){
     const p=photos[i];
     if(p.orientation==='landscape'){
       base.push({type:'landscape',items:[p],start:i});
+      i++;
+    }else if(p.orientation==='square'){
+      base.push({type:'square',items:[p],start:i});
       i++;
     }else{
       const n=photos[i+1];
@@ -99,14 +119,35 @@ function bindAlbum(){
 function makePage(item,side,no){
   const d=document.createElement('div');
   d.className='page '+side;
+
   if(item){
     const i=document.createElement('img');
     i.src=photoSrc(item);
     i.alt='앨범 사진';
+
+    // V9.1: 사진 비율에 따라 사진책 편집처럼 여백과 크기를 자동 조정합니다.
+    i.style.objectFit='contain';
+    i.style.display='block';
+    i.style.margin='auto';
+
+    if(item.orientation==='portrait'){
+      i.style.maxWidth='76%';
+      i.style.maxHeight='91%';
+      i.style.boxShadow='0 12px 28px rgba(74,55,37,.12)';
+    }else if(item.orientation==='square'){
+      i.style.maxWidth='78%';
+      i.style.maxHeight='78%';
+      i.style.boxShadow='0 14px 30px rgba(74,55,37,.13)';
+    }else{
+      i.style.maxWidth='92%';
+      i.style.maxHeight='86%';
+    }
+
     d.appendChild(i);
   }else{
     d.classList.add('blank-page');
   }
+
   const n=document.createElement('div');
   n.className='page-number';
   n.textContent=no||'';
@@ -157,11 +198,39 @@ function render(){
   }else if(s.type==='landscape'){
     const d=document.createElement('div');
     d.className='landscape-spread';
+    d.style.display='flex';
+    d.style.alignItems='center';
+    d.style.justifyContent='center';
+    d.style.padding=mobile()?'18px':'34px 46px';
+
     const i=document.createElement('img');
     i.src=photoSrc(s.items[0]);
     i.alt='가로 사진';
+    i.style.maxWidth='96%';
+    i.style.maxHeight='88%';
+    i.style.objectFit='contain';
+    i.style.boxShadow='0 16px 36px rgba(74,55,37,.14)';
     d.appendChild(i);
     spreadEl.appendChild(d);
+
+  }else if(s.type==='square'){
+    const d=document.createElement('div');
+    d.className='landscape-spread';
+    d.style.display='flex';
+    d.style.alignItems='center';
+    d.style.justifyContent='center';
+    d.style.padding=mobile()?'24px':'46px';
+
+    const i=document.createElement('img');
+    i.src=photoSrc(s.items[0]);
+    i.alt='정사각형 사진';
+    i.style.width=mobile()?'82%':'54%';
+    i.style.maxHeight='82%';
+    i.style.objectFit='contain';
+    i.style.boxShadow='0 18px 38px rgba(74,55,37,.15)';
+    d.appendChild(i);
+    spreadEl.appendChild(d);
+
   }else{
     spreadEl.appendChild(makePage(s.items[0],'left',s.start+1));
     if(!mobile()){
@@ -237,17 +306,10 @@ function openStory(){
   document.querySelector('#storyModal').classList.add('open');
 }
 
-/*
- * V8.1
- * Always return to the shelf recorded in album.json.
- * This works consistently whether the Viewer was opened from Maker,
- * a shelf, a bookmark, or a shared link.
- */
 document.querySelector('#backToShelf').onclick=()=>{
   const shelfKey=String(album?.shelfKey||'personal').trim()||'personal';
   location.href=`../shelves/${encodeURIComponent(shelfKey)}/`;
 };
-
 document.querySelector('#backToCover').onclick=()=>show('cover');
 document.querySelector('#openReader').onclick=()=>{current=0;render();show('reader')};
 document.querySelector('#storyClose').onclick=()=>document.querySelector('#storyModal').classList.remove('open');
@@ -357,7 +419,10 @@ shareBtn.onclick=async()=>{
     const albumParam=params.get('album');
     if(!albumParam) throw new Error('앨범 경로가 없습니다.');
 
-    albumUrl=new URL(albumParam,location.href);
+    albumUrl=/^https?:\/\//i.test(albumParam)
+      ? new URL(albumParam)
+      : new URL(albumParam,location.href);
+
     const r=await fetch(albumUrl.href,{cache:'no-store'});
     if(!r.ok) throw new Error(`album.json을 불러오지 못했습니다. (${r.status})`);
 
