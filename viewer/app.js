@@ -36,7 +36,6 @@ function photoSrc(p){
   if(!p) return '';
   if(p.url) return p.url;
   if(p.src) return p.src;
-  // Maker V8 album.json stores photos in the same album folder's /photos directory.
   return new URL('photos/'+(p.file||p.f||''), albumUrl).href;
 }
 
@@ -238,13 +237,17 @@ function openStory(){
   document.querySelector('#storyModal').classList.add('open');
 }
 
+/*
+ * V8.1
+ * Always return to the shelf recorded in album.json.
+ * This works consistently whether the Viewer was opened from Maker,
+ * a shelf, a bookmark, or a shared link.
+ */
 document.querySelector('#backToShelf').onclick=()=>{
-  if(document.referrer && document.referrer.includes('/shelves/')){
-    history.back();
-  }else{
-    location.href='../shelves/personal/';
-  }
+  const shelfKey=String(album?.shelfKey||'personal').trim()||'personal';
+  location.href=`../shelves/${encodeURIComponent(shelfKey)}/`;
 };
+
 document.querySelector('#backToCover').onclick=()=>show('cover');
 document.querySelector('#openReader').onclick=()=>{current=0;render();show('reader')};
 document.querySelector('#storyClose').onclick=()=>document.querySelector('#storyModal').classList.remove('open');
@@ -352,54 +355,22 @@ shareBtn.onclick=async()=>{
   try{
     const params=new URLSearchParams(location.search);
     const albumParam=params.get('album');
+    if(!albumParam) throw new Error('앨범 경로가 없습니다.');
 
-    if(!albumParam){
-      throw new Error('앨범 경로가 없습니다.');
-    }
-
-    // Maker에서 전달받은 album.json 주소
-    // 절대 URL이면 그대로 사용하고,
-    // 상대 URL일 때만 Viewer 주소를 기준으로 계산한다.
-    if(/^https?:\/\//i.test(albumParam)){
-      albumUrl=new URL(albumParam);
-    }else{
-      albumUrl=new URL(albumParam,location.href);
-    }
-
-    console.log('PAGE FLIP albumParam:',albumParam);
-    console.log('PAGE FLIP albumUrl:',albumUrl.href);
-
-    const r=await fetch(albumUrl.href,{
-      method:'GET',
-      cache:'no-store'
-    });
-
-    console.log('PAGE FLIP fetch status:',r.status);
-    console.log('PAGE FLIP fetch url:',r.url);
-
-    if(!r.ok){
-      throw new Error(
-        `album.json을 불러오지 못했습니다. (${r.status})\n${albumUrl.href}`
-      );
-    }
+    albumUrl=new URL(albumParam,location.href);
+    const r=await fetch(albumUrl.href,{cache:'no-store'});
+    if(!r.ok) throw new Error(`album.json을 불러오지 못했습니다. (${r.status})`);
 
     album=await r.json();
     photos=normalizePhotos(album.photos);
     story=album.story||'';
-
     buildSpreads();
     bindAlbum();
     render();
-
   }catch(err){
     const e=document.querySelector('#loadError');
-
-    e.textContent=
-      '앨범을 불러오지 못했습니다: '+
-      err.message;
-
+    e.textContent='앨범을 불러오지 못했습니다: '+err.message;
     e.style.display='block';
-
-    console.error('PAGE FLIP Viewer Error:',err);
+    console.error(err);
   }
 })();
