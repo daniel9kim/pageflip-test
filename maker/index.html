@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PAGE FLIP MAKER V8</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header><div class="brand">PAGE FLIP <small>MAKER V8</small></div><div style="color:#7b736a;font-size:13px">Cloudflare Access + GitHub App</div></header>
+<div class="wrap">
+  <div class="intro"><h1>새 사진책 만들기</h1><p>사진을 넣고 제목만 붙이세요. PAGE FLIP이 책으로 정리합니다.</p></div>
+
+  <section class="card github">
+    <div>
+      <div class="gh-title"><span class="gh-dot warn" id="ghDot"></span><span id="ghLabel">GitHub 연결 준비</span></div>
+      <div class="repo" id="ghRepo">daniel9kim / pageflip-test</div>
+      <div class="status" id="ghStatus">Cloudflare Access 인증을 통과한 뒤 GitHub App 연결 상태를 확인합니다.</div>
+    </div>
+    <button class="btn green" id="connectBtn">연결 상태 확인</button>
+  </section>
+
+  <section class="card">
+    <div class="label">책장</div>
+    <select class="shelf" id="shelf"><option>장로합창단</option><option>핸드벨</option><option>가족</option><option>영춘이 개인</option></select>
+    <div class="drop" id="drop"><div><div class="icon">▧</div><h2>사진을 여기에 놓으세요</h2><p>여러 장을 한 번에 드래그하거나 폴더에서 선택할 수 있습니다.</p><button class="btn light" type="button" id="choose">사진 선택</button><input id="files" type="file" accept="image/*" multiple hidden></div></div>
+  </section>
+
+  <div id="editor" style="display:none">
+    <section class="card">
+      <div class="stats" id="stats"></div>
+      <div class="grid2"><div>
+        <div class="label">앨범 제목</div><input id="title" value="테스트앨범">
+        <div class="label" style="margin-top:18px">날짜</div><input id="date" type="date">
+        <div class="label" style="margin-top:18px">한 줄 요약</div><input id="summary" placeholder="예: 도시의 미술관에서 평화의 메시지를 만난 날">
+        <div class="hint">제목만 필수입니다.</div>
+      </div><div>
+        <div class="label">그날의 기록</div><textarea id="story" placeholder="사진과 함께 남기고 싶은 감상이나 에피소드를 적어보세요."></textarea>
+      </div></div>
+      <div class="label" style="margin-top:24px">표지 선택</div><div class="thumbs" id="thumbs"></div>
+      <div class="makebox"><button class="btn make" id="make">사진책 만들기</button></div>
+      <div class="progress" id="progress"><strong id="msg">사진을 분석하고 있습니다…</strong><div class="bar"><div class="fill" id="fill"></div></div></div>
+      <div class="uploadplan" id="uploadPlan">
+        <div style="font-weight:800;margin-bottom:8px">GitHub 업로드 계획</div>
+        <div class="planrow"><span>WebP 이미지 변환</span><span class="tag ready">준비됨</span></div>
+        <div class="planrow"><span>album.json 생성</span><span class="tag ready">준비됨</span></div>
+        <div class="planrow"><span>선택한 책장 shelf.json 갱신</span><span class="tag ready">준비됨</span></div>
+        <div class="planrow"><span>GitHub에 commit</span><span class="tag pending">인증 연결 후</span></div>
+        <div class="planrow"><span>GitHub Pages 반영 확인</span><span class="tag pending">업로드 후</span></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="notice"><strong>V8:</strong> V7의 저장 기능을 그대로 유지하면서, 사진책 저장이 끝나면 선택한 책장의 shelf.json에 앨범을 자동 등록합니다.</div>
+</div>
+
+<div class="modal" id="modal"><div class="dialog">
+  <h2>GitHub 연결 확인</h2>
+  <p>PAGE FLIP Maker는 Cloudflare Access 인증 뒤 같은 Worker의 API를 호출합니다. GitHub 토큰이나 Private Key는 브라우저에 저장하지 않습니다.</p>
+  <div class="steps">
+    <div class="step"><span class="badge">1</span><div><b>Cloudflare Access</b><br><span style="color:#756c64;font-size:13px">허용된 사용자만 Maker와 API에 접근합니다.</span></div></div>
+    <div class="step"><span class="badge">2</span><div><b>GitHub App</b><br><span style="color:#756c64;font-size:13px">Worker가 GitHub App으로 pageflip-test에 접근합니다.</span></div></div>
+    <div class="step"><span class="badge">3</span><div><b>쓰기 권한</b><br><span style="color:#756c64;font-size:13px">contents: write 권한을 확인합니다.</span></div></div>
+  </div>
+  <div class="result" id="result">연결 상태를 확인해 주세요.</div>
+  <div class="actions"><button class="btn light" id="closeModal">닫기</button><button class="btn green" id="checkStatus">연결 상태 확인</button><button class="btn" id="openRepo">GitHub에서 열기</button></div>
+</div></div>
+<script src="./app.js"></script>
+</body>
+</html>
