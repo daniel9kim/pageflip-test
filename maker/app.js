@@ -24,7 +24,7 @@ function load(files){
     im.src=u;
     const d=document.createElement('div');
     d.className='thumb'+(i===0?' selected':'');
-    d.innerHTML=\`<img src="\${u}">\`;
+    d.innerHTML=`<img src="${u}">`;
     d.onclick=()=>{cover=i;[...thumbs.children].forEach((x,j)=>x.classList.toggle('selected',j===i))};
     thumbs.appendChild(d)
   });
@@ -33,10 +33,10 @@ function load(files){
 
 function stats(p,l){
   document.querySelector('#stats').innerHTML=
-    \`<div class="stat">사진 <b>\${selected.length}</b>장</div>\`+
-    \`<div class="stat">세로 <b>\${p}</b>장</div>\`+
-    \`<div class="stat">가로 <b>\${l}</b>장</div>\`+
-    \`<div class="stat">예상 펼침 <b>\${Math.ceil(p/2)+l+1}</b></div>\`
+    `<div class="stat">사진 <b>${selected.length}</b>장</div>`+
+    `<div class="stat">세로 <b>${p}</b>장</div>`+
+    `<div class="stat">가로 <b>${l}</b>장</div>`+
+    `<div class="stat">예상 펼침 <b>${Math.ceil(p/2)+l+1}</b></div>`
 }
 
 const modal=document.querySelector('#modal');
@@ -51,11 +51,11 @@ async function checkStatus(){
   result.textContent='연결 상태를 확인하고 있습니다…';
   result.className='result';
   try{
-    const r=await fetch(API_BASE+'/api/status',{credentials:'same-origin',cache:'no-store'});
+    const r=await fetch(API_BASE+'/api/status',{credentials:'include',cache:'no-store'});
     const d=await r.json();
-    if(!r.ok || !d.ok) throw new Error(d.message||\`HTTP \${r.status}\`);
+    if(!r.ok || !d.ok) throw new Error(d.message||`HTTP ${r.status}`);
     const canWrite=d.permissions?.contents==='write';
-    result.innerHTML=\`✓ <b>\${d.repository}</b> · \${d.visibility} · \${d.defaultBranch}<br>GitHub App 권한: contents \${d.permissions?.contents||'-'} / metadata \${d.permissions?.metadata||'-'}\`;
+    result.innerHTML=`✓ <b>${d.repository}</b> · ${d.visibility} · ${d.defaultBranch}<br>GitHub App 권한: contents ${d.permissions?.contents||'-'} / metadata ${d.permissions?.metadata||'-'}`;
     result.className='result oktxt';
     document.querySelector('#ghDot').className='gh-dot ok';
     document.querySelector('#ghLabel').textContent='GitHub 연결 완료';
@@ -123,23 +123,23 @@ document.querySelector('#make').onclick=async()=>{
   plan.style.display='block';
   fill.style.width='5%';
   msg.textContent='앨범을 준비하고 있습니다…';
-  plan.innerHTML=\`
+  plan.innerHTML=`
     <div style="font-weight:800;margin-bottom:8px">GitHub 업로드 진행</div>
     <div class="planrow"><span>album.json 준비</span><span class="tag pending" id="stageAlbum">진행 중</span></div>
-    <div class="planrow"><span>WebP 사진 업로드</span><span class="tag pending" id="stagePhotos">0 / \${selected.length}</span></div>
+    <div class="planrow"><span>WebP 사진 업로드</span><span class="tag pending" id="stagePhotos">0 / ${selected.length}</span></div>
     <div class="planrow"><span>album.json 최종 갱신</span><span class="tag pending" id="stageFinal">대기</span></div>
-    <div class="planrow"><span>선택한 책장 자동 등록</span><span class="tag pending" id="stageShelf">대기</span></div>\`;
+    <div class="planrow"><span>선택한 책장 자동 등록</span><span class="tag pending" id="stageShelf">대기</span></div>`;
 
   try{
     // 1) album start
     const startRes=await fetch(API_BASE+'/api/album/start',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      credentials:'same-origin',
+      credentials:'include',
       body:JSON.stringify(metadata)
     });
     const start=await startRes.json();
-    if(!startRes.ok||!start.ok) throw new Error(start.message||\`HTTP \${startRes.status}\`);
+    if(!startRes.ok||!start.ok) throw new Error(start.message||`HTTP ${startRes.status}`);
     const albumId=start.albumId;
     document.querySelector('#stageAlbum').textContent='준비 완료';
     document.querySelector('#stageAlbum').className='tag ready';
@@ -148,26 +148,26 @@ document.querySelector('#make').onclick=async()=>{
     const photos=[];
     for(let i=0;i<selected.length;i++){
       const file=selected[i];
-      msg.textContent=\`사진 \${i+1}/\${selected.length} WebP 변환 중…\`;
+      msg.textContent=`사진 ${i+1}/${selected.length} WebP 변환 중…`;
       const converted=await toWebP(file,1800,0.82);
-      const fileName=\`\${pad3(i+1)}.webp\`;
+      const fileName=`${pad3(i+1)}.webp`;
 
       if(converted.blob.size > 8*1024*1024){
-        throw new Error(\`\${file.name}: 변환 후 파일이 너무 큽니다.\`);
+        throw new Error(`${file.name}: 변환 후 파일이 너무 큽니다.`);
       }
 
-      msg.textContent=\`사진 \${i+1}/\${selected.length} GitHub 업로드 중…\`;
+      msg.textContent=`사진 ${i+1}/${selected.length} GitHub 업로드 중…`;
       const photoRes=await fetch(
-        \`https://pageflip-api.withme-jesus.workers.dev/api/photo?albumId=\${encodeURIComponent(albumId)}&name=\${encodeURIComponent(fileName)}\`,
+        `https://pageflip-api.withme-jesus.workers.dev/api/photo?albumId=${encodeURIComponent(albumId)}&name=${encodeURIComponent(fileName)}`,
         {
           method:'POST',
           headers:{'Content-Type':'image/webp'},
-          credentials:'same-origin',
+          credentials:'include',
           body:converted.blob
         }
       );
       const saved=await photoRes.json();
-      if(!photoRes.ok||!saved.ok) throw new Error(saved.message||\`사진 \${i+1} 업로드 실패\`);
+      if(!photoRes.ok||!saved.ok) throw new Error(saved.message||`사진 ${i+1} 업로드 실패`);
 
       photos.push({
         file:fileName,
@@ -179,8 +179,8 @@ document.querySelector('#make').onclick=async()=>{
       });
 
       const done=i+1;
-      document.querySelector('#stagePhotos').textContent=\`\${done} / \${selected.length}\`;
-      fill.style.width=\`\${10+Math.round((done/selected.length)*75)}%\`;
+      document.querySelector('#stagePhotos').textContent=`${done} / ${selected.length}`;
+      fill.style.width=`${10+Math.round((done/selected.length)*75)}%`;
     }
     document.querySelector('#stagePhotos').className='tag ready';
 
@@ -190,11 +190,11 @@ document.querySelector('#make').onclick=async()=>{
     const finalRes=await fetch(API_BASE+'/api/album/finalize',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      credentials:'same-origin',
+      credentials:'include',
       body:JSON.stringify({albumId,metadata,photos})
     });
     const final=await finalRes.json();
-    if(!finalRes.ok||!final.ok) throw new Error(final.message||\`HTTP \${finalRes.status}\`);
+    if(!finalRes.ok||!final.ok) throw new Error(final.message||`HTTP ${finalRes.status}`);
 
     fill.style.width='100%';
     msg.textContent='사진과 album.json 저장이 모두 완료되었습니다.';
@@ -203,15 +203,15 @@ document.querySelector('#make').onclick=async()=>{
     document.querySelector('#stageShelf').textContent='등록 완료';
     document.querySelector('#stageShelf').className='tag ready';
 
-    plan.innerHTML += \`
+    plan.innerHTML += `
       <div style="border-top:1px solid #e5dbcf;margin:14px 0 4px"></div>
-      <div class="planrow"><span>앨범 ID</span><span class="tag">\${albumId}</span></div>
-      <div class="planrow"><span>사진</span><span class="tag ready">\${photos.length}장 저장 완료</span></div>
+      <div class="planrow"><span>앨범 ID</span><span class="tag">${albumId}</span></div>
+      <div class="planrow"><span>사진</span><span class="tag ready">${photos.length}장 저장 완료</span></div>
       <div class="planrow"><span>album.json</span><span class="tag ready">최종 저장 완료</span></div>
-      <div class="planrow"><span>Commit</span><span class="tag ready">\${(final.commit||'').slice(0,10)}</span></div>
-      <div class="planrow"><span>등록 책장</span><span class="tag ready">\${final.shelfTitle||metadata.shelf}</span></div>
+      <div class="planrow"><span>Commit</span><span class="tag ready">${(final.commit||'').slice(0,10)}</span></div>
+      <div class="planrow"><span>등록 책장</span><span class="tag ready">${final.shelfTitle||metadata.shelf}</span></div>
       <div class="planrow"><span>책장 등록</span><span class="tag ready">완료</span></div>
-      <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" type="button" onclick="window.open('/viewer/\${albumId}','_blank')">사진책 보기</button></span></div>\`;
+      <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" type="button" onclick="window.open('../viewer/?album='+encodeURIComponent('../albums/${albumId}/album.json'),'_blank')">사진책 보기</button></span></div>`;
     plan.scrollIntoView({behavior:'smooth',block:'center'});
   }catch(e){
     fill.style.width='100%';
