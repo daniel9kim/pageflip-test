@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V9.1 — orientation-aware automatic photo layout
+// PAGE FLIP Viewer V9.2 — combination-aware automatic editorial layout
 let album=null;
 let photos=[];
 let story='';
@@ -66,54 +66,94 @@ function normalizePhotos(list){
 
 function buildSpreads(){
   const base=[];
-  for(let i=0;i<photos.length;){
+  let i=0;
+
+  while(i<photos.length){
     const p=photos[i];
+    const n=photos[i+1];
+
     if(p.orientation==='landscape'){
       base.push({type:'landscape',items:[p],start:i});
       i++;
-    }else if(p.orientation==='square'){
+      continue;
+    }
+
+    if(p.orientation==='square'){
       base.push({type:'square',items:[p],start:i});
       i++;
-    }else{
-      const n=photos[i+1];
-      if(n&&n.orientation==='portrait'){
-        base.push({type:'pair',items:[p,n],start:i});
-        i+=2;
-      }else{
-        base.push({type:'pair',items:[p,null],start:i});
-        i++;
-      }
+      continue;
     }
+
+    if(n && p.orientation==='portrait' && n.orientation==='portrait'){
+      base.push({type:'pair',items:[p,n],start:i});
+      i+=2;
+      continue;
+    }
+
+    if(p.orientation==='portrait'){
+      base.push({type:'portrait-story',items:[p],start:i});
+      i++;
+      continue;
+    }
+
+    base.push({type:'pair',items:[p,null],start:i});
+    i++;
   }
-  spreads=story.trim()?[{type:'essay'},...base]:base;
+
+  spreads=[
+    {type:'info',items:[]},
+    ...base,
+    {type:'essay',items:[]}
+  ];
 }
 
-function bindAlbum(){
-  const title=album.title||'제목 없는 앨범';
-  const date=formatDate(album.date);
-  const summary=album.summary||'';
-  const coverIndex=Math.max(0,Math.min(Number(album.coverIndex||0),photos.length-1));
-  const coverPhoto=photos[coverIndex]||photos[0];
+function makeStoryPage(side){
+  const d=document.createElement('div');
+  d.className='page '+side+' story-companion';
+  d.style.display='flex';
+  d.style.alignItems='center';
+  d.style.justifyContent='center';
+  d.style.textAlign='center';
+  d.style.padding='42px';
 
-  document.title='PAGE FLIP · '+title;
-  document.querySelector('#coverImg').src=photoSrc(coverPhoto);
-  document.querySelector('#coverTitle').textContent=title;
-  document.querySelector('#coverDate').textContent=date;
-  document.querySelector('#coverSummary').textContent=summary;
-  document.querySelector('#coverMeta').textContent=`사진 ${photos.length}장 · 자동 편집`;
-  document.querySelector('#storyMark').style.display=story.trim()?'':'none';
-  document.querySelector('#readerTitle').textContent=title;
-  document.querySelector('#readerDate').textContent=date;
-  document.querySelector('#storyDate').textContent=[album.subtitle||'',date].filter(Boolean).join(' · ');
+  const box=document.createElement('div');
+  box.style.maxWidth='250px';
+  box.style.color='#6f5239';
 
-  const strip=document.querySelector('#thumbStrip');
-  strip.innerHTML='';
-  photos.slice(0,8).forEach(p=>{
-    const img=document.createElement('img');
-    img.src=photoSrc(p);
-    img.alt='미리보기';
-    strip.appendChild(img);
-  });
+  const date=document.createElement('div');
+  date.textContent=album?.date||'';
+  date.style.fontSize='13px';
+  date.style.letterSpacing='.12em';
+  date.style.marginBottom='20px';
+  date.style.color='#9b7652';
+
+  const title=document.createElement('div');
+  title.textContent=album?.title||'그날의 기록';
+  title.style.fontFamily='Georgia, serif';
+  title.style.fontSize='25px';
+  title.style.lineHeight='1.35';
+  title.style.marginBottom='18px';
+
+  const line=document.createElement('div');
+  line.style.width='36px';
+  line.style.height='1px';
+  line.style.background='rgba(111,82,57,.35)';
+  line.style.margin='0 auto 18px';
+
+  const text=document.createElement('div');
+  text.textContent=album?.summary||album?.story||'그날의 기록';
+  text.style.fontSize='14px';
+  text.style.lineHeight='1.9';
+  text.style.color='#826b56';
+
+  box.append(date,title,line,text);
+  d.appendChild(box);
+
+  const n=document.createElement('div');
+  n.className='page-number';
+  n.textContent='';
+  d.appendChild(n);
+  return d;
 }
 
 function makePage(item,side,no){
@@ -194,6 +234,11 @@ function render(){
       l.innerHTML=r.innerHTML;
       const btn=l.querySelector('.read-more');
       if(btn) btn.onclick=openStory;
+    }
+  }else if(s.type==='portrait-story'){
+    spreadEl.appendChild(makePage(s.items[0],'left',s.start+1));
+    if(!mobile()){
+      spreadEl.appendChild(makeStoryPage('right'));
     }
   }else if(s.type==='landscape'){
     const d=document.createElement('div');
