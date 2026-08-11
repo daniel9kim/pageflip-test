@@ -100,6 +100,66 @@ async function toWebP(file,maxSide=1800,quality=0.82){
 
 function pad3(n){return String(n).padStart(3,'0')}
 
+function albumJsonUrl(albumId){
+  return `https://daniel9kim.github.io/pageflip-test/albums/${albumId}/album.json`;
+}
+
+function viewerUrl(albumId){
+  return `https://daniel9kim.github.io/pageflip-test/viewer/?album=${encodeURIComponent(albumJsonUrl(albumId))}`;
+}
+
+async function waitForPagesReady(albumId, options={}){
+  const intervalMs=options.intervalMs||5000;
+  const timeoutMs=options.timeoutMs||120000;
+  const started=Date.now();
+  const url=albumJsonUrl(albumId);
+
+  while(Date.now()-started < timeoutMs){
+    try{
+      const r=await fetch(url+`?t=${Date.now()}`,{
+        method:'GET',
+        cache:'no-store'
+      });
+      if(r.ok) return true;
+    }catch(e){
+      // GitHub Pages 반영 전에는 조용히 재시도합니다.
+    }
+
+    await new Promise(resolve=>setTimeout(resolve,intervalMs));
+  }
+
+  return false;
+}
+
+async function activateViewerWhenReady(albumId){
+  const btn=document.querySelector('#viewerBtn');
+  const status=document.querySelector('#pagesReadyStatus');
+  if(!btn||!status) return;
+
+  status.textContent='GitHub Pages 반영 확인 중…';
+  status.className='tag pending';
+  btn.disabled=true;
+  btn.textContent='사진책 준비 중…';
+
+  const ready=await waitForPagesReady(albumId);
+
+  if(ready){
+    status.textContent='반영 완료';
+    status.className='tag ready';
+    btn.disabled=false;
+    btn.textContent='사진책 보기';
+    btn.onclick=()=>window.open(viewerUrl(albumId),'_blank');
+  }else{
+    status.textContent='반영 지연';
+    status.className='tag pending';
+    btn.disabled=false;
+    btn.textContent='사진책 보기';
+    btn.onclick=()=>window.open(viewerUrl(albumId),'_blank');
+    btn.title='GitHub Pages 반영이 늦을 수 있습니다. 404가 나오면 잠시 후 새로고침해 주세요.';
+  }
+}
+
+
 document.querySelector('#make').onclick=async()=>{
   const title=document.querySelector('#title').value.trim();
   if(!title){alert('앨범 제목을 입력해 주세요.');return}
@@ -211,7 +271,9 @@ document.querySelector('#make').onclick=async()=>{
       <div class="planrow"><span>Commit</span><span class="tag ready">${(final.commit||'').slice(0,10)}</span></div>
       <div class="planrow"><span>등록 책장</span><span class="tag ready">${final.shelfTitle||metadata.shelf}</span></div>
       <div class="planrow"><span>책장 등록</span><span class="tag ready">완료</span></div>
-      <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" type="button" onclick="window.open('../viewer/?album='+encodeURIComponent('https://daniel9kim.github.io/pageflip-test/albums/${albumId}/album.json'),'_blank')">사진책 보기</button></span></div>`;
+      <div class="planrow"><span>GitHub Pages</span><span class="tag pending" id="pagesReadyStatus">반영 확인 중</span></div>
+      <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" id="viewerBtn" type="button" disabled>사진책 준비 중…</button></span></div>`;
+    activateViewerWhenReady(albumId);
     plan.scrollIntoView({behavior:'smooth',block:'center'});
   }catch(e){
     fill.style.width='100%';
