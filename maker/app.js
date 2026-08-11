@@ -104,31 +104,56 @@ function albumJsonUrl(albumId){
   return `https://daniel9kim.github.io/pageflip-test/albums/${albumId}/album.json`;
 }
 
+function albumPhotoUrl(albumId,fileName){
+  return `https://daniel9kim.github.io/pageflip-test/albums/${albumId}/photos/${encodeURIComponent(fileName)}`;
+}
+
 function viewerUrl(albumId){
   return `https://daniel9kim.github.io/pageflip-test/viewer/?album=${encodeURIComponent(albumJsonUrl(albumId))}`;
 }
 
 async function waitForPagesReady(albumId, options={}){
-  const intervalMs=options.intervalMs||5000;
-  const timeoutMs=options.timeoutMs||120000;
+  const intervalMs=options.intervalMs||3000;
+  const timeoutMs=options.timeoutMs||180000;
   const started=Date.now();
-  const url=albumJsonUrl(albumId);
 
   while(Date.now()-started < timeoutMs){
     try{
-      const r=await fetch(url+`?t=${Date.now()}`,{
+      const jsonRes=await fetch(albumJsonUrl(albumId)+`?t=${Date.now()}`,{
         method:'GET',
         cache:'no-store'
       });
-      if(r.ok) return true;
+
+      if(jsonRes.ok){
+        const published=await jsonRes.json();
+
+        if(
+          published &&
+          published.id===albumId &&
+          published.status==='ready' &&
+          Array.isArray(published.photos) &&
+          published.photos.length>0
+        ){
+          const firstFile=published.photos[0].file;
+          if(firstFile){
+            const photoRes=await fetch(
+              albumPhotoUrl(albumId,firstFile)+`?t=${Date.now()}`,
+              {method:'GET',cache:'no-store'}
+            );
+            if(photoRes.ok){
+              return {ready:true,album:published};
+            }
+          }
+        }
+      }
     }catch(e){
-      // GitHub Pages 반영 전에는 조용히 재시도합니다.
+      // GitHub Pages 배포가 끝날 때까지 재시도합니다.
     }
 
     await new Promise(resolve=>setTimeout(resolve,intervalMs));
   }
 
-  return false;
+  return {ready:false};
 }
 
 async function activateViewerWhenReady(albumId){
@@ -136,26 +161,26 @@ async function activateViewerWhenReady(albumId){
   const status=document.querySelector('#pagesReadyStatus');
   if(!btn||!status) return;
 
-  status.textContent='GitHub Pages 반영 확인 중…';
-  status.className='tag pending';
   btn.disabled=true;
   btn.textContent='사진책 준비 중…';
+  status.textContent='album.json 반영 대기 중…';
+  status.className='tag pending';
 
-  const ready=await waitForPagesReady(albumId);
+  const result=await waitForPagesReady(albumId);
 
-  if(ready){
-    status.textContent='반영 완료';
+  if(result.ready){
+    status.textContent='앨범·사진 반영 완료';
     status.className='tag ready';
     btn.disabled=false;
     btn.textContent='사진책 보기';
     btn.onclick=()=>window.open(viewerUrl(albumId),'_blank');
   }else{
-    status.textContent='반영 지연';
+    status.textContent='반영이 지연되고 있습니다';
     status.className='tag pending';
     btn.disabled=false;
     btn.textContent='사진책 보기';
     btn.onclick=()=>window.open(viewerUrl(albumId),'_blank');
-    btn.title='GitHub Pages 반영이 늦을 수 있습니다. 404가 나오면 잠시 후 새로고침해 주세요.';
+    btn.title='GitHub Pages 반영이 아직 끝나지 않았을 수 있습니다.';
   }
 }
 
@@ -271,7 +296,7 @@ document.querySelector('#make').onclick=async()=>{
       <div class="planrow"><span>Commit</span><span class="tag ready">${(final.commit||'').slice(0,10)}</span></div>
       <div class="planrow"><span>등록 책장</span><span class="tag ready">${final.shelfTitle||metadata.shelf}</span></div>
       <div class="planrow"><span>책장 등록</span><span class="tag ready">완료</span></div>
-      <div class="planrow"><span>GitHub Pages</span><span class="tag pending" id="pagesReadyStatus">반영 확인 중</span></div>
+      <div class="planrow"><span>GitHub Pages</span><span class="tag pending" id="pagesReadyStatus">반영 대기 중…</span></div>
       <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" id="viewerBtn" type="button" disabled>사진책 준비 중…</button></span></div>`;
     activateViewerWhenReady(albumId);
     plan.scrollIntoView({behavior:'smooth',block:'center'});
