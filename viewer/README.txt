@@ -1,14 +1,28 @@
-PAGE FLIP Viewer V9.2.1 — Episode layout fix
+PAGE FLIP Viewer V9.3.1 — Portrait Pair refinement
 
-1) viewer/app.js
-   기존 viewer/app.js를 이 파일로 교체하세요.
+이번 단계에서는 세로+세로 사진 펼침면만 수정했습니다.
 
-2) viewer/episode-fix.css
-   이 파일의 내용을 현재 viewer/style.css 맨 아래에 붙여 넣으세요.
-   (현재 style.css 전체를 받지 못했기 때문에 안전하게 추가 패치 형태로 만들었습니다.)
+변경:
+- 세로사진을 기존 76% 제한보다 크게 사용
+- 좌/우 페이지의 바깥 여백과 제본선 쪽 여백을 다르게 조정
+- 두 사진이 한 쌍의 사진책 spread처럼 균형 있게 보이도록 정렬
+- 원본 비율 유지(object-fit: contain)
+- 모바일 단면 구조 유지
 
-목표:
-- 에피소드 첫 펼침면을 최초 샘플의 고정 Editorial Layout으로 복원
-- 왼쪽: EPISODE / 그날의 기록 / 부제·날짜 / 인용문 / 대표사진
-- 오른쪽: 감상문 미리보기 + 전체 감상문 읽기
-- 사진 자동편집 로직은 그대로 유지
+변경하지 않은 것:
+- Episode 고정 Editorial Layout
+- 가로 Hero Spread
+- 정사각형 사진
+- 홀수 마지막 사진 + 이야기 페이지
+- 페이지 넘김
+- 공유/전체화면/책장 복귀
+- Maker/Worker
+
+설치:
+GitHub pageflip-test/viewer/ 의
+1) app.js
+2) style.css
+두 파일을 이 ZIP의 파일로 교체 후 Commit 하세요.
+
+주의:
+기존 episode-fix.css는 index.html에서 계속 연결되어 있어도 됩니다.

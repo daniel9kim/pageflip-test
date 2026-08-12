@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V9.2.1 — fixed editorial Episode spread + automatic photo layout
+// PAGE FLIP Viewer V9.3.1 — refined portrait-pair editorial layout
 let album=null;
 let photos=[];
 let story='';
@@ -183,9 +183,12 @@ function makePage(item,side,no){
     i.style.margin='auto';
 
     if(item.orientation==='portrait'){
-      i.style.maxWidth='76%';
-      i.style.maxHeight='91%';
-      i.style.boxShadow='0 12px 28px rgba(74,55,37,.12)';
+      d.classList.add('portrait-photo-page');
+      i.classList.add('portrait-photo');
+      // V9.3.1: 실제 크기/여백은 CSS가 담당하여 양쪽 페이지의 균형을 맞춥니다.
+      i.style.maxWidth='';
+      i.style.maxHeight='';
+      i.style.boxShadow='';
     }else if(item.orientation==='square'){
       i.style.maxWidth='78%';
       i.style.maxHeight='78%';

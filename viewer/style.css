@@ -27,3 +27,51 @@
 
 .share-toast{position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);background:rgba(43,34,26,.94);color:#fff;padding:11px 18px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:.25s ease;z-index:2000;box-shadow:0 8px 28px rgba(0,0,0,.22)}.share-toast.show{opacity:1;transform:translate(-50%,0)}
 .icon-btn{font-size:21px;min-width:42px;min-height:42px;border-radius:50%;transition:.18s ease}.icon-btn:hover{background:rgba(126,81,42,.08)}.icon-btn:active{transform:scale(.94)}
+
+
+/* =========================================================
+   PAGE FLIP V9.3.1
+   Portrait Pair — refined editorial layout
+   세로+세로 펼침면만 개선합니다.
+   ========================================================= */
+.page.portrait-photo-page{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:5.2% 6.2%;
+}
+.page.portrait-photo-page.left{
+  padding-left:7.2%;
+  padding-right:5.4%;
+}
+.page.portrait-photo-page.right{
+  padding-left:5.4%;
+  padding-right:7.2%;
+}
+.page.portrait-photo-page .portrait-photo{
+  width:auto;
+  height:auto;
+  max-width:88%;
+  max-height:89%;
+  object-fit:contain;
+  margin:auto;
+  box-shadow:0 13px 30px rgba(74,55,37,.13);
+}
+
+/* 사진 아래 페이지 번호와 사진이 겹치지 않도록 여백 유지 */
+.page.portrait-photo-page .page-number{
+  bottom:13px;
+}
+
+/* 모바일은 기존 단면 구조를 유지하되 세로사진을 조금 더 크게 표시 */
+@media(max-width:760px){
+  .page.portrait-photo-page,
+  .page.portrait-photo-page.left,
+  .page.portrait-photo-page.right{
+    padding:7% 6%;
+  }
+  .page.portrait-photo-page .portrait-photo{
+    max-width:92%;
+    max-height:88%;
+  }
+}
