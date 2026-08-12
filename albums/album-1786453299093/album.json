@@ -6,7 +6,7 @@
   "story": "눈썹 7",
   "shelf": "장로합창단",
   "shelfKey": "elders",
-  "photoCount": 5,
+  "photoCount": 6,
   "coverIndex": 0,
   "cover": "001.webp",
   "photos": [
@@ -49,9 +49,17 @@
       "width": 1050,
       "height": 1400,
       "bytes": 59550
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1786453299093/photos/006.webp",
+      "originalName": "KakaoTalk_20260810_080352834.jpg",
+      "width": 893,
+      "height": 1587,
+      "bytes": 167864
     }
   ],
   "status": "ready",
-  "updatedAt": "2026-08-12T21:20:18.048Z",
+  "updatedAt": "2026-08-12T21:22:55.859Z",
   "createdAt": "2026-08-12T20:26:21.042Z"
 }
