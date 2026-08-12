@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V9.3.1 — refined portrait-pair editorial layout
+// PAGE FLIP Viewer V9.3.2 — refined landscape Hero Spread
 let album=null;
 let photos=[];
 let story='';
@@ -270,20 +270,22 @@ function render(){
     }
   }else if(s.type==='landscape'){
     const d=document.createElement('div');
-    d.className='landscape-spread';
-    d.style.display='flex';
-    d.style.alignItems='center';
-    d.style.justifyContent='center';
-    d.style.padding=mobile()?'18px':'34px 46px';
+    d.className='landscape-spread landscape-hero-spread';
+
+    const frame=document.createElement('div');
+    frame.className='landscape-hero-frame';
 
     const i=document.createElement('img');
     i.src=photoSrc(s.items[0]);
     i.alt='가로 사진';
-    i.style.maxWidth='96%';
-    i.style.maxHeight='88%';
-    i.style.objectFit='contain';
-    i.style.boxShadow='0 16px 36px rgba(74,55,37,.14)';
-    d.appendChild(i);
+    i.className='landscape-hero-photo';
+
+    const gutter=document.createElement('div');
+    gutter.className='landscape-photo-gutter';
+    gutter.setAttribute('aria-hidden','true');
+
+    frame.append(i,gutter);
+    d.appendChild(frame);
     spreadEl.appendChild(d);
 
   }else if(s.type==='square'){
