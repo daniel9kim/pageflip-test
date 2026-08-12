@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V9.3.1 — refined portrait-pair editorial layout
+// PAGE FLIP Viewer V9.4 — Real Page Turn
 let album=null;
 let photos=[];
 let story='';
@@ -270,20 +270,22 @@ function render(){
     }
   }else if(s.type==='landscape'){
     const d=document.createElement('div');
-    d.className='landscape-spread';
-    d.style.display='flex';
-    d.style.alignItems='center';
-    d.style.justifyContent='center';
-    d.style.padding=mobile()?'18px':'34px 46px';
+    d.className='landscape-spread landscape-hero-spread';
+
+    const frame=document.createElement('div');
+    frame.className='landscape-hero-frame';
 
     const i=document.createElement('img');
     i.src=photoSrc(s.items[0]);
     i.alt='가로 사진';
-    i.style.maxWidth='96%';
-    i.style.maxHeight='88%';
-    i.style.objectFit='contain';
-    i.style.boxShadow='0 16px 36px rgba(74,55,37,.14)';
-    d.appendChild(i);
+    i.className='landscape-hero-photo';
+
+    const gutter=document.createElement('div');
+    gutter.className='landscape-photo-gutter';
+    gutter.setAttribute('aria-hidden','true');
+
+    frame.append(i,gutter);
+    d.appendChild(frame);
     spreadEl.appendChild(d);
 
   }else if(s.type==='square'){
@@ -318,6 +320,7 @@ function render(){
 function resetCurl(){
   curl.style.cssText='';
   shadow.style.cssText='';
+  book.style.setProperty('--turn-progress','0');
   book.classList.remove('dragging','settling','curl-hover');
 }
 
@@ -326,24 +329,48 @@ function ease(t){return 1-Math.pow(1-t,4)}
 function setCurl(p,yRatio=.9){
   p=Math.max(0,Math.min(1,p));
   const W=book.clientWidth,H=book.clientHeight;
-  const foldX=W*(1-p*.94),foldY=H*Math.max(.12,Math.min(.96,yRatio));
-  const cw=Math.max(42,W-foldX+80),ch=Math.max(42,H-foldY+120);
+
+  // V9.4 Real Page Turn:
+  // 오른쪽 페이지가 모서리에서 시작해 중앙 제본부를 지나 왼쪽으로 넘어가는 느낌.
+  const foldX=W*(1-p*.965);
+  const foldY=H*Math.max(.10,Math.min(.97,yRatio));
+  const cw=Math.max(54,W-foldX+110);
+  const ch=Math.max(54,H-foldY+150);
+  const bend=18+p*28;
 
   curl.style.width=cw+'px';
   curl.style.height=ch+'px';
   curl.style.right='0';
   curl.style.bottom='0';
-  curl.style.opacity='1';
-  curl.style.clipPath='polygon(100% 0,100% 100%,0 100%,18% 72%,44% 43%)';
-  curl.style.background='linear-gradient(132deg,rgba(255,255,255,.99) 0 42%,#f5efe6 45%,#d8cdbf 49%,#b9aa98 50%,#eee6dc 52%,rgba(255,255,255,.97) 58%,rgba(255,255,255,.86) 100%)';
+  curl.style.opacity=String(Math.min(1,.28+p*1.8));
+  curl.style.clipPath=`polygon(100% 0,100% 100%,0 100%,${bend}% 73%,${44-p*8}% 42%)`;
+  curl.style.background=
+    'linear-gradient(132deg,'+
+    'rgba(255,255,255,.995) 0 38%,'+
+    'rgba(248,243,236,.99) 41%,'+
+    'rgba(214,204,192,.96) 47%,'+
+    'rgba(151,137,120,.82) 49.2%,'+
+    'rgba(250,247,241,.98) 51.5%,'+
+    'rgba(255,255,255,.99) 59%,'+
+    'rgba(246,240,232,.96) 100%)';
   curl.style.transformOrigin='100% 100%';
-  curl.style.transform=`translate3d(${-p*W*.82}px,${-p*H*.08}px,0) rotate(${-p*18}deg) rotateY(${p*18}deg)`;
-  curl.style.filter=`drop-shadow(${-10-p*26}px ${-4-p*10}px ${12+p*22}px rgba(0,0,0,${.12+p*.18}))`;
+  curl.style.transform=
+    `translate3d(${-p*W*.91}px,${-p*H*.075}px,0) `+
+    `perspective(${Math.max(700,W*1.25)}px) rotate(${-p*15}deg) rotateY(${p*34}deg) skewY(${p*1.8}deg)`;
+  curl.style.filter=
+    `drop-shadow(${-8-p*34}px ${-3-p*12}px ${10+p*25}px rgba(0,0,0,${.10+p*.22}))`;
 
-  shadow.style.opacity=String(.12+p*.62);
-  shadow.style.background=`radial-gradient(ellipse at ${100-p*72}% ${100-yRatio*34}%,rgba(0,0,0,${.16+p*.18}) 0,rgba(0,0,0,.08) 15%,transparent ${34+p*20}%)`;
+  // 움직이는 종이 아래의 그림자. 중앙에 가까워질수록 가장 진해집니다.
+  const mid=1-Math.abs(.52-p)/.52;
+  const strength=Math.max(.08,Math.min(.48,.12+p*.20+mid*.16));
+  shadow.style.opacity=String(Math.min(.82,.14+p*.70));
+  shadow.style.background=
+    `radial-gradient(ellipse at ${100-p*78}% ${100-yRatio*35}%,`+
+    `rgba(44,31,21,${strength}) 0,rgba(44,31,21,${strength*.48}) 16%,transparent ${36+p*24}%)`;
+
+  // 책 전체에도 아주 약한 상태 클래스를 주어 CSS에서 제본부를 반응시킵니다.
+  book.style.setProperty('--turn-progress',p.toFixed(3));
 }
-
 function animateTo(from,to,dur,done){
   book.classList.add('dragging');
   const st=performance.now();
@@ -367,7 +394,7 @@ function turn(delta){
     return;
   }
   locked=true;
-  animateTo(.05,1,620,()=>{
+  animateTo(.04,1,720,()=>{
     current=next;
     render();
     locked=false;
@@ -433,7 +460,7 @@ book.addEventListener('pointerup',()=>{
   drag=null;
   if(p>.38){
     locked=true;
-    animateTo(p,1,Math.max(260,560*(1-p)),()=>{
+    animateTo(p,1,Math.max(300,680*(1-p)),()=>{
       current=Math.min(current+1,spreads.length-1);
       render();
       locked=false;
