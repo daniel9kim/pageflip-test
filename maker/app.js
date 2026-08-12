@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V10.2-2 — create + edit mode with existing-photo deletion
+// PAGE FLIP Maker V10.2-3 — create + edit mode with photo deletion and addition
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -17,6 +17,11 @@ drop.addEventListener('drop',e=>load([...e.dataTransfer.files].filter(f=>f.type.
 
 function load(files){
   if(!files.length)return;
+  if(isEditMode()){
+    selected=[...selected,...files.filter(f=>f.type.startsWith('image/'))];
+    renderEditPhotos();
+    return;
+  }
   selected=files;
   document.querySelector('#editor').style.display='block';
   let p=0,l=0;
@@ -34,6 +39,60 @@ function load(files){
     thumbs.appendChild(d)
   });
   document.querySelector('#editor').scrollIntoView({behavior:'smooth'})
+}
+
+
+function renderEditPhotos(){
+  if(!editAlbum)return;
+  const existing=Array.isArray(editAlbum.photos)?editAlbum.photos:[];
+  renderExistingThumbs();
+  const thumbs=document.querySelector('#thumbs');
+
+  selected.forEach((f,j)=>{
+    const i=existing.length+j;
+    const d=document.createElement('div');
+    d.className='thumb'+(i===cover?' selected':'');
+    d.style.position='relative';
+
+    const u=URL.createObjectURL(f);
+    const img=document.createElement('img');
+    img.src=u; img.alt='새 사진';
+    img.onload=()=>URL.revokeObjectURL(u);
+    d.appendChild(img);
+
+    const badge=document.createElement('span');
+    badge.textContent='새 사진';
+    badge.style.cssText='position:absolute;left:4px;top:4px;background:#3f654a;color:#fff;font-size:10px;padding:3px 6px;border-radius:99px;z-index:2';
+    d.appendChild(badge);
+
+    const x=document.createElement('button');
+    x.type='button'; x.textContent='×'; x.title='추가 취소';
+    x.style.cssText='position:absolute;top:4px;right:4px;width:26px;height:26px;min-width:26px;padding:0;border:0;border-radius:50%;background:rgba(66,48,36,.88);color:#fff;font-size:18px;line-height:26px;z-index:3';
+    x.onclick=e=>{
+      e.stopPropagation();
+      selected.splice(j,1);
+      const total=existing.length+selected.length;
+      if(cover>=total)cover=Math.max(0,total-1);
+      renderEditPhotos();
+    };
+    d.appendChild(x);
+
+    d.onclick=()=>{
+      cover=i;
+      [...thumbs.children].forEach((q,k)=>q.classList.toggle('selected',k===i));
+    };
+    thumbs.appendChild(d);
+  });
+
+  document.querySelector('#stats').innerHTML=
+    `<div class="stat">기존 사진 <b>${existing.length}</b>장</div>`+
+    `<div class="stat">새 사진 <b>${selected.length}</b>장</div>`+
+    `<div class="stat">전체 <b>${existing.length+selected.length}</b>장</div>`+
+    `<div class="stat">수정 모드 <b>추가·삭제 가능</b></div>`;
+
+  const dropTitle=drop.querySelector('h2'),dropText=drop.querySelector('p');
+  if(dropTitle)dropTitle.textContent=selected.length?`새 사진 ${selected.length}장 선택됨`:'새 사진 추가';
+  if(dropText)dropText.textContent=selected.length?'“수정 저장”을 누르면 기존 앨범에 추가됩니다.':'추가할 사진을 드래그하거나 사진 선택 버튼을 눌러 주세요.';
 }
 
 function stats(p,l){
@@ -114,12 +173,12 @@ function renderExistingAlbum(album){
 
   // V10.2-2: 기존 사진 삭제를 먼저 연결합니다.
   // 새 사진 추가는 다음 단계에서 안전하게 연결합니다.
-  drop.style.opacity='.72';
-  drop.style.pointerEvents='none';
+  drop.style.opacity='1';
+  drop.style.pointerEvents='auto';
   const dropTitle=drop.querySelector('h2');
   const dropText=drop.querySelector('p');
-  if(dropTitle) dropTitle.textContent='기존 사진 관리';
-  if(dropText) dropText.textContent='사진 오른쪽 위의 × 버튼으로 삭제할 수 있습니다. 새 사진 추가는 다음 단계에서 연결합니다.';
+  if(dropTitle) dropTitle.textContent='새 사진 추가';
+  if(dropText) dropText.textContent='추가할 사진을 드래그하거나 사진 선택 버튼을 눌러 주세요.';
 
   document.querySelector('#editor').scrollIntoView({behavior:'smooth'});
 }
@@ -227,8 +286,8 @@ async function deleteExistingPhoto(file,index,button){
     };
     cover=editAlbum.coverIndex;
 
-    renderExistingStats();
-    renderExistingThumbs();
+    if(selected.length)renderEditPhotos();
+    else{renderExistingStats();renderExistingThumbs();}
   }catch(e){
     alert('사진을 삭제하지 못했습니다: '+e.message);
     button.disabled=false;
@@ -382,7 +441,7 @@ document.querySelector('#make').onclick=async()=>{
   };
 
   // =========================================================
-  // V10.2-2 EDIT MODE — 삭제 후 남은 기존 사진 + 메타데이터 수정
+  // V10.2-3 EDIT MODE — 삭제 + 새 사진 추가 + 메타데이터 수정
   // =========================================================
   if(isEditMode()){
     if(!editAlbum){alert('기존 앨범을 아직 불러오지 못했습니다.');return}
@@ -390,45 +449,93 @@ document.querySelector('#make').onclick=async()=>{
     makeBtn.disabled=true;
     prog.style.display='block';
     plan.style.display='block';
-    fill.style.width='35%';
-    msg.textContent='기존 사진책을 수정하고 있습니다…';
+    fill.style.width='5%';
+    msg.textContent='사진책 수정 저장을 준비하고 있습니다…';
 
+    const existing=Array.isArray(editAlbum.photos)?editAlbum.photos:[];
     plan.innerHTML=`
       <div style="font-weight:800;margin-bottom:8px">사진책 수정 진행</div>
-      <div class="planrow"><span>기존 앨범</span><span class="tag ready">${editAlbumId}</span></div>
-      <div class="planrow"><span>현재 사진</span><span class="tag ready">${(editAlbum.photos||[]).length}장</span></div>
-      <div class="planrow"><span>메타데이터 수정</span><span class="tag pending" id="stageEdit">진행 중</span></div>
+      <div class="planrow"><span>기존 사진</span><span class="tag ready">${existing.length}장</span></div>
+      <div class="planrow"><span>새 사진 업로드</span><span class="tag pending" id="stageNew">${selected.length?`0 / ${selected.length}`:'없음'}</span></div>
+      <div class="planrow"><span>album.json 갱신</span><span class="tag pending" id="stageEdit">대기</span></div>
       <div class="planrow"><span>책장 정보 갱신</span><span class="tag pending" id="stageShelf">대기</span></div>`;
 
     try{
+      const used=new Set(existing.map(p=>String(p.file||'')));
+      const added=[];
+      const nextName=()=>{
+        for(let n=1;n<=999;n++){
+          const s=`${pad3(n)}.webp`;
+          if(!used.has(s)){used.add(s);return s}
+        }
+        throw new Error('사진 번호를 만들 수 없습니다.');
+      };
+
+      for(let i=0;i<selected.length;i++){
+        const f=selected[i];
+        msg.textContent=`새 사진 ${i+1}/${selected.length} WebP 변환 중…`;
+        const converted=await toWebP(f,1800,0.82);
+        if(converted.blob.size>8*1024*1024)throw new Error(`${f.name}: 변환 후 파일이 너무 큽니다.`);
+        const fileName=nextName();
+
+        msg.textContent=`새 사진 ${i+1}/${selected.length} GitHub 업로드 중…`;
+        const pr=await fetch(`${API_BASE}/api/photo?albumId=${encodeURIComponent(editAlbumId)}&name=${encodeURIComponent(fileName)}`,{
+          method:'POST',headers:{'Content-Type':'image/webp'},credentials:'include',body:converted.blob
+        });
+        const pd=await pr.json();
+        if(!pr.ok||!pd.ok)throw new Error(pd.message||`새 사진 ${i+1} 업로드 실패`);
+
+        added.push({file:fileName,path:pd.file,originalName:f.name,width:converted.width,height:converted.height,bytes:converted.blob.size});
+        const st=document.querySelector('#stageNew');
+        if(st)st.textContent=`${i+1} / ${selected.length}`;
+        fill.style.width=`${10+Math.round(((i+1)/Math.max(1,selected.length))*60)}%`;
+      }
+      const st=document.querySelector('#stageNew');
+      if(st){st.className='tag ready';if(!selected.length)st.textContent='없음'}
+
+      const photos=[...existing,...added];
+      const safeCover=Math.max(0,Math.min(cover,photos.length-1));
+      const editMetadata={
+        ...metadata,
+        photoCount:photos.length,
+        coverIndex:safeCover,
+        cover:photos[safeCover]?.file||''
+      };
+
+      msg.textContent='album.json과 책장 정보를 갱신하고 있습니다…';
+      document.querySelector('#stageEdit').textContent='진행 중';
+      fill.style.width='78%';
+
       const r=await fetch(API_BASE+'/api/album/update',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         credentials:'include',
-        body:JSON.stringify({
-          albumId:editAlbumId,
-          metadata
-        })
+        body:JSON.stringify({albumId:editAlbumId,metadata:editMetadata,photos})
       });
       const d=await r.json();
-      if(!r.ok||!d.ok) throw new Error(d.message||`HTTP ${r.status}`);
+      if(!r.ok||!d.ok)throw new Error(d.message||`HTTP ${r.status}`);
 
-      fill.style.width='100%';
-      msg.textContent='사진책 수정 저장이 완료되었습니다.';
       document.querySelector('#stageEdit').textContent='저장 완료';
       document.querySelector('#stageEdit').className='tag ready';
       document.querySelector('#stageShelf').textContent='갱신 완료';
       document.querySelector('#stageShelf').className='tag ready';
 
-      plan.innerHTML += `
+      editAlbum={...editAlbum,...editMetadata,photos};
+      selected=[];
+      cover=safeCover;
+      fill.style.width='100%';
+      msg.textContent='새 사진 추가와 사진책 수정 저장이 완료되었습니다.';
+      renderExistingStats();
+      renderExistingThumbs();
+
+      plan.innerHTML+=`
         <div style="border-top:1px solid #e5dbcf;margin:14px 0 4px"></div>
         <div class="planrow"><span>앨범 ID</span><span class="tag">${editAlbumId}</span></div>
-        <div class="planrow"><span>Commit</span><span class="tag ready">${(d.commit||'').slice(0,10)}</span></div>
-        <div class="planrow"><span>등록 책장</span><span class="tag ready">${d.shelfTitle||metadata.shelf}</span></div>
+        <div class="planrow"><span>새 사진</span><span class="tag ready">${added.length}장 추가</span></div>
+        <div class="planrow"><span>전체 사진</span><span class="tag ready">${photos.length}장</span></div>
         <div class="planrow"><span>GitHub Pages</span><span class="tag pending" id="pagesReadyStatus">반영 대기 중…</span></div>
         <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" id="viewerBtn" type="button" disabled>사진책 준비 중…</button></span></div>`;
 
-      editAlbum={...editAlbum,...metadata,coverIndex:cover};
       activateViewerWhenReady(editAlbumId);
       plan.scrollIntoView({behavior:'smooth',block:'center'});
     }catch(e){
