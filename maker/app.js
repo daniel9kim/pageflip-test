@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V10.1 — create + metadata edit mode
+// PAGE FLIP Maker V10.2-2 — create + edit mode with existing-photo deletion
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -93,7 +93,8 @@ function shelfLabelFromAlbum(album){
 
 function renderExistingAlbum(album){
   editAlbum=album;
-  cover=Math.max(0,Math.min(Number(album.coverIndex||0),(album.photos||[]).length-1));
+  const photos=Array.isArray(album.photos)?album.photos:[];
+  cover=Math.max(0,Math.min(Number(album.coverIndex||0),Math.max(0,photos.length-1)));
 
   document.querySelector('#editor').style.display='block';
   document.querySelector('#title').value=album.title||'';
@@ -102,44 +103,137 @@ function renderExistingAlbum(album){
   document.querySelector('#story').value=album.story||'';
   document.querySelector('#shelf').value=shelfLabelFromAlbum(album);
 
-  const photos=Array.isArray(album.photos)?album.photos:[];
+  renderExistingStats();
+  renderExistingThumbs();
+
+  document.querySelector('#make').textContent='수정 저장';
+  const introTitle=document.querySelector('.intro h1');
+  const introText=document.querySelector('.intro p');
+  if(introTitle) introTitle.textContent='사진책 수정하기';
+  if(introText) introText.textContent='기존 사진을 삭제하거나 표지를 바꾸고, 제목·날짜·기록·책장을 수정합니다.';
+
+  // V10.2-2: 기존 사진 삭제를 먼저 연결합니다.
+  // 새 사진 추가는 다음 단계에서 안전하게 연결합니다.
+  drop.style.opacity='.72';
+  drop.style.pointerEvents='none';
+  const dropTitle=drop.querySelector('h2');
+  const dropText=drop.querySelector('p');
+  if(dropTitle) dropTitle.textContent='기존 사진 관리';
+  if(dropText) dropText.textContent='사진 오른쪽 위의 × 버튼으로 삭제할 수 있습니다. 새 사진 추가는 다음 단계에서 연결합니다.';
+
+  document.querySelector('#editor').scrollIntoView({behavior:'smooth'});
+}
+
+function renderExistingStats(){
+  if(!editAlbum) return;
+  const photos=Array.isArray(editAlbum.photos)?editAlbum.photos:[];
   const p=photos.filter(x=>Number(x.height||0)>=Number(x.width||0)).length;
   const l=photos.length-p;
   document.querySelector('#stats').innerHTML=
     `<div class="stat">기존 사진 <b>${photos.length}</b>장</div>`+
     `<div class="stat">세로 <b>${p}</b>장</div>`+
     `<div class="stat">가로 <b>${l}</b>장</div>`+
-    `<div class="stat">수정 모드 <b>메타데이터</b></div>`;
+    `<div class="stat">수정 모드 <b>사진 삭제 가능</b></div>`;
+}
 
+function renderExistingThumbs(){
+  if(!editAlbum) return;
+  const photos=Array.isArray(editAlbum.photos)?editAlbum.photos:[];
   const thumbs=document.querySelector('#thumbs');
   thumbs.innerHTML='';
+
   photos.forEach((photo,i)=>{
     const d=document.createElement('div');
     d.className='thumb'+(i===cover?' selected':'');
+    d.style.position='relative';
+
     const file=photo.file||photo.f||'';
-    d.innerHTML=`<img src="${albumPhotoUrl(editAlbumId,file)}" alt="기존 사진">`;
+    const img=document.createElement('img');
+    img.src=albumPhotoUrl(editAlbumId,file);
+    img.alt='기존 사진';
+    d.appendChild(img);
+
+    const del=document.createElement('button');
+    del.type='button';
+    del.textContent='×';
+    del.title='이 사진 삭제';
+    del.setAttribute('aria-label','사진 삭제');
+    Object.assign(del.style,{
+      position:'absolute',
+      top:'4px',
+      right:'4px',
+      width:'26px',
+      height:'26px',
+      minWidth:'26px',
+      padding:'0',
+      border:'0',
+      borderRadius:'50%',
+      background:'rgba(66,48,36,.88)',
+      color:'#fff',
+      fontSize:'18px',
+      lineHeight:'26px',
+      cursor:'pointer',
+      boxShadow:'0 2px 8px rgba(0,0,0,.18)',
+      zIndex:'3'
+    });
+    del.onclick=async e=>{
+      e.stopPropagation();
+      await deleteExistingPhoto(file,i,del);
+    };
+    d.appendChild(del);
+
     d.onclick=()=>{
       cover=i;
       [...thumbs.children].forEach((x,j)=>x.classList.toggle('selected',j===i));
     };
     thumbs.appendChild(d);
   });
+}
 
-  document.querySelector('#make').textContent='수정 저장';
-  const introTitle=document.querySelector('.intro h1');
-  const introText=document.querySelector('.intro p');
-  if(introTitle) introTitle.textContent='사진책 수정하기';
-  if(introText) introText.textContent='사진은 그대로 두고 제목, 날짜, 기록, 표지와 책장을 수정합니다.';
+async function deleteExistingPhoto(file,index,button){
+  if(!editAlbum) return;
+  const photos=Array.isArray(editAlbum.photos)?editAlbum.photos:[];
+  if(photos.length<=1){
+    alert('사진책에는 최소 1장의 사진이 필요합니다.');
+    return;
+  }
 
-  // V10.1에서는 기존 사진을 교체하지 않으므로 업로드 영역을 안내용으로 비활성화합니다.
-  drop.style.opacity='.55';
-  drop.style.pointerEvents='none';
-  const dropTitle=drop.querySelector('h2');
-  const dropText=drop.querySelector('p');
-  if(dropTitle) dropTitle.textContent='기존 사진 유지';
-  if(dropText) dropText.textContent='V10.1에서는 사진 추가·삭제 없이 메타데이터와 표지만 수정합니다.';
+  const ok=confirm(`이 사진을 사진책에서 삭제할까요?\n\n${file}\n\n삭제하면 GitHub의 실제 사진 파일에서도 제거됩니다.`);
+  if(!ok) return;
 
-  document.querySelector('#editor').scrollIntoView({behavior:'smooth'});
+  button.disabled=true;
+  const oldText=button.textContent;
+  button.textContent='…';
+
+  try{
+    const r=await fetch(
+      `${API_BASE}/api/photo?albumId=${encodeURIComponent(editAlbumId)}&name=${encodeURIComponent(file)}`,
+      {
+        method:'DELETE',
+        credentials:'include',
+        cache:'no-store'
+      }
+    );
+    const d=await r.json();
+    if(!r.ok||!d.ok) throw new Error(d.message||`HTTP ${r.status}`);
+
+    const nextPhotos=photos.filter((_,i)=>i!==index);
+    editAlbum={
+      ...editAlbum,
+      photos:nextPhotos,
+      photoCount:Number(d.photoCount||nextPhotos.length),
+      cover:String(d.cover||nextPhotos[0]?.file||''),
+      coverIndex:Math.max(0,Math.min(Number(d.coverIndex||0),Math.max(0,nextPhotos.length-1)))
+    };
+    cover=editAlbum.coverIndex;
+
+    renderExistingStats();
+    renderExistingThumbs();
+  }catch(e){
+    alert('사진을 삭제하지 못했습니다: '+e.message);
+    button.disabled=false;
+    button.textContent=oldText;
+  }
 }
 
 async function loadEditAlbum(){
@@ -288,7 +382,7 @@ document.querySelector('#make').onclick=async()=>{
   };
 
   // =========================================================
-  // V10.1 EDIT MODE — 기존 사진은 그대로 두고 메타데이터만 수정
+  // V10.2-2 EDIT MODE — 삭제 후 남은 기존 사진 + 메타데이터 수정
   // =========================================================
   if(isEditMode()){
     if(!editAlbum){alert('기존 앨범을 아직 불러오지 못했습니다.');return}
@@ -302,7 +396,7 @@ document.querySelector('#make').onclick=async()=>{
     plan.innerHTML=`
       <div style="font-weight:800;margin-bottom:8px">사진책 수정 진행</div>
       <div class="planrow"><span>기존 앨범</span><span class="tag ready">${editAlbumId}</span></div>
-      <div class="planrow"><span>기존 사진</span><span class="tag ready">${(editAlbum.photos||[]).length}장 유지</span></div>
+      <div class="planrow"><span>현재 사진</span><span class="tag ready">${(editAlbum.photos||[]).length}장</span></div>
       <div class="planrow"><span>메타데이터 수정</span><span class="tag pending" id="stageEdit">진행 중</span></div>
       <div class="planrow"><span>책장 정보 갱신</span><span class="tag pending" id="stageShelf">대기</span></div>`;
 
