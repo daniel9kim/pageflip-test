@@ -1,13 +1,14 @@
-PAGE FLIP Viewer V9.2 FIXED
+PAGE FLIP Viewer V9.2.1 — Episode layout fix
 
-수정 내용
-- 이전 V9.2에서 bindAlbum()이 빠지는 오류를 수정했습니다.
-- V9.1의 안정 기능을 그대로 보존했습니다.
-- 세로+세로: 좌우 한 장씩
-- 마지막 세로 한 장: 왼쪽 사진 + 오른쪽 이야기 페이지
-- 가로: 와이드 배치
-- 정사각형: 중앙 편집형 배치
-- 기존 Episode/감상문/책넘김/모바일/공유/책장복귀 유지
+1) viewer/app.js
+   기존 viewer/app.js를 이 파일로 교체하세요.
 
-설치
-GitHub pageflip-test/viewer/app.js만 교체 후 Commit 하세요.
+2) viewer/episode-fix.css
+   이 파일의 내용을 현재 viewer/style.css 맨 아래에 붙여 넣으세요.
+   (현재 style.css 전체를 받지 못했기 때문에 안전하게 추가 패치 형태로 만들었습니다.)
+
+목표:
+- 에피소드 첫 펼침면을 최초 샘플의 고정 Editorial Layout으로 복원
+- 왼쪽: EPISODE / 그날의 기록 / 부제·날짜 / 인용문 / 대표사진
+- 오른쪽: 감상문 미리보기 + 전체 감상문 읽기
+- 사진 자동편집 로직은 그대로 유지

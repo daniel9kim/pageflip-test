@@ -1,0 +1,113 @@
+/* PAGE FLIP Episode fixed editorial layout patch — V9.2.1
+   Add this at the END of viewer/style.css.
+*/
+.essay-page.episode-fixed{
+  box-sizing:border-box;
+  height:100%;
+  overflow:hidden;
+  background:#fffdf8;
+  color:#46372c;
+  display:flex;
+  align-items:stretch;
+  justify-content:center;
+  padding:0;
+}
+.episode-inner{
+  width:100%;
+  height:100%;
+  box-sizing:border-box;
+  font-family:"Noto Serif KR",Georgia,serif;
+}
+.episode-left-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:7% 9% 6%;
+}
+.episode-right-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  text-align:left;
+  padding:8% 14% 8% 13%;
+}
+.episode-fixed .essay-kicker{
+  flex:0 0 auto;
+  font-family:Georgia,"Noto Serif KR",serif;
+  letter-spacing:.18em;
+  font-size:12px;
+  line-height:1.2;
+  color:#9a744d;
+  margin:0 0 14px;
+}
+.episode-fixed.essay-left h3{
+  flex:0 0 auto;
+  font-family:"Noto Serif KR",Georgia,serif;
+  font-size:34px;
+  line-height:1.25;
+  font-weight:500;
+  margin:0 0 9px;
+  color:#4b2f1b;
+}
+.episode-fixed .essay-sub{
+  flex:0 0 auto;
+  font-family:Georgia,"Noto Serif KR",serif;
+  font-size:15px;
+  line-height:1.45;
+  font-style:italic;
+  color:#9a6a45;
+  margin:0 0 24px;
+}
+.episode-fixed .essay-quote{
+  flex:0 0 auto;
+  font-size:15px;
+  line-height:1.9;
+  color:#69594c;
+  margin:0 0 20px;
+}
+.episode-fixed .essay-art{
+  display:block;
+  flex:0 1 auto;
+  width:auto;
+  max-width:47%;
+  height:auto;
+  max-height:34%;
+  object-fit:contain;
+  margin:0 auto;
+  box-shadow:0 7px 18px rgba(58,44,33,.12);
+}
+.episode-fixed .essay-excerpt{
+  width:100%;
+  max-width:310px;
+  font-size:15px;
+  line-height:2.0;
+  letter-spacing:-.01em;
+  color:#59483b;
+  white-space:pre-line;
+  overflow:hidden;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:12;
+}
+.episode-fixed .read-more{
+  flex:0 0 auto;
+  align-self:flex-start;
+  margin:24px 0 0;
+  padding:0 0 5px;
+  border:0;
+  border-bottom:1px solid #c8a17b;
+  background:none;
+  color:#8a5b31;
+  font-family:"Noto Serif KR",Georgia,serif;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+@media(max-width:760px){
+  .essay-page.episode-fixed{width:100%}
+  .episode-right-inner{padding:12% 10%}
+  .episode-fixed .essay-excerpt{max-width:none;font-size:15px;line-height:1.95}
+}

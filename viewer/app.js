@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V9.2 — combination-aware automatic editorial layout
+// PAGE FLIP Viewer V9.2.1 — fixed editorial Episode spread + automatic photo layout
 let album=null;
 let photos=[];
 let story='';
@@ -209,22 +209,35 @@ function makePage(item,side,no){
 
 function essaySpread(){
   const left=document.createElement('article');
-  left.className='essay-page essay-left';
+  left.className='essay-page essay-left episode-fixed';
 
+  // 샘플 사진책처럼 에피소드 대표 이미지는 마지막 사진을 사용합니다.
   const essayPhoto=photos.length?photos[photos.length-1]:null;
+  const subtitle=[album.subtitle||'',formatDate(album.date)].filter(Boolean).join(' · ');
+
   left.innerHTML=
-    '<div class="essay-kicker">'+escapeHtml(album.episodeLabel||'EPISODE 01')+'</div>'+
-    '<h3>'+escapeHtml(album.storyTitle||'그날의 기록')+'</h3>'+
-    '<div class="essay-sub">'+escapeHtml([album.subtitle||'',formatDate(album.date)].filter(Boolean).join(' · '))+'</div>'+
-    '<div class="essay-quote">“사진 속에 남은 장면과 함께<br>그날의 생각도 한 장의 기록으로 남깁니다.”</div>'+
-    (essayPhoto?'<img class="essay-art" src="'+photoSrc(essayPhoto)+'" alt="에세이 이미지">':'');
+    '<div class="episode-inner episode-left-inner">'+
+      '<div class="essay-kicker">'+escapeHtml(album.episodeLabel||'EPISODE 01')+'</div>'+
+      '<h3>'+escapeHtml(album.storyTitle||'그날의 기록')+'</h3>'+
+      '<div class="essay-sub">'+escapeHtml(subtitle)+'</div>'+
+      '<div class="essay-quote">“사진 속에 남은 장면과 함께<br>그날의 생각도 한 장의 기록으로 남깁니다.”</div>'+
+      (essayPhoto?'<img class="essay-art" src="'+photoSrc(essayPhoto)+'" alt="에세이 이미지">':'')+
+    '</div>';
 
   const right=document.createElement('article');
-  right.className='essay-page essay-right';
+  right.className='essay-page essay-right episode-fixed';
 
+  // 감상문은 원문 줄바꿈을 살리고, 첫 화면에는 샘플처럼 적당한 분량만 보여줍니다.
   const excerpt=(album.storyExcerpt||story).trim();
-  const short=excerpt.length>420?excerpt.slice(0,420).trim()+'…':excerpt;
-  right.innerHTML='<div class="essay-excerpt">'+escapeHtml(short)+'</div><button class="read-more">전체 감상문 읽기 ›</button>';
+  const maxChars=330;
+  let short=excerpt.length>maxChars?excerpt.slice(0,maxChars).trim()+'…':excerpt;
+
+  right.innerHTML=
+    '<div class="episode-inner episode-right-inner">'+
+      '<div class="essay-excerpt">'+escapeHtml(short)+'</div>'+
+      '<button class="read-more">전체 감상문 읽기 ›</button>'+
+    '</div>';
+
   right.querySelector('.read-more').onclick=openStory;
   return [left,right];
 }
