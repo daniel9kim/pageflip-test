@@ -132,6 +132,16 @@
       "album": "../../albums/album-1786395267407/album.json",
       "photoCount": 1,
       "updatedAt": "2026-08-10T20:54:31.360Z"
+    },
+    {
+      "id": "album-1786559636653",
+      "title": "뱅크시 01",
+      "date": "2026-08-01",
+      "summary": "뱅크시 01",
+      "cover": "../../albums/album-1786559636653/photos/001.webp",
+      "album": "../../albums/album-1786559636653/album.json",
+      "photoCount": 9,
+      "updatedAt": "2026-08-12T18:34:20.313Z"
     }
   ]
 }
