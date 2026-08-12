@@ -2,5 +2,16 @@
   "id": "family",
   "title": "가족사진 앨범 책장",
   "subtitle": "가족과 함께한 소중한 순간들",
-  "albums": []
+  "albums": [
+    {
+      "id": "album-1786561857976",
+      "title": "Maudie, My Love, 2017",
+      "date": "2017-08-13",
+      "summary": "영화 감상평 [Maudie, My Love, 2017]",
+      "cover": "../../albums/album-1786561857976/photos/001.webp",
+      "album": "../../albums/album-1786561857976/album.json",
+      "photoCount": 4,
+      "updatedAt": "2026-08-12T19:11:09.966Z"
+    }
+  ]
 }
