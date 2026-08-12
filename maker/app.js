@@ -1,7 +1,12 @@
+// PAGE FLIP Maker V10.1 — create + metadata edit mode
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
 let selected=[],cover=0;
+const params=new URLSearchParams(location.search);
+const editAlbumId=params.get('edit');
+let editAlbum=null;
+const isEditMode=()=>/^album-[0-9]+$/.test(String(editAlbumId||''));
 
 choose.onclick=e=>{e.stopPropagation();input.click()};
 drop.onclick=()=>input.click();
@@ -70,6 +75,86 @@ async function checkStatus(){
     document.querySelector('#ghDot').className='gh-dot warn';
     document.querySelector('#ghLabel').textContent='GitHub 연결 확인 필요';
     document.querySelector('#ghStatus').textContent='Cloudflare Access 인증 또는 Worker 연결 상태를 확인해 주세요.';
+  }
+}
+
+
+function shelfLabelFromAlbum(album){
+  const key=String(album?.shelfKey||'').trim();
+  const label=String(album?.shelf||'').trim();
+  const map={
+    elders:'장로합창단',
+    handbell:'핸드벨',
+    family:'가족',
+    personal:'영춘이 개인'
+  };
+  return map[key]||label||'영춘이 개인';
+}
+
+function renderExistingAlbum(album){
+  editAlbum=album;
+  cover=Math.max(0,Math.min(Number(album.coverIndex||0),(album.photos||[]).length-1));
+
+  document.querySelector('#editor').style.display='block';
+  document.querySelector('#title').value=album.title||'';
+  document.querySelector('#date').value=album.date||'';
+  document.querySelector('#summary').value=album.summary||'';
+  document.querySelector('#story').value=album.story||'';
+  document.querySelector('#shelf').value=shelfLabelFromAlbum(album);
+
+  const photos=Array.isArray(album.photos)?album.photos:[];
+  const p=photos.filter(x=>Number(x.height||0)>=Number(x.width||0)).length;
+  const l=photos.length-p;
+  document.querySelector('#stats').innerHTML=
+    `<div class="stat">기존 사진 <b>${photos.length}</b>장</div>`+
+    `<div class="stat">세로 <b>${p}</b>장</div>`+
+    `<div class="stat">가로 <b>${l}</b>장</div>`+
+    `<div class="stat">수정 모드 <b>메타데이터</b></div>`;
+
+  const thumbs=document.querySelector('#thumbs');
+  thumbs.innerHTML='';
+  photos.forEach((photo,i)=>{
+    const d=document.createElement('div');
+    d.className='thumb'+(i===cover?' selected':'');
+    const file=photo.file||photo.f||'';
+    d.innerHTML=`<img src="${albumPhotoUrl(editAlbumId,file)}" alt="기존 사진">`;
+    d.onclick=()=>{
+      cover=i;
+      [...thumbs.children].forEach((x,j)=>x.classList.toggle('selected',j===i));
+    };
+    thumbs.appendChild(d);
+  });
+
+  document.querySelector('#make').textContent='수정 저장';
+  const introTitle=document.querySelector('.intro h1');
+  const introText=document.querySelector('.intro p');
+  if(introTitle) introTitle.textContent='사진책 수정하기';
+  if(introText) introText.textContent='사진은 그대로 두고 제목, 날짜, 기록, 표지와 책장을 수정합니다.';
+
+  // V10.1에서는 기존 사진을 교체하지 않으므로 업로드 영역을 안내용으로 비활성화합니다.
+  drop.style.opacity='.55';
+  drop.style.pointerEvents='none';
+  const dropTitle=drop.querySelector('h2');
+  const dropText=drop.querySelector('p');
+  if(dropTitle) dropTitle.textContent='기존 사진 유지';
+  if(dropText) dropText.textContent='V10.1에서는 사진 추가·삭제 없이 메타데이터와 표지만 수정합니다.';
+
+  document.querySelector('#editor').scrollIntoView({behavior:'smooth'});
+}
+
+async function loadEditAlbum(){
+  if(!isEditMode()) return;
+
+  try{
+    const r=await fetch(`${API_BASE}/api/album/${encodeURIComponent(editAlbumId)}`,{
+      credentials:'include',
+      cache:'no-store'
+    });
+    const d=await r.json();
+    if(!r.ok||!d.ok) throw new Error(d.message||`HTTP ${r.status}`);
+    renderExistingAlbum(d.album);
+  }catch(e){
+    alert('수정할 사진책을 불러오지 못했습니다: '+e.message);
   }
 }
 
@@ -188,20 +273,85 @@ async function activateViewerWhenReady(albumId){
 document.querySelector('#make').onclick=async()=>{
   const title=document.querySelector('#title').value.trim();
   if(!title){alert('앨범 제목을 입력해 주세요.');return}
-  if(!selected.length){alert('사진을 먼저 선택해 주세요.');return}
 
   const makeBtn=document.querySelector('#make');
   const prog=document.querySelector('#progress'),fill=document.querySelector('#fill'),msg=document.querySelector('#msg');
   const plan=document.querySelector('#uploadPlan');
+
   const metadata={
     title,
     date:document.querySelector('#date').value||'',
     summary:document.querySelector('#summary').value.trim(),
     story:document.querySelector('#story').value.trim(),
     shelf:document.querySelector('#shelf').value,
-    photoCount:selected.length,
     coverIndex:cover
   };
+
+  // =========================================================
+  // V10.1 EDIT MODE — 기존 사진은 그대로 두고 메타데이터만 수정
+  // =========================================================
+  if(isEditMode()){
+    if(!editAlbum){alert('기존 앨범을 아직 불러오지 못했습니다.');return}
+
+    makeBtn.disabled=true;
+    prog.style.display='block';
+    plan.style.display='block';
+    fill.style.width='35%';
+    msg.textContent='기존 사진책을 수정하고 있습니다…';
+
+    plan.innerHTML=`
+      <div style="font-weight:800;margin-bottom:8px">사진책 수정 진행</div>
+      <div class="planrow"><span>기존 앨범</span><span class="tag ready">${editAlbumId}</span></div>
+      <div class="planrow"><span>기존 사진</span><span class="tag ready">${(editAlbum.photos||[]).length}장 유지</span></div>
+      <div class="planrow"><span>메타데이터 수정</span><span class="tag pending" id="stageEdit">진행 중</span></div>
+      <div class="planrow"><span>책장 정보 갱신</span><span class="tag pending" id="stageShelf">대기</span></div>`;
+
+    try{
+      const r=await fetch(API_BASE+'/api/album/update',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        credentials:'include',
+        body:JSON.stringify({
+          albumId:editAlbumId,
+          metadata
+        })
+      });
+      const d=await r.json();
+      if(!r.ok||!d.ok) throw new Error(d.message||`HTTP ${r.status}`);
+
+      fill.style.width='100%';
+      msg.textContent='사진책 수정 저장이 완료되었습니다.';
+      document.querySelector('#stageEdit').textContent='저장 완료';
+      document.querySelector('#stageEdit').className='tag ready';
+      document.querySelector('#stageShelf').textContent='갱신 완료';
+      document.querySelector('#stageShelf').className='tag ready';
+
+      plan.innerHTML += `
+        <div style="border-top:1px solid #e5dbcf;margin:14px 0 4px"></div>
+        <div class="planrow"><span>앨범 ID</span><span class="tag">${editAlbumId}</span></div>
+        <div class="planrow"><span>Commit</span><span class="tag ready">${(d.commit||'').slice(0,10)}</span></div>
+        <div class="planrow"><span>등록 책장</span><span class="tag ready">${d.shelfTitle||metadata.shelf}</span></div>
+        <div class="planrow"><span>GitHub Pages</span><span class="tag pending" id="pagesReadyStatus">반영 대기 중…</span></div>
+        <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" id="viewerBtn" type="button" disabled>사진책 준비 중…</button></span></div>`;
+
+      editAlbum={...editAlbum,...metadata,coverIndex:cover};
+      activateViewerWhenReady(editAlbumId);
+      plan.scrollIntoView({behavior:'smooth',block:'center'});
+    }catch(e){
+      fill.style.width='100%';
+      msg.textContent='수정 저장에 실패했습니다: '+e.message;
+    }finally{
+      makeBtn.disabled=false;
+    }
+    return;
+  }
+
+  // =========================================================
+  // CREATE MODE — 기존 V8/V9 새 사진책 만들기 흐름 그대로 유지
+  // =========================================================
+  if(!selected.length){alert('사진을 먼저 선택해 주세요.');return}
+
+  metadata.photoCount=selected.length;
 
   makeBtn.disabled=true;
   prog.style.display='block';
@@ -216,20 +366,18 @@ document.querySelector('#make').onclick=async()=>{
     <div class="planrow"><span>선택한 책장 자동 등록</span><span class="tag pending" id="stageShelf">대기</span></div>`;
 
   try{
-    // 1) album start
     const startRes=await fetch(API_BASE+'/api/album/start',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       credentials:'include',
       body:JSON.stringify(metadata)
     });
-    const start=await startRes.json();
-    if(!startRes.ok||!start.ok) throw new Error(start.message||`HTTP ${startRes.status}`);
-    const albumId=start.albumId;
+    const startData=await startRes.json();
+    if(!startRes.ok||!startData.ok) throw new Error(startData.message||`HTTP ${startRes.status}`);
+    const albumId=startData.albumId;
     document.querySelector('#stageAlbum').textContent='준비 완료';
     document.querySelector('#stageAlbum').className='tag ready';
 
-    // 2) photos sequentially
     const photos=[];
     for(let i=0;i<selected.length;i++){
       const file=selected[i];
@@ -243,7 +391,7 @@ document.querySelector('#make').onclick=async()=>{
 
       msg.textContent=`사진 ${i+1}/${selected.length} GitHub 업로드 중…`;
       const photoRes=await fetch(
-        `https://pageflip-api.withme-jesus.workers.dev/api/photo?albumId=${encodeURIComponent(albumId)}&name=${encodeURIComponent(fileName)}`,
+        `${API_BASE}/api/photo?albumId=${encodeURIComponent(albumId)}&name=${encodeURIComponent(fileName)}`,
         {
           method:'POST',
           headers:{'Content-Type':'image/webp'},
@@ -269,9 +417,9 @@ document.querySelector('#make').onclick=async()=>{
     }
     document.querySelector('#stagePhotos').className='tag ready';
 
-    // 3) final album json
     msg.textContent='album.json을 최종 갱신하고 있습니다…';
     document.querySelector('#stageFinal').textContent='진행 중';
+
     const finalRes=await fetch(API_BASE+'/api/album/finalize',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
@@ -298,6 +446,7 @@ document.querySelector('#make').onclick=async()=>{
       <div class="planrow"><span>책장 등록</span><span class="tag ready">완료</span></div>
       <div class="planrow"><span>GitHub Pages</span><span class="tag pending" id="pagesReadyStatus">반영 대기 중…</span></div>
       <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" id="viewerBtn" type="button" disabled>사진책 준비 중…</button></span></div>`;
+
     activateViewerWhenReady(albumId);
     plan.scrollIntoView({behavior:'smooth',block:'center'});
   }catch(e){
@@ -309,3 +458,4 @@ document.querySelector('#make').onclick=async()=>{
 };
 
 checkStatus();
+loadEditAlbum();
