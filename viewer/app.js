@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V9.8 — Opaque Turn Underlay
+// PAGE FLIP Viewer V9.9 — Blank Turning Sheet
 let album=null;
 let photos=[];
 let story='';
@@ -351,7 +351,7 @@ function prepareTurnSheet(direction=1){
 
   const frontClone=clonePageForTurn(source);
   if(frontClone){
-    frontClone.classList.add('turn-clone');
+    frontClone.classList.add('turn-clone','turn-clone-blank');
     turnFront.appendChild(frontClone);
   }
 

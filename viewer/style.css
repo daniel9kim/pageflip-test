@@ -399,3 +399,45 @@
 @media(max-width:760px){
   .turn-underlay{display:none!important}
 }
+
+
+/* =========================================================
+   PAGE FLIP V9.9 — Blank Turning Sheet
+   페이지를 넘기는 순간에는 종이 위의 텍스트/사진을 보이지 않게 하고
+   깨끗한 종이 면만 보여줍니다.
+   ========================================================= */
+.turn-front{
+  background:
+    linear-gradient(90deg,#fbf8f1 0%,#fffdf8 16%,#fffdf8 100%) !important;
+}
+
+/* 움직이는 페이지 복제본의 실제 콘텐츠를 모두 숨김 */
+.turn-front .turn-clone-blank,
+.turn-front .turn-clone-blank *{
+  color:transparent !important;
+  text-shadow:none !important;
+  border-color:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+}
+
+.turn-front .turn-clone-blank img,
+.turn-front .turn-clone-blank button,
+.turn-front .turn-clone-blank .page-number,
+.turn-front .turn-clone-blank .essay-kicker,
+.turn-front .turn-clone-blank .essay-excerpt,
+.turn-front .turn-clone-blank .essay-quote,
+.turn-front .turn-clone-blank h1,
+.turn-front .turn-clone-blank h2,
+.turn-front .turn-clone-blank h3,
+.turn-front .turn-clone-blank p,
+.turn-front .turn-clone-blank span,
+.turn-front .turn-clone-blank div:not(.turn-clone-blank){
+  visibility:hidden !important;
+}
+
+/* 종이 자체의 질감만 남김 */
+.turn-front .turn-clone-blank{
+  background:
+    linear-gradient(90deg,#fbf8f1 0%,#fffdf8 18%,#fffdf8 100%) !important;
+}
