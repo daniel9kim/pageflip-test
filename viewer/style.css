@@ -303,3 +303,55 @@
       rgba(255,253,248,.98) 50.3%,
       rgba(255,253,248,.98) 100%);
 }
+
+
+/* =========================================================
+   PAGE FLIP V9.7 — Clean Bidirectional Turn
+   1) 페이지 뒷면 미리보기 제거: 이전 화면 잔재/고스트 제거
+   2) 이전 페이지도 왼쪽에서 오른쪽으로 동일한 3D 넘김 적용
+   ========================================================= */
+.turn-sheet{
+  right:0;
+  left:auto;
+  transform-origin:left center;
+  isolation:isolate;
+}
+.turn-sheet.reverse{
+  left:0;
+  right:auto;
+  transform-origin:right center;
+}
+.turn-face{
+  isolation:isolate;
+  contain:paint;
+}
+.turn-front,
+.turn-front *{
+  backface-visibility:hidden !important;
+  -webkit-backface-visibility:hidden !important;
+}
+.turn-back{
+  background:
+    linear-gradient(90deg,#fbf7f0,#fffdf8 48%,#f7f0e7);
+}
+.turn-back:empty::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,
+      rgba(86,64,47,.05),
+      rgba(255,255,255,.2) 12%,
+      rgba(255,255,255,.02) 88%,
+      rgba(86,64,47,.04));
+}
+#spread > .turn-source-hidden{
+  visibility:hidden !important;
+  opacity:0 !important;
+}
+.turn-sheet.reverse .turn-front{
+  box-shadow:
+    calc(10px + 24px * var(--sheet-progress)) 0
+    calc(18px + 28px * var(--sheet-progress))
+    rgba(48,34,23,.18);
+}
