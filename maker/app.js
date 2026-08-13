@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V10.4 — exact photo-order publication verification
+// PAGE FLIP Maker V11.0 — admin album management + delete
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -7,6 +7,15 @@ const params=new URLSearchParams(location.search);
 const editAlbumId=params.get('edit');
 let editAlbum=null;
 const isEditMode=()=>/^album-[0-9]+$/.test(String(editAlbumId||''));
+const PUBLIC_BASE='https://daniel9kim.github.io/pageflip-test/';
+const SHELF_SOURCES=[
+  {key:'elders',label:'장로합창단',url:new URL('../shelves/elders/shelf.json',location.href).href},
+  {key:'handbell',label:'핸드벨',url:new URL('../shelves/handbell/shelf.json',location.href).href},
+  {key:'family',label:'가족',url:new URL('../shelves/family/shelf.json',location.href).href},
+  {key:'personal',label:'영춘이 개인',url:new URL('../shelves/personal/shelf.json',location.href).href}
+];
+let adminAlbums=[];
+
 
 choose.onclick=e=>{e.stopPropagation();input.click()};
 drop.onclick=()=>input.click();
@@ -109,6 +118,189 @@ document.querySelector('#closeModal').onclick=()=>modal.classList.remove('show')
 modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
 document.querySelector('#openRepo').onclick=()=>window.open('https://github.com/daniel9kim/pageflip-test','_blank','noopener');
 document.querySelector('#checkStatus').onclick=checkStatus;
+
+
+function ensureAdminPanel(){
+  if(isEditMode()) return;
+
+  const githubCard=document.querySelector('.card.github');
+  if(!githubCard || document.querySelector('#adminAlbums')) return;
+
+  const section=document.createElement('section');
+  section.className='card admin-manager';
+  section.id='adminAlbums';
+  section.innerHTML=`
+    <div class="admin-head">
+      <div>
+        <div class="label">관리자 앨범 관리</div>
+        <h2>기존 앨범</h2>
+        <p>앨범을 미리보기·수정하거나 더 이상 필요 없는 앨범을 삭제합니다.</p>
+      </div>
+      <button class="btn make" id="newAlbumBtn" type="button">+ 새 앨범 만들기</button>
+    </div>
+
+    <div class="admin-tools">
+      <input id="adminSearch" type="search" placeholder="앨범 제목 검색">
+      <select id="adminShelfFilter">
+        <option value="all">전체 책장</option>
+        ${SHELF_SOURCES.map(s=>`<option value="${s.key}">${s.label}</option>`).join('')}
+      </select>
+      <span id="adminCount" class="admin-count">불러오는 중…</span>
+    </div>
+
+    <div id="adminAlbumList" class="admin-album-list">
+      <div class="admin-loading">앨범 목록을 불러오고 있습니다…</div>
+    </div>`;
+
+  githubCard.insertAdjacentElement('afterend',section);
+
+  document.querySelector('#newAlbumBtn').onclick=()=>{
+    const createCard=drop.closest('.card');
+    createCard?.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+  document.querySelector('#adminSearch').addEventListener('input',renderAdminAlbums);
+  document.querySelector('#adminShelfFilter').addEventListener('change',renderAdminAlbums);
+
+  loadAdminAlbums();
+}
+
+async function loadAdminAlbums(){
+  const list=document.querySelector('#adminAlbumList');
+  if(!list) return;
+
+  const results=await Promise.all(SHELF_SOURCES.map(async shelf=>{
+    try{
+      const r=await fetch(shelf.url+`?t=${Date.now()}`,{cache:'no-store'});
+      if(!r.ok) return [];
+      const data=await r.json();
+      const albums=Array.isArray(data.albums)?data.albums:[];
+      return albums.map(a=>({
+        ...a,
+        shelfKey:shelf.key,
+        shelfLabel:shelf.label,
+        coverAbsolute:a.cover?new URL(a.cover,shelf.url).href:'',
+        albumAbsolute:a.album?new URL(a.album,shelf.url).href:''
+      }));
+    }catch{
+      return [];
+    }
+  }));
+
+  const byId=new Map();
+  results.flat().forEach(a=>{
+    if(a?.id) byId.set(a.id,a);
+  });
+  adminAlbums=[...byId.values()].sort((a,b)=>{
+    const d=String(b.date||'').localeCompare(String(a.date||''));
+    return d!==0?d:String(b.updatedAt||'').localeCompare(String(a.updatedAt||''));
+  });
+  renderAdminAlbums();
+}
+
+function renderAdminAlbums(){
+  const list=document.querySelector('#adminAlbumList');
+  const count=document.querySelector('#adminCount');
+  if(!list||!count) return;
+
+  const q=String(document.querySelector('#adminSearch')?.value||'').trim().toLowerCase();
+  const shelfKey=document.querySelector('#adminShelfFilter')?.value||'all';
+
+  const items=adminAlbums.filter(a=>{
+    if(shelfKey!=='all' && a.shelfKey!==shelfKey) return false;
+    if(!q) return true;
+    return `${a.title||''} ${a.date||''} ${a.summary||''}`.toLowerCase().includes(q);
+  });
+
+  count.textContent=`${items.length}개 앨범`;
+
+  if(!items.length){
+    list.innerHTML='<div class="admin-empty">조건에 맞는 앨범이 없습니다.</div>';
+    return;
+  }
+
+  list.innerHTML='';
+  items.forEach(a=>{
+    const card=document.createElement('article');
+    card.className='admin-album-card';
+    card.innerHTML=`
+      <div class="admin-cover">
+        ${a.coverAbsolute?`<img src="${escapeHtmlAttr(a.coverAbsolute)}" alt="">`:'<div class="admin-no-cover">NO IMAGE</div>'}
+      </div>
+      <div class="admin-album-info">
+        <div class="admin-shelf">${escapeHtmlText(a.shelfLabel||'')}</div>
+        <h3>${escapeHtmlText(a.title||'앨범')}</h3>
+        <div class="admin-date">${escapeHtmlText(String(a.date||'').replaceAll('-','.'))}</div>
+        <div class="admin-summary">${escapeHtmlText(a.summary||'')}</div>
+        <div class="admin-meta">사진 ${Number(a.photoCount||0)}장 · ${escapeHtmlText(a.id||'')}</div>
+      </div>
+      <div class="admin-actions">
+        <button class="btn light preview-album" type="button">미리보기</button>
+        <button class="btn green edit-album" type="button">수정</button>
+        <button class="btn danger delete-album" type="button">삭제</button>
+      </div>`;
+
+    card.querySelector('.preview-album').onclick=()=>{
+      if(a.albumAbsolute){
+        location.href='../viewer/?album='+encodeURIComponent(a.albumAbsolute);
+      }
+    };
+    card.querySelector('.edit-album').onclick=()=>{
+      location.href='./?edit='+encodeURIComponent(a.id);
+    };
+    card.querySelector('.delete-album').onclick=()=>deleteAlbumFromAdmin(a,card);
+    list.appendChild(card);
+  });
+}
+
+async function deleteAlbumFromAdmin(album,card){
+  const title=album.title||album.id;
+  const first=confirm(
+    `“${title}” 앨범을 삭제할까요?\n\n`+
+    `사진 ${Number(album.photoCount||0)}장과 album.json이 GitHub에서 삭제되고,\n`+
+    `책장에서도 제거됩니다.\n\n이 작업은 되돌릴 수 없습니다.`
+  );
+  if(!first) return;
+
+  const typed=prompt(`최종 확인입니다.\n삭제하려면 아래 칸에 “삭제”라고 입력해 주세요.\n\n앨범: ${title}`,'');
+  if(typed!=='삭제'){
+    if(typed!==null) alert('“삭제”라고 정확히 입력해야 삭제됩니다.');
+    return;
+  }
+
+  const btn=card.querySelector('.delete-album');
+  const actions=card.querySelectorAll('button');
+  actions.forEach(b=>b.disabled=true);
+  btn.textContent='삭제 중…';
+  card.classList.add('deleting');
+
+  try{
+    const r=await fetch(API_BASE+'/api/album?albumId='+encodeURIComponent(album.id),{
+      method:'DELETE',
+      credentials:'include',
+      cache:'no-store'
+    });
+    let d={};
+    try{d=await r.json()}catch{}
+    if(!r.ok||!d.ok) throw new Error(d.message||`HTTP ${r.status}`);
+
+    adminAlbums=adminAlbums.filter(a=>a.id!==album.id);
+    card.remove();
+    renderAdminAlbums();
+    alert(`“${title}” 앨범을 삭제했습니다.`);
+  }catch(e){
+    card.classList.remove('deleting');
+    actions.forEach(b=>b.disabled=false);
+    btn.textContent='삭제';
+    alert('앨범 삭제에 실패했습니다: '+e.message);
+  }
+}
+
+function escapeHtmlText(s){
+  return String(s||'').replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+function escapeHtmlAttr(s){return escapeHtmlText(s)}
 
 async function checkStatus(){
   const result=document.querySelector('#result');
@@ -808,3 +1000,6 @@ document.querySelector('#make').onclick=async()=>{
 
 checkStatus();
 loadEditAlbum();
+
+// V11.0 관리자 앨범 관리 화면
+ensureAdminPanel();
