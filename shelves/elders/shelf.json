@@ -134,6 +134,16 @@
       "updatedAt": "2026-08-10T20:54:31.360Z"
     },
     {
+      "id": "album-1786610461148",
+      "title": "테스트앨범",
+      "date": "2026-08-01",
+      "summary": "",
+      "cover": "../../albums/album-1786610461148/photos/001.webp",
+      "album": "../../albums/album-1786610461148/album.json",
+      "photoCount": 3,
+      "updatedAt": "2026-08-13T08:41:32.451Z"
+    },
+    {
       "id": "album-1786559636653",
       "title": "뱅크시 01",
       "date": "2026-08-01",
