@@ -424,3 +424,40 @@
   visibility:visible !important;
   opacity:1 !important;
 }
+
+
+/* =========================================================
+   PAGE FLIP V10.1 — Reveal Next Page Under Turn
+   현재 페이지가 넘어가면 그 아래에서 실제 다음/이전 페이지가 보입니다.
+   ========================================================= */
+.turn-underlay{
+  overflow:hidden;
+  background:#fffdf8 !important;
+}
+.turn-underlay .turn-reveal-page{
+  width:100% !important;
+  height:100% !important;
+  margin:0 !important;
+  padding:6% !important;
+  background:linear-gradient(90deg,#fbf8f1,#fffdf8) !important;
+  color:var(--ink);
+}
+.turn-underlay.reverse .turn-reveal-page{
+  background:linear-gradient(90deg,#fffdf8,#fbf8f1) !important;
+}
+.turn-underlay .turn-reveal-page img{
+  display:block;
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+}
+.turn-underlay .essay-page.turn-reveal-page{
+  width:100% !important;
+  padding:8% 7% !important;
+}
+.turn-underlay .story-companion.turn-reveal-page{
+  width:100% !important;
+}
+.turn-underlay .page-number{
+  bottom:14px;
+}

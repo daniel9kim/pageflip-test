@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V10.0 — Content-Preserving Ghost-Free Turn
+// PAGE FLIP Viewer V10.1 — Reveal Next Page Under Turn
 let album=null;
 let photos=[];
 let story='';
@@ -333,6 +333,49 @@ function clonePageForTurn(node){
   return clone;
 }
 
+
+function makeRevealPage(targetIndex,direction){
+  const s=spreads[targetIndex];
+  if(!s) return null;
+
+  // 다음으로 갈 때는 다음 펼침의 첫 페이지,
+  // 이전으로 갈 때는 이전 펼침의 마지막 페이지를 보여줍니다.
+  if(s.type==='essay'){
+    const [left,right]=essaySpread();
+    return direction>0 ? left : right;
+  }
+
+  if(s.type==='portrait-story'){
+    return direction>0
+      ? makePage(s.items[0],'left',s.start+1)
+      : makeStoryPage('right');
+  }
+
+  if(s.type==='pair'){
+    const item=direction>0 ? s.items[0] : (s.items[1]||s.items[0]);
+    const no=direction>0 ? s.start+1 : (s.items[1]?s.start+2:s.start+1);
+    return makePage(item,direction>0?'left':'right',no);
+  }
+
+  if(s.type==='landscape' || s.type==='square'){
+    const d=document.createElement('div');
+    d.className='page reveal-photo-page';
+    const p=s.items?.[0];
+    if(p){
+      const img=document.createElement('img');
+      img.src=photoSrc(p);
+      img.alt='다음 페이지 미리보기';
+      img.style.width='100%';
+      img.style.height='100%';
+      img.style.objectFit='contain';
+      d.appendChild(img);
+    }
+    return d;
+  }
+
+  return null;
+}
+
 function prepareTurnSheet(direction=1){
   if(!turnSheet||mobile()) return false;
 
@@ -371,6 +414,13 @@ function prepareTurnSheet(direction=1){
   }
 
   if(turnUnderlay){
+    turnUnderlay.innerHTML='';
+    const targetIndex=current+turnDirection;
+    const reveal=makeRevealPage(targetIndex,turnDirection);
+    if(reveal){
+      reveal.classList.add('turn-reveal-page');
+      turnUnderlay.appendChild(reveal);
+    }
     turnUnderlay.classList.toggle('reverse',turnDirection<0);
     turnUnderlay.classList.add('active');
   }
@@ -404,6 +454,7 @@ function resetCurl(){
   turnSourcePlaceholder=null;
   if(turnUnderlay){
     turnUnderlay.classList.remove('active','reverse');
+    turnUnderlay.innerHTML='';
   }
   if(turnSheet){
     turnSheet.classList.remove('active','reverse');
