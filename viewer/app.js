@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V10.1 — Reveal Next Page Under Turn
+// PAGE FLIP Viewer V10.2 — Next Image On Back Face
 let album=null;
 let photos=[];
 let story='';
@@ -399,10 +399,16 @@ function prepareTurnSheet(direction=1){
     turnFront.appendChild(frontClone);
   }
 
-  // V9.7:
-  // 뒤쪽에 다음/이전 페이지 내용을 미리 복제하지 않습니다.
-  // 이 미리보기 레이어가 반투명하게 겹치며 '이전 화면 잔재'처럼 보였기 때문입니다.
-  // 뒷면은 실제 종이 뒷면처럼 깨끗한 종이색만 유지합니다.
+  // V10.2:
+  // 종이의 앞면에는 현재 페이지를, 뒷면에는 실제 다음(또는 이전) 페이지를 넣습니다.
+  // 따라서 종이가 90도를 지나 뒤집히는 순간부터 같은 이미지가 반복되지 않고
+  // 다음 이미지가 종이 뒷면에 붙어 자연스럽게 나타납니다.
+  const targetIndex=current+turnDirection;
+  const backPage=makeRevealPage(targetIndex,turnDirection);
+  if(backPage){
+    backPage.classList.add('turn-clone','turn-back-page');
+    turnBack.appendChild(backPage);
+  }
 
   // V10.0: 움직이는 복제 페이지에는 사진/텍스트를 그대로 유지합니다.
   // 대신 원래 위치의 페이지를 live spread에서 완전히 분리해
@@ -415,7 +421,6 @@ function prepareTurnSheet(direction=1){
 
   if(turnUnderlay){
     turnUnderlay.innerHTML='';
-    const targetIndex=current+turnDirection;
     const reveal=makeRevealPage(targetIndex,turnDirection);
     if(reveal){
       reveal.classList.add('turn-reveal-page');

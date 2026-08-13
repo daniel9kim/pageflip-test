@@ -461,3 +461,31 @@
 .turn-underlay .page-number{
   bottom:14px;
 }
+
+
+/* =========================================================
+   PAGE FLIP V10.2 — Next image on the back of the turning sheet
+   앞면=current page / 뒷면=next page.
+   ========================================================= */
+.turn-back{
+  overflow:hidden !important;
+}
+.turn-back > .turn-back-page{
+  width:100% !important;
+  height:100% !important;
+  margin:0 !important;
+  padding:6% !important;
+  background:#fffdf8 !important;
+  opacity:1 !important;
+}
+.turn-back > .turn-back-page,
+.turn-back > .turn-back-page *{
+  opacity:1 !important;
+}
+.turn-back > .turn-back-page img{
+  display:block;
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+}
+/* 뒷면 자체가 rotateY(180deg) 되어 있으므로 콘텐츠를 추가 반전하지 않습니다. */
