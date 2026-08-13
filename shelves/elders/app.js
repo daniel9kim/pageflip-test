@@ -1,11 +1,15 @@
-// PAGE FLIP Shelf V1.3 — public shelf, admin edits only in Maker
+// PAGE FLIP Shelf V1.2 — search + year filter + edit menu
 let shelfData=null;
 let allAlbums=[];
+let activeMenuAlbum=null;
 
 const root=document.querySelector('#albums');
 const searchInput=document.querySelector('#albumSearch');
 const yearSelect=document.querySelector('#yearSelect');
 const resultCount=document.querySelector('#resultCount');
+const menuLayer=document.querySelector('#menuLayer');
+const menuView=document.querySelector('#menuView');
+const menuEdit=document.querySelector('#menuEdit');
 
 (async()=>{
   const r=await fetch('shelf.json',{cache:'no-store'});
@@ -75,6 +79,8 @@ function filteredAlbums(){
 }
 
 function renderShelf(){
+  closeMenu();
+
   const filtered=filteredAlbums();
   resultCount.textContent=`${filtered.length}권 표시`;
 
@@ -158,7 +164,18 @@ function makeBookCard(a){
 
   btn.onclick=()=>openViewer(a);
 
-  wrap.appendChild(btn);
+  const more=document.createElement('button');
+  more.type='button';
+  more.className='more-btn';
+  more.textContent='⋯';
+  more.title='앨범 메뉴';
+  more.setAttribute('aria-label',(a.title||'앨범')+' 메뉴');
+  more.onclick=e=>{
+    e.stopPropagation();
+    toggleMenu(a,more);
+  };
+
+  wrap.append(btn,more);
   return wrap;
 }
 
@@ -166,24 +183,71 @@ function absoluteAlbumUrl(a){
   return new URL(a.album,location.href).href;
 }
 
-
+function albumId(a){
+  if(a.id) return String(a.id);
+  const m=String(a.album||'').match(/\/?(album-[^/]+)\/album\.json(?:$|\?)/);
+  return m?m[1]:'';
+}
 
 function openViewer(a){
   location.href='../../viewer/?album='+encodeURIComponent(absoluteAlbumUrl(a));
 }
 
+function openEditor(a){
+  const id=albumId(a);
+  if(!id){
+    alert('이 앨범의 ID를 찾지 못했습니다.');
+    return;
+  }
+  location.href='../../maker/?edit='+encodeURIComponent(id);
+}
 
+function toggleMenu(a,anchor){
+  if(!menuLayer.hidden && activeMenuAlbum===a){
+    closeMenu();
+    return;
+  }
 
+  activeMenuAlbum=a;
+  const r=anchor.getBoundingClientRect();
 
+  menuLayer.hidden=false;
+  const menuWidth=menuLayer.offsetWidth||150;
+  const left=Math.min(
+    window.innerWidth-menuWidth-12,
+    Math.max(12,r.right-menuWidth)
+  );
+  const top=Math.min(window.innerHeight-100,r.bottom+7);
 
+  menuLayer.style.left=left+'px';
+  menuLayer.style.top=top+'px';
+}
 
+function closeMenu(){
+  menuLayer.hidden=true;
+  activeMenuAlbum=null;
+}
 
+menuView.onclick=()=>{
+  if(activeMenuAlbum) openViewer(activeMenuAlbum);
 };
+menuEdit.onclick=()=>{
+  if(activeMenuAlbum) openEditor(activeMenuAlbum);
 };
 
+document.addEventListener('click',e=>{
+  if(menuLayer.hidden) return;
+  if(menuLayer.contains(e.target)) return;
+  if(e.target.closest('.more-btn')) return;
+  closeMenu();
+});
 
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeMenu();
+});
 
 addEventListener('resize',()=>{
+  closeMenu();
   // PC/모바일 선반 권수가 바뀔 수 있으므로 재배치합니다.
   if(allAlbums.length) renderShelf();
 });
