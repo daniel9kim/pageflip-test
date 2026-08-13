@@ -563,6 +563,11 @@ function openStory(){
 }
 
 document.querySelector('#backToShelf').onclick=()=>{
+  const fromMaker=new URLSearchParams(location.search).get('from')==='maker';
+  if(fromMaker){
+    location.href='../maker/';
+    return;
+  }
   const shelfKey=String(album?.shelfKey||'personal').trim()||'personal';
   location.href=`../shelves/${encodeURIComponent(shelfKey)}/`;
 };
@@ -709,4 +714,24 @@ shareBtn.onclick=async()=>{
     e.style.display='block';
     console.error(err);
   }
+})();
+/* ADMIN_RETURN_V11_1_VIEWER */
+(function(){
+  const fromMaker=new URLSearchParams(location.search).get('from')==='maker';
+  if(!fromMaker) return;
+  const apply=()=>{
+    const b=document.getElementById('backToShelf');
+    if(b) b.textContent='← 앨범 관리로';
+    const bar=document.querySelector('.reader-topbar');
+    if(bar && !document.getElementById('adminBackFromReader')){
+      const x=document.createElement('button');
+      x.id='adminBackFromReader';
+      x.className='text-btn light';
+      x.textContent='← 앨범 관리';
+      x.onclick=()=>{location.href='../maker/';};
+      bar.appendChild(x);
+    }
+  };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply);
+  else apply();
 })();

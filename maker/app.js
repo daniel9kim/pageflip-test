@@ -241,7 +241,7 @@ function renderAdminAlbums(){
 
     card.querySelector('.preview-album').onclick=()=>{
       if(a.albumAbsolute){
-        location.href='../viewer/?album='+encodeURIComponent(a.albumAbsolute);
+        location.href='../viewer/?album='+encodeURIComponent(a.albumAbsolute)+'&from=maker';
       }
     };
     card.querySelector('.edit-album').onclick=()=>{
@@ -1003,3 +1003,13 @@ loadEditAlbum();
 
 // V11.0 관리자 앨범 관리 화면
 ensureAdminPanel();
+
+/* ADMIN_RETURN_V11_1_MAKER */
+(function(){
+  const qs=new URLSearchParams(location.search);
+  const b=document.getElementById('adminReturnBtn');
+  if(b && qs.get('edit')){
+    b.style.display='block';
+    b.onclick=()=>{ location.href='./'; };
+  }
+})();
