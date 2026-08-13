@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V10.2-6 — exact GitHub Pages publication verification
+// PAGE FLIP Maker V10.3 — photo reorder by drag and drop
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -169,7 +169,7 @@ function renderExistingAlbum(album){
   const introTitle=document.querySelector('.intro h1');
   const introText=document.querySelector('.intro p');
   if(introTitle) introTitle.textContent='사진책 수정하기';
-  if(introText) introText.textContent='기존 사진을 삭제하거나 표지를 바꾸고, 제목·날짜·기록·책장을 수정합니다.';
+  if(introText) introText.textContent='사진을 드래그해 순서를 바꾸고, 삭제·추가·표지 변경과 제목·날짜·기록·책장을 수정합니다.';
 
   // V10.2-2: 기존 사진 삭제를 먼저 연결합니다.
   // 새 사진 추가는 다음 단계에서 안전하게 연결합니다.
@@ -192,7 +192,72 @@ function renderExistingStats(){
     `<div class="stat">기존 사진 <b>${photos.length}</b>장</div>`+
     `<div class="stat">세로 <b>${p}</b>장</div>`+
     `<div class="stat">가로 <b>${l}</b>장</div>`+
-    `<div class="stat">수정 모드 <b>사진 삭제 가능</b></div>`;
+    `<div class="stat">수정 모드 <b>삭제·순서 변경</b></div>`;
+}
+
+
+let dragPhotoIndex=null;
+
+function enableThumbReorder(thumbEl,index){
+  thumbEl.draggable=true;
+  thumbEl.dataset.photoIndex=String(index);
+
+  thumbEl.addEventListener('dragstart',e=>{
+    dragPhotoIndex=index;
+    thumbEl.style.opacity='.45';
+    if(e.dataTransfer){
+      e.dataTransfer.effectAllowed='move';
+      try{e.dataTransfer.setData('text/plain',String(index))}catch{}
+    }
+  });
+
+  thumbEl.addEventListener('dragend',()=>{
+    dragPhotoIndex=null;
+    thumbEl.style.opacity='';
+    document.querySelectorAll('#thumbs .thumb').forEach(x=>x.style.outline='');
+  });
+
+  thumbEl.addEventListener('dragover',e=>{
+    e.preventDefault();
+    if(dragPhotoIndex===null || dragPhotoIndex===index)return;
+    thumbEl.style.outline='2px dashed #8b6a43';
+    if(e.dataTransfer)e.dataTransfer.dropEffect='move';
+  });
+
+  thumbEl.addEventListener('dragleave',()=>{
+    thumbEl.style.outline='';
+  });
+
+  thumbEl.addEventListener('drop',e=>{
+    e.preventDefault();
+    thumbEl.style.outline='';
+    if(dragPhotoIndex===null || dragPhotoIndex===index)return;
+    moveExistingPhoto(dragPhotoIndex,index);
+  });
+}
+
+function moveExistingPhoto(from,to){
+  if(!editAlbum)return;
+  const photos=Array.isArray(editAlbum.photos)?[...editAlbum.photos]:[];
+  if(from<0||to<0||from>=photos.length||to>=photos.length||from===to)return;
+
+  const coverFile=photos[cover]?.file || editAlbum.cover || '';
+  const [moved]=photos.splice(from,1);
+  photos.splice(to,0,moved);
+
+  editAlbum={...editAlbum,photos,photoCount:photos.length};
+  const nextCoverIndex=photos.findIndex(p=>p && p.file===coverFile);
+  cover=nextCoverIndex>=0?nextCoverIndex:0;
+  editAlbum.coverIndex=cover;
+  editAlbum.cover=photos[cover]?.file||'';
+
+  renderExistingThumbs();
+  renderExistingStats();
+
+  const prog=document.querySelector('#progress');
+  const msg=document.querySelector('#msg');
+  if(prog)prog.style.display='block';
+  if(msg)msg.textContent='사진 순서가 변경되었습니다. “수정 저장”을 눌러 반영해 주세요.';
 }
 
 function renderExistingThumbs(){
@@ -241,10 +306,22 @@ function renderExistingThumbs(){
     };
     d.appendChild(del);
 
+    const order=document.createElement('span');
+    order.textContent=String(i+1);
+    order.title='드래그해서 사진 순서 변경';
+    Object.assign(order.style,{
+      position:'absolute',left:'4px',bottom:'4px',minWidth:'20px',height:'20px',
+      display:'grid',placeItems:'center',padding:'0 5px',borderRadius:'999px',
+      background:'rgba(255,253,248,.92)',color:'#4a4037',fontSize:'10px',
+      fontWeight:'800',zIndex:'2',boxShadow:'0 1px 5px rgba(0,0,0,.12)'
+    });
+    d.appendChild(order);
+
     d.onclick=()=>{
       cover=i;
       [...thumbs.children].forEach((x,j)=>x.classList.toggle('selected',j===i));
     };
+    enableThumbReorder(d,i);
     thumbs.appendChild(d);
   });
 }
