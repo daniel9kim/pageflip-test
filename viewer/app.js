@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V9.6 — Clean Page Content Turn
+// PAGE FLIP Viewer V9.8 — Opaque Turn Underlay
 let album=null;
 let photos=[];
 let story='';
@@ -14,10 +14,12 @@ const spreadEl=document.querySelector('#spread');
 const book=document.querySelector('#book');
 const curl=document.querySelector('#pageCurl');
 const shadow=document.querySelector('.curl-shadow');
+const turnUnderlay=document.querySelector('#turnUnderlay');
 const turnSheet=document.querySelector('#turnSheet');
 const turnFront=turnSheet?.querySelector('.turn-front');
 const turnBack=turnSheet?.querySelector('.turn-back');
 let turnSource=null;
+let turnDirection=1;
 const indicator=document.querySelector('#pageIndicator');
 const mobile=()=>matchMedia('(max-width:760px)').matches;
 
@@ -330,15 +332,19 @@ function clonePageForTurn(node){
   return clone;
 }
 
-function prepareTurnSheet(){
+function prepareTurnSheet(direction=1){
   if(!turnSheet||mobile()) return false;
 
   const currentPages=[...spreadEl.children];
   if(!currentPages.length) return false;
 
-  // 현재 펼침면의 오른쪽 면 자체를 앞면으로 복제합니다.
-  // 한 장짜리 가로/정사각형 펼침은 전체 장면을 사용합니다.
-  const source=currentPages.length>1 ? currentPages[currentPages.length-1] : currentPages[0];
+  turnDirection=direction<0?-1:1;
+
+  // 다음 방향은 오른쪽 페이지, 이전 방향은 왼쪽 페이지를 실제 종이처럼 넘깁니다.
+  const source=
+    turnDirection>0
+      ? (currentPages.length>1 ? currentPages[currentPages.length-1] : currentPages[0])
+      : currentPages[0];
 
   turnFront.innerHTML='';
   turnBack.innerHTML='';
@@ -349,49 +355,21 @@ function prepareTurnSheet(){
     turnFront.appendChild(frontClone);
   }
 
-  // V9.6: 복제 페이지가 움직이는 동안 원본 오른쪽 페이지를 숨겨
-  // 같은 내용이 아래에 잔상처럼 남는 현상을 제거합니다.
-  // 두 페이지 펼침일 때만 오른쪽 원본을 숨깁니다.
+  // V9.7:
+  // 뒤쪽에 다음/이전 페이지 내용을 미리 복제하지 않습니다.
+  // 이 미리보기 레이어가 반투명하게 겹치며 '이전 화면 잔재'처럼 보였기 때문입니다.
+  // 뒷면은 실제 종이 뒷면처럼 깨끗한 종이색만 유지합니다.
+
   turnSource=null;
-  if(currentPages.length>1){
-    turnSource=source;
-    turnSource.classList.add('turn-source-hidden');
+  turnSource=source;
+  turnSource.classList.add('turn-source-hidden');
+
+  if(turnUnderlay){
+    turnUnderlay.classList.toggle('reverse',turnDirection<0);
+    turnUnderlay.classList.add('active');
   }
 
-  // 종이 뒷면은 다음 펼침면의 왼쪽 페이지 분위기를 미리 보여줍니다.
-  const oldCurrent=current;
-  const next=current+1;
-  if(next<spreads.length){
-    current=next;
-    const holder=document.createElement('div');
-    const oldSpread=spreadEl;
-    // render 구조를 건드리지 않고 다음 면의 대표 사진을 간단히 생성
-    const ns=spreads[next];
-    let backNode=null;
-    if(ns?.type==='pair') backNode=makePage(ns.items[0],'left',ns.start+1);
-    else if(ns?.type==='portrait-story') backNode=makePage(ns.items[0],'left',ns.start+1);
-    else if(ns?.type==='landscape'||ns?.type==='square'){
-      const p=ns.items?.[0];
-      const d=document.createElement('div');
-      d.className='page turn-preview-page';
-      if(p){
-        const img=document.createElement('img');
-        img.src=photoSrc(p); img.alt='';
-        d.appendChild(img);
-      }
-      backNode=d;
-    }else if(ns?.type==='essay'){
-      const pair=essaySpread();
-      backNode=pair[0];
-    }
-    current=oldCurrent;
-    if(backNode){
-      const backClone=clonePageForTurn(backNode);
-      backClone.classList.add('turn-clone');
-      turnBack.appendChild(backClone);
-    }
-  }
-
+  turnSheet.classList.toggle('reverse',turnDirection<0);
   turnSheet.classList.add('active');
   turnSheet.style.transform='rotateY(0deg)';
   return true;
@@ -400,7 +378,7 @@ function prepareTurnSheet(){
 function setTurnSheet(p){
   if(!turnSheet||mobile()) return;
   p=Math.max(0,Math.min(1,p));
-  const angle=-180*p;
+  const angle=turnDirection>0 ? -180*p : 180*p;
   turnSheet.style.transform=`rotateY(${angle}deg)`;
   turnSheet.style.setProperty('--sheet-progress',p.toFixed(3));
   turnSheet.style.opacity=p<=.995?'1':'0';
@@ -415,17 +393,21 @@ function resetCurl(){
     turnSource.classList.remove('turn-source-hidden');
     turnSource=null;
   }
+  if(turnUnderlay){
+    turnUnderlay.classList.remove('active','reverse');
+  }
   if(turnSheet){
-    turnSheet.classList.remove('active');
+    turnSheet.classList.remove('active','reverse');
     turnSheet.style.cssText='';
   }
+  turnDirection=1;
   if(turnFront) turnFront.innerHTML='';
   if(turnBack) turnBack.innerHTML='';
 }
 
 function ease(t){return 1-Math.pow(1-t,4)}
 
-function setCurl(p,yRatio=.9){
+function setCurl(p,yRatio=.9,direction=turnDirection){
   p=Math.max(0,Math.min(1,p));
   const W=book.clientWidth,H=book.clientHeight;
 
@@ -439,10 +421,18 @@ function setCurl(p,yRatio=.9){
 
   curl.style.width=cw+'px';
   curl.style.height=ch+'px';
-  curl.style.right='0';
+  if(direction>0){
+    curl.style.right='0';
+    curl.style.left='auto';
+  }else{
+    curl.style.left='0';
+    curl.style.right='auto';
+  }
   curl.style.bottom='0';
   curl.style.opacity=String(Math.min(1,.28+p*1.8));
-  curl.style.clipPath=`polygon(100% 0,100% 100%,0 100%,${bend}% 73%,${44-p*8}% 42%)`;
+  curl.style.clipPath=direction>0
+    ? `polygon(100% 0,100% 100%,0 100%,${bend}% 73%,${44-p*8}% 42%)`
+    : `polygon(0 0,0 100%,100% 100%,${100-bend}% 73%,${56+p*8}% 42%)`;
   curl.style.background=
     'linear-gradient(132deg,'+
     'rgba(255,255,255,.995) 0 38%,'+
@@ -452,32 +442,34 @@ function setCurl(p,yRatio=.9){
     'rgba(250,247,241,.98) 51.5%,'+
     'rgba(255,255,255,.99) 59%,'+
     'rgba(246,240,232,.96) 100%)';
-  curl.style.transformOrigin='100% 100%';
+  curl.style.transformOrigin=direction>0?'100% 100%':'0% 100%';
+  const sx=direction>0?-1:1;
   curl.style.transform=
-    `translate3d(${-p*W*.91}px,${-p*H*.075}px,0) `+
-    `perspective(${Math.max(700,W*1.25)}px) rotate(${-p*15}deg) rotateY(${p*34}deg) skewY(${p*1.8}deg)`;
+    `translate3d(${sx*p*W*.91}px,${-p*H*.075}px,0) `+
+    `perspective(${Math.max(700,W*1.25)}px) rotate(${sx*p*15}deg) rotateY(${-sx*p*34}deg) skewY(${sx*p*1.8}deg)`;
   curl.style.filter=
-    `drop-shadow(${-8-p*34}px ${-3-p*12}px ${10+p*25}px rgba(0,0,0,${.10+p*.22}))`;
+    `drop-shadow(${sx*(8+p*34)}px ${-3-p*12}px ${10+p*25}px rgba(0,0,0,${.10+p*.22}))`;
 
   // 움직이는 종이 아래의 그림자. 중앙에 가까워질수록 가장 진해집니다.
   const mid=1-Math.abs(.52-p)/.52;
   const strength=Math.max(.08,Math.min(.48,.12+p*.20+mid*.16));
   shadow.style.opacity=String(Math.min(.82,.14+p*.70));
+  const shadowX=direction>0 ? 100-p*78 : p*78;
   shadow.style.background=
-    `radial-gradient(ellipse at ${100-p*78}% ${100-yRatio*35}%,`+
+    `radial-gradient(ellipse at ${shadowX}% ${100-yRatio*35}%,`+
     `rgba(44,31,21,${strength}) 0,rgba(44,31,21,${strength*.48}) 16%,transparent ${36+p*24}%)`;
 
   // 책 전체에도 아주 약한 상태 클래스를 주어 CSS에서 제본부를 반응시킵니다.
   book.style.setProperty('--turn-progress',p.toFixed(3));
   if(turnSheet?.classList.contains('active')) setTurnSheet(p);
 }
-function animateTo(from,to,dur,done){
+function animateTo(from,to,dur,done,direction=turnDirection){
   book.classList.add('dragging');
   const st=performance.now();
   function frame(t){
     const q=Math.min(1,(t-st)/dur);
     const v=from+(to-from)*ease(q);
-    setCurl(v,.88-v*.22);
+    setCurl(v,.88-v*.22,direction);
     if(q<1) requestAnimationFrame(frame);
     else{resetCurl();done&&done()}
   }
@@ -488,18 +480,16 @@ function turn(delta){
   if(locked)return;
   const next=current+delta;
   if(next<0||next>=spreads.length)return;
-  if(delta<0){
-    current=next;
-    render();
-    return;
-  }
+
   locked=true;
-  prepareTurnSheet();
+  turnDirection=delta<0?-1:1;
+  prepareTurnSheet(turnDirection);
+
   animateTo(.04,1,720,()=>{
     current=next;
     render();
     locked=false;
-  });
+  },turnDirection);
 }
 
 function openStory(){
@@ -534,42 +524,56 @@ addEventListener('resize',render);
 book.addEventListener('pointermove',e=>{
   const r=book.getBoundingClientRect();
   if(drag){
-    const dx=Math.max(0,drag.x-e.clientX),dy=Math.max(0,drag.y-e.clientY);
-    const p=Math.min(1,Math.hypot(dx*1.08,dy*.55)/(r.width*.68));
+    const horizontal=drag.direction>0
+      ? Math.max(0,drag.x-e.clientX)
+      : Math.max(0,e.clientX-drag.x);
+    const dy=Math.max(0,drag.y-e.clientY);
+    const p=Math.min(1,Math.hypot(horizontal*1.08,dy*.55)/(r.width*.68));
     drag.p=p;
     drag.yRatio=(e.clientY-r.top)/r.height;
-    setCurl(p,drag.yRatio);
+    turnDirection=drag.direction;
+    setCurl(p,drag.yRatio,drag.direction);
     return;
   }
-  const near=r.right-e.clientX<125&&r.bottom-e.clientY<125;
+  const nearRight=r.right-e.clientX<125&&r.bottom-e.clientY<125&&current<spreads.length-1;
+  const nearLeft=e.clientX-r.left<125&&r.bottom-e.clientY<125&&current>0;
+  const near=nearRight||nearLeft;
   book.classList.toggle('curl-hover',near);
-  if(near)setCurl(.055,.92);else resetCurl();
+  if(near){
+    turnDirection=nearLeft?-1:1;
+    setCurl(.055,.92,turnDirection);
+  }else resetCurl();
 });
 book.addEventListener('pointerleave',()=>{if(!drag)resetCurl()});
 book.addEventListener('pointerdown',e=>{
   const r=book.getBoundingClientRect();
-  if(r.right-e.clientX<170&&r.bottom-e.clientY<170&&current<spreads.length-1){
-    drag={x:e.clientX,y:e.clientY,p:.03,yRatio:.9};
-    prepareTurnSheet();
+  const rightCorner=r.right-e.clientX<170&&r.bottom-e.clientY<170&&current<spreads.length-1;
+  const leftCorner=e.clientX-r.left<170&&r.bottom-e.clientY<170&&current>0;
+  if(rightCorner||leftCorner){
+    const direction=leftCorner?-1:1;
+    turnDirection=direction;
+    drag={x:e.clientX,y:e.clientY,p:.03,yRatio:.9,direction};
+    prepareTurnSheet(direction);
     book.setPointerCapture(e.pointerId);
     book.classList.add('dragging');
-    setCurl(.03,.9);
+    setCurl(.03,.9,direction);
   }
 });
 book.addEventListener('pointerup',()=>{
   if(!drag)return;
   const p=drag.p||0;
   drag=null;
+  const direction=turnDirection;
   if(p>.38){
     locked=true;
     animateTo(p,1,Math.max(300,680*(1-p)),()=>{
-      current=Math.min(current+1,spreads.length-1);
+      current=Math.max(0,Math.min(current+direction,spreads.length-1));
       render();
       locked=false;
-    });
+    },direction);
   }else{
     book.classList.add('settling');
-    animateTo(p,0,360,resetCurl);
+    animateTo(p,0,360,resetCurl,direction);
   }
 });
 
