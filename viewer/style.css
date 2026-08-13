@@ -283,3 +283,23 @@
 @media(prefers-reduced-motion:reduce){
   .turn-sheet{transition:none!important}
 }
+
+
+/* =========================================================
+   PAGE FLIP V9.6 — Clean Page Content Turn
+   움직이는 복제 페이지 아래에 원본 오른쪽 페이지가 남는 잔상 제거
+   ========================================================= */
+#spread > .turn-source-hidden{
+  visibility:hidden !important;
+}
+
+/* 숨긴 오른쪽 페이지 자리는 종이 바탕처럼 유지 */
+#spread{
+  background:
+    linear-gradient(90deg,
+      rgba(255,253,248,.98) 0%,
+      rgba(255,253,248,.98) 49.7%,
+      rgba(229,220,207,.72) 50%,
+      rgba(255,253,248,.98) 50.3%,
+      rgba(255,253,248,.98) 100%);
+}

@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V9.5 — Page Content Turn
+// PAGE FLIP Viewer V9.6 — Clean Page Content Turn
 let album=null;
 let photos=[];
 let story='';
@@ -17,6 +17,7 @@ const shadow=document.querySelector('.curl-shadow');
 const turnSheet=document.querySelector('#turnSheet');
 const turnFront=turnSheet?.querySelector('.turn-front');
 const turnBack=turnSheet?.querySelector('.turn-back');
+let turnSource=null;
 const indicator=document.querySelector('#pageIndicator');
 const mobile=()=>matchMedia('(max-width:760px)').matches;
 
@@ -348,6 +349,15 @@ function prepareTurnSheet(){
     turnFront.appendChild(frontClone);
   }
 
+  // V9.6: 복제 페이지가 움직이는 동안 원본 오른쪽 페이지를 숨겨
+  // 같은 내용이 아래에 잔상처럼 남는 현상을 제거합니다.
+  // 두 페이지 펼침일 때만 오른쪽 원본을 숨깁니다.
+  turnSource=null;
+  if(currentPages.length>1){
+    turnSource=source;
+    turnSource.classList.add('turn-source-hidden');
+  }
+
   // 종이 뒷면은 다음 펼침면의 왼쪽 페이지 분위기를 미리 보여줍니다.
   const oldCurrent=current;
   const next=current+1;
@@ -401,6 +411,10 @@ function resetCurl(){
   shadow.style.cssText='';
   book.style.setProperty('--turn-progress','0');
   book.classList.remove('dragging','settling','curl-hover');
+  if(turnSource){
+    turnSource.classList.remove('turn-source-hidden');
+    turnSource=null;
+  }
   if(turnSheet){
     turnSheet.classList.remove('active');
     turnSheet.style.cssText='';
