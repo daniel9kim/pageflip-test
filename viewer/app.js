@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V9.9 — Blank Turning Sheet
+// PAGE FLIP Viewer V10.0 — Content-Preserving Ghost-Free Turn
 let album=null;
 let photos=[];
 let story='';
@@ -19,6 +19,7 @@ const turnSheet=document.querySelector('#turnSheet');
 const turnFront=turnSheet?.querySelector('.turn-front');
 const turnBack=turnSheet?.querySelector('.turn-back');
 let turnSource=null;
+let turnSourcePlaceholder=null;
 let turnDirection=1;
 const indicator=document.querySelector('#pageIndicator');
 const mobile=()=>matchMedia('(max-width:760px)').matches;
@@ -351,7 +352,7 @@ function prepareTurnSheet(direction=1){
 
   const frontClone=clonePageForTurn(source);
   if(frontClone){
-    frontClone.classList.add('turn-clone','turn-clone-blank');
+    frontClone.classList.add('turn-clone');
     turnFront.appendChild(frontClone);
   }
 
@@ -360,9 +361,14 @@ function prepareTurnSheet(direction=1){
   // 이 미리보기 레이어가 반투명하게 겹치며 '이전 화면 잔재'처럼 보였기 때문입니다.
   // 뒷면은 실제 종이 뒷면처럼 깨끗한 종이색만 유지합니다.
 
-  turnSource=null;
+  // V10.0: 움직이는 복제 페이지에는 사진/텍스트를 그대로 유지합니다.
+  // 대신 원래 위치의 페이지를 live spread에서 완전히 분리해
+  // 3D 합성 중 희미한 원본 자국(ghost)을 구조적으로 없앱니다.
   turnSource=source;
-  turnSource.classList.add('turn-source-hidden');
+  turnSourcePlaceholder=document.createComment('page-turn-source');
+  if(source.parentNode){
+    source.parentNode.replaceChild(turnSourcePlaceholder,source);
+  }
 
   if(turnUnderlay){
     turnUnderlay.classList.toggle('reverse',turnDirection<0);
@@ -389,10 +395,13 @@ function resetCurl(){
   shadow.style.cssText='';
   book.style.setProperty('--turn-progress','0');
   book.classList.remove('dragging','settling','curl-hover');
-  if(turnSource){
-    turnSource.classList.remove('turn-source-hidden');
-    turnSource=null;
+  // 드래그를 취소한 경우에만 분리했던 원본 페이지를 제자리로 돌려놓습니다.
+  // 정상 넘김 완료 시 render()가 새 spread를 만들기 때문에 placeholder는 사라집니다.
+  if(turnSource && turnSourcePlaceholder && turnSourcePlaceholder.parentNode){
+    turnSourcePlaceholder.parentNode.replaceChild(turnSource,turnSourcePlaceholder);
   }
+  turnSource=null;
+  turnSourcePlaceholder=null;
   if(turnUnderlay){
     turnUnderlay.classList.remove('active','reverse');
   }

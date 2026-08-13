@@ -402,42 +402,25 @@
 
 
 /* =========================================================
-   PAGE FLIP V9.9 — Blank Turning Sheet
-   페이지를 넘기는 순간에는 종이 위의 텍스트/사진을 보이지 않게 하고
-   깨끗한 종이 면만 보여줍니다.
+   PAGE FLIP V10.0 — Content-Preserving Ghost-Free Turn
+   움직이는 종이의 사진/텍스트는 그대로 보입니다.
+   원래 위치의 페이지는 넘김 중 DOM에서 분리하여 희미한 복제 자국만 제거합니다.
    ========================================================= */
 .turn-front{
-  background:
-    linear-gradient(90deg,#fbf8f1 0%,#fffdf8 16%,#fffdf8 100%) !important;
+  background:#fffdf8 !important;
+  opacity:1 !important;
+  isolation:isolate;
 }
-
-/* 움직이는 페이지 복제본의 실제 콘텐츠를 모두 숨김 */
-.turn-front .turn-clone-blank,
-.turn-front .turn-clone-blank *{
-  color:transparent !important;
-  text-shadow:none !important;
-  border-color:transparent !important;
-  background-image:none !important;
-  box-shadow:none !important;
+.turn-front .turn-clone,
+.turn-front .turn-clone *{
+  opacity:1 !important;
 }
-
-.turn-front .turn-clone-blank img,
-.turn-front .turn-clone-blank button,
-.turn-front .turn-clone-blank .page-number,
-.turn-front .turn-clone-blank .essay-kicker,
-.turn-front .turn-clone-blank .essay-excerpt,
-.turn-front .turn-clone-blank .essay-quote,
-.turn-front .turn-clone-blank h1,
-.turn-front .turn-clone-blank h2,
-.turn-front .turn-clone-blank h3,
-.turn-front .turn-clone-blank p,
-.turn-front .turn-clone-blank span,
-.turn-front .turn-clone-blank div:not(.turn-clone-blank){
-  visibility:hidden !important;
+.turn-back,
+.turn-underlay{
+  background:#fffdf8 !important;
 }
-
-/* 종이 자체의 질감만 남김 */
-.turn-front .turn-clone-blank{
-  background:
-    linear-gradient(90deg,#fbf8f1 0%,#fffdf8 18%,#fffdf8 100%) !important;
+/* 이전 버전의 숨김 클래스는 V10.0에서 사용하지 않습니다. */
+#spread > .turn-source-hidden{
+  visibility:visible !important;
+  opacity:1 !important;
 }
