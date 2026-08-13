@@ -1,12 +1,15 @@
+// PAGE FLIP Shelf V1.1 — multi-row wooden shelves
 (async()=>{
   const r=await fetch('shelf.json',{cache:'no-store'});
+  if(!r.ok) throw new Error(`shelf.json을 불러오지 못했습니다. (${r.status})`);
   const shelf=await r.json();
 
-  document.title='PAGE FLIP · '+shelf.title;
-  document.querySelector('#title').textContent=shelf.title;
+  document.title='PAGE FLIP · '+(shelf.title||'앨범 책장');
+  document.querySelector('#title').textContent=shelf.title||'앨범 책장';
   document.querySelector('#subtitle').textContent=shelf.subtitle||'';
 
   const root=document.querySelector('#albums');
+
   if(!Array.isArray(shelf.albums)||!shelf.albums.length){
     root.innerHTML='<div class="empty">아직 이 책장에 등록된 앨범이 없습니다.</div>';
     return;
@@ -18,33 +21,75 @@
     (groups[y]??=[]).push(a);
   });
 
-  Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(year=>{
-    const sec=document.createElement('section');
-    sec.innerHTML='<div class="yearline"><span>'+year+'</span><small>'+groups[year].length+'권</small></div><div class="bookshelf"></div><div class="wood"></div>';
+  Object.keys(groups)
+    .sort((a,b)=>b.localeCompare(a))
+    .forEach(year=>{
+      // 최신 날짜가 먼저 보이도록 정렬
+      const albums=[...groups[year]].sort((a,b)=>
+        String(b.date||'').localeCompare(String(a.date||''))
+      );
 
-    const row=sec.querySelector('.bookshelf');
-    groups[year].forEach(a=>{
-      const btn=document.createElement('button');
-      btn.className='bookcard';
-      btn.innerHTML='<div class="book"><img src="'+escapeAttr(a.cover||'')+'" alt=""><div class="title">'+escapeHtml(a.title||'앨범')+'</div><div class="date">'+String(a.date||'').replaceAll('-','.')+'</div></div>';
+      const sec=document.createElement('section');
+      sec.className='year-section';
 
-      btn.onclick=()=>{
-        // shelf.json 안의 상대경로를 현재 책장 URL 기준으로 먼저 절대 URL로 변환
-        // 예: ../../albums/album-123/album.json
-        //  -> https://daniel9kim.github.io/pageflip-test/albums/album-123/album.json
-        const absoluteAlbumUrl=new URL(a.album, location.href).href;
+      const yearline=document.createElement('div');
+      yearline.className='yearline';
+      yearline.innerHTML=
+        '<span>'+escapeHtml(year)+'</span>'+
+        '<small>'+albums.length+'권</small>';
 
-        // 공통 GitHub Pages Viewer로 절대 album.json URL을 전달
-        location.href='../../viewer/?album='+encodeURIComponent(absoluteAlbumUrl);
-      };
+      const shelves=document.createElement('div');
+      shelves.className='shelf-stack';
 
-      row.appendChild(btn);
+      // PC 4권, 작은 화면 2권씩 한 선반
+      const perRow=window.matchMedia('(max-width:760px)').matches?2:4;
+
+      for(let i=0;i<albums.length;i+=perRow){
+        const rowWrap=document.createElement('div');
+        rowWrap.className='shelf-row-wrap';
+
+        const row=document.createElement('div');
+        row.className='bookshelf';
+
+        albums.slice(i,i+perRow).forEach(a=>{
+          const btn=document.createElement('button');
+          btn.className='bookcard';
+          btn.type='button';
+
+          btn.innerHTML=
+            '<div class="book">'+
+              '<div class="cover-frame">'+
+                '<img src="'+escapeAttr(a.cover||'')+'" alt="">'+
+              '</div>'+
+              '<div class="title">'+escapeHtml(a.title||'앨범')+'</div>'+
+              '<div class="date">'+escapeHtml(String(a.date||'').replaceAll('-','.'))+'</div>'+
+            '</div>';
+
+          btn.onclick=()=>{
+            const absoluteAlbumUrl=new URL(a.album,location.href).href;
+            location.href='../../viewer/?album='+encodeURIComponent(absoluteAlbumUrl);
+          };
+
+          row.appendChild(btn);
+        });
+
+        rowWrap.appendChild(row);
+
+        const wood=document.createElement('div');
+        wood.className='wood';
+        rowWrap.appendChild(wood);
+
+        shelves.appendChild(rowWrap);
+      }
+
+      sec.append(yearline,shelves);
+      root.appendChild(sec);
     });
 
-    root.appendChild(sec);
-  });
 })().catch(err=>{
-  document.querySelector('#albums').innerHTML='<div class="empty">책장 정보를 불러오지 못했습니다.<br>'+escapeHtml(err.message)+'</div>';
+  document.querySelector('#albums').innerHTML=
+    '<div class="empty">책장 정보를 불러오지 못했습니다.<br>'+
+    escapeHtml(err.message)+'</div>';
   console.error(err);
 });
 
