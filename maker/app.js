@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V11.0 — admin album management + delete
+// PAGE FLIP Maker V12.0 — four independent shelves, unified admin
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -11,8 +11,8 @@ const PUBLIC_BASE='https://daniel9kim.github.io/pageflip-test/';
 const SHELF_SOURCES=[
   {key:'elders',label:'장로합창단',url:new URL('../shelves/elders/shelf.json',location.href).href},
   {key:'handbell',label:'핸드벨',url:new URL('../shelves/handbell/shelf.json',location.href).href},
-  {key:'family',label:'가족',url:new URL('../shelves/family/shelf.json',location.href).href},
-  {key:'personal',label:'영춘이 개인',url:new URL('../shelves/personal/shelf.json',location.href).href}
+  {key:'family',label:'가족사진',url:new URL('../shelves/family/shelf.json',location.href).href},
+  {key:'personal',label:'개인사진',url:new URL('../shelves/personal/shelf.json',location.href).href}
 ];
 let adminAlbums=[];
 
@@ -227,7 +227,10 @@ function renderAdminAlbums(){
         ${a.coverAbsolute?`<img src="${escapeHtmlAttr(a.coverAbsolute)}" alt="">`:'<div class="admin-no-cover">NO IMAGE</div>'}
       </div>
       <div class="admin-album-info">
-        <div class="admin-shelf">${escapeHtmlText(a.shelfLabel||'')}</div>
+        <div class="admin-shelf-line">
+          <div class="admin-shelf">${escapeHtmlText(a.shelfLabel||'')}</div>
+          <a class="admin-shelf-link" href="../shelves/${encodeURIComponent(a.shelfKey||'personal')}/" target="_blank" rel="noopener">책장 열기 ↗</a>
+        </div>
         <h3>${escapeHtmlText(a.title||'앨범')}</h3>
         <div class="admin-date">${escapeHtmlText(String(a.date||'').replaceAll('-','.'))}</div>
         <div class="admin-summary">${escapeHtmlText(a.summary||'')}</div>
@@ -332,14 +335,16 @@ async function checkStatus(){
 
 function shelfLabelFromAlbum(album){
   const key=String(album?.shelfKey||'').trim();
-  const label=String(album?.shelf||'').trim();
+  let label=String(album?.shelf||'').trim();
+  if(label==='가족') label='가족사진';
+  if(label==='영춘이 개인') label='개인사진';
   const map={
     elders:'장로합창단',
     handbell:'핸드벨',
-    family:'가족',
-    personal:'영춘이 개인'
+    family:'가족사진',
+    personal:'개인사진'
   };
-  return map[key]||label||'영춘이 개인';
+  return map[key]||label||'개인사진';
 }
 
 function renderExistingAlbum(album){
@@ -1012,4 +1017,25 @@ ensureAdminPanel();
     b.style.display='block';
     b.onclick=()=>{ location.href='./'; };
   }
+})();
+
+/* V12 — 독립 책장 바로가기 */
+(function(){
+  const btn=document.getElementById('openSelectedShelf');
+  const select=document.getElementById('shelf');
+  if(!btn||!select) return;
+
+  const map={
+    '장로합창단':'elders',
+    '핸드벨':'handbell',
+    '가족':'family',
+    '가족사진':'family',
+    '영춘이 개인':'personal',
+    '개인사진':'personal'
+  };
+
+  btn.onclick=()=>{
+    const key=map[String(select.value||'').trim()]||'personal';
+    window.open(`../shelves/${key}/`,'_blank','noopener');
+  };
 })();

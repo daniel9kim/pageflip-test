@@ -42,3 +42,15 @@ header{height:70px;padding:0 32px;display:flex;align-items:center;justify-conten
   .admin-actions{grid-column:1/-1;flex-direction:row}
   .admin-actions .btn{flex:1}
 }
+
+
+/* PAGE FLIP MAKER V12 — independent shelf controls */
+.shelf-pick-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
+.shelf-pick-row .shelf{width:100%}
+.shelf-hint{margin-top:8px}
+.admin-shelf-line{display:flex;align-items:center;gap:9px;min-width:0}
+.admin-shelf-link{font-size:11px;color:#8a6848;text-decoration:none;border-bottom:1px solid #cdb79f;white-space:nowrap}
+.admin-shelf-link:hover{color:#5f4027}
+@media(max-width:760px){
+  .shelf-pick-row{grid-template-columns:1fr}
+}
