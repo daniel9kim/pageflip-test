@@ -233,3 +233,8 @@ main{
 }
 
 /* V1.3: 공개 책장에서는 수정 메뉴를 노출하지 않습니다. 수정은 Maker 관리자 화면에서만 수행합니다. */
+
+.empty{padding:76px 20px;text-align:center;color:var(--muted);background:rgba(255,255,255,.38);border-radius:18px}
+.empty-icon{font-size:38px;color:#b38a62;margin-bottom:14px}
+.empty strong{display:block;font-family:Georgia,"Noto Serif KR",serif;font-size:21px;color:var(--ink);font-weight:500}
+.empty p{margin:9px 0 0;font-size:13px}
