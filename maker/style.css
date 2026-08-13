@@ -54,3 +54,10 @@ header{height:70px;padding:0 32px;display:flex;align-items:center;justify-conten
 @media(max-width:760px){
   .shelf-pick-row{grid-template-columns:1fr}
 }
+
+
+/* PAGE FLIP MAKER V12.1 — connection state */
+.gh-dot.warn{
+  background:#c98a3a !important;
+  box-shadow:0 0 0 6px rgba(201,138,58,.13);
+}

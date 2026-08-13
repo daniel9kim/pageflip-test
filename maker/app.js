@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V12.0 — four independent shelves, unified admin
+// PAGE FLIP Maker V12.1 — resilient GitHub/Worker status check
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -113,7 +113,7 @@ function stats(p,l){
 }
 
 const modal=document.querySelector('#modal');
-document.querySelector('#connectBtn').onclick=()=>{modal.classList.add('show');checkStatus()};
+document.querySelector('#connectBtn').onclick=()=>checkStatus();checkStatus()};
 document.querySelector('#closeModal').onclick=()=>modal.classList.remove('show');
 modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
 document.querySelector('#openRepo').onclick=()=>window.open('https://github.com/daniel9kim/pageflip-test','_blank','noopener');
@@ -306,30 +306,95 @@ function escapeHtmlText(s){
 function escapeHtmlAttr(s){return escapeHtmlText(s)}
 
 async function checkStatus(){
-  const result=document.querySelector('#result');
-  result.textContent='연결 상태를 확인하고 있습니다…';
-  result.className='result';
-  try{
-    const r=await fetch(API_BASE+'/api/status',{credentials:'include',cache:'no-store'});
-    const d=await r.json();
-    if(!r.ok || !d.ok) throw new Error(d.message||`HTTP ${r.status}`);
-    const canWrite=d.permissions?.contents==='write';
-    result.innerHTML=`✓ <b>${d.repository}</b> · ${d.visibility} · ${d.defaultBranch}<br>GitHub App 권한: contents ${d.permissions?.contents||'-'} / metadata ${d.permissions?.metadata||'-'}`;
-    result.className='result oktxt';
-    document.querySelector('#ghDot').className='gh-dot ok';
-    document.querySelector('#ghLabel').textContent='GitHub 연결 완료';
-    document.querySelector('#ghRepo').textContent=d.repository;
-    document.querySelector('#ghStatus').textContent=canWrite
-      ? 'Cloudflare Access와 GitHub App 연결이 정상이며 쓰기 권한을 사용할 수 있습니다.'
-      : 'GitHub 연결은 되었지만 contents: write 권한을 확인해 주세요.';
-    document.querySelector('#connectBtn').textContent='연결됨 ✓';
-  }catch(e){
-    result.textContent='연결 상태를 확인하지 못했습니다: '+e.message;
-    result.className='result errtxt';
-    document.querySelector('#ghDot').className='gh-dot warn';
-    document.querySelector('#ghLabel').textContent='GitHub 연결 확인 필요';
-    document.querySelector('#ghStatus').textContent='Cloudflare Access 인증 또는 Worker 연결 상태를 확인해 주세요.';
+  const dot=document.querySelector('#ghDot');
+  const title=document.querySelector('#ghTitle');
+  const status=document.querySelector('#ghStatus');
+  const btn=document.querySelector('#connectBtn');
+
+  const setState=(kind,headline,detail,buttonText)=>{
+    if(dot) dot.className='gh-dot '+kind;
+    if(title) title.textContent=headline;
+    if(status) status.textContent=detail;
+    if(btn) btn.textContent=buttonText||'연결 상태 확인';
+  };
+
+  // 첫 화면에서는 실패로 단정하지 않고 중립 상태로 시작
+  setState(
+    'warn',
+    'GitHub 연결 확인 중',
+    'Cloudflare Access 인증과 Worker 연결 상태를 확인하고 있습니다.',
+    '확인 중…'
+  );
+
+  const tryStatus=async()=>{
+    try{
+      const r=await fetch(API_BASE+'/api/status',{
+        credentials:'include',
+        cache:'no-store',
+        redirect:'follow',
+        headers:{'Accept':'application/json'}
+      });
+
+      // Cloudflare Access 로그인 HTML이나 리디렉션이 반환되는 경우를 구분
+      const contentType=(r.headers.get('content-type')||'').toLowerCase();
+      if(!r.ok){
+        return {ok:false,reason:'http',status:r.status};
+      }
+      if(!contentType.includes('application/json')){
+        return {ok:false,reason:'access'};
+      }
+
+      const data=await r.json();
+      if(data && data.ok){
+        return {ok:true,data};
+      }
+      return {ok:false,reason:'api',data};
+    }catch(e){
+      return {ok:false,reason:'network',error:e};
+    }
+  };
+
+  let result=await tryStatus();
+
+  // Access 쿠키/세션 반영이 늦는 경우를 위해 한 번 재시도
+  if(!result.ok){
+    await new Promise(r=>setTimeout(r,900));
+    result=await tryStatus();
   }
+
+  if(result.ok){
+    setState(
+      'ok',
+      'GitHub 연결 완료',
+      'Cloudflare Access와 GitHub App 연결이 정상이며 쓰기 권한을 사용할 수 있습니다.',
+      '연결됨 ✓'
+    );
+    return true;
+  }
+
+  if(result.reason==='access'){
+    setState(
+      'warn',
+      '연결 상태 확인 필요',
+      'Cloudflare Access 인증이 아직 반영되지 않았습니다. 버튼을 눌러 다시 확인해 주세요.',
+      '연결 상태 확인'
+    );
+  }else if(result.reason==='http'){
+    setState(
+      'warn',
+      'Worker 응답 확인 필요',
+      `Worker가 HTTP ${result.status} 응답을 보냈습니다. 잠시 후 다시 확인해 주세요.`,
+      '다시 확인'
+    );
+  }else{
+    setState(
+      'warn',
+      '연결 상태 확인 필요',
+      '현재 자동 확인에 실패했습니다. 앨범 관리 기능은 별도로 동작할 수 있으니 버튼으로 다시 확인해 주세요.',
+      '연결 상태 확인'
+    );
+  }
+  return false;
 }
 
 
