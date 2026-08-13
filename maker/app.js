@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V10.3 — photo reorder by drag and drop
+// PAGE FLIP Maker V10.4 — exact photo-order publication verification
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -424,18 +424,28 @@ function albumPhotoUrl(albumId,fileName){
 }
 
 function viewerUrl(albumId){
-  return `https://daniel9kim.github.io/pageflip-test/viewer/?album=${encodeURIComponent(albumJsonUrl(albumId))}`;
+  const v=Date.now();
+  const albumWithVersion=albumJsonUrl(albumId)+`?v=${v}`;
+  return `https://daniel9kim.github.io/pageflip-test/viewer/?album=${encodeURIComponent(albumWithVersion)}&v=${v}`;
 }
 
 async function waitForPagesReady(albumId, options={}){
   const intervalMs=options.intervalMs||3000;
   const timeoutMs=options.timeoutMs||180000;
+
   const expectedPhotoCount=Number.isFinite(Number(options.expectedPhotoCount))
     ? Number(options.expectedPhotoCount)
     : null;
-  const expectedFiles=Array.isArray(options.expectedFiles)
-    ? options.expectedFiles.filter(Boolean)
+
+  // V10.4: 사진 존재 여부가 아니라 album.json의 photos 배열 순서까지 검증합니다.
+  const expectedPhotoOrder=Array.isArray(options.expectedPhotoOrder)
+    ? options.expectedPhotoOrder.map(String).filter(Boolean)
     : [];
+
+  const expectedFiles=Array.isArray(options.expectedFiles)
+    ? options.expectedFiles.map(String).filter(Boolean)
+    : [];
+
   const started=Date.now();
 
   while(Date.now()-started < timeoutMs){
@@ -447,28 +457,40 @@ async function waitForPagesReady(albumId, options={}){
 
       if(jsonRes.ok){
         const published=await jsonRes.json();
-        const photos=Array.isArray(published?.photos)?published.photos:[];
+        const publishedPhotos=Array.isArray(published?.photos)?published.photos:[];
+        const publishedOrder=publishedPhotos.map(p=>String(p?.file||''));
 
         const countMatches=
           expectedPhotoCount===null
-            ? photos.length>0
-            : photos.length===expectedPhotoCount;
+            ? publishedPhotos.length>0
+            : publishedPhotos.length===expectedPhotoCount;
 
-        const publishedNames=new Set(photos.map(p=>String(p?.file||'')));
-        const filesListed=expectedFiles.every(file=>publishedNames.has(String(file)));
+        const orderMatches=
+          !expectedPhotoOrder.length ||
+          (
+            publishedOrder.length===expectedPhotoOrder.length &&
+            publishedOrder.every((file,i)=>file===expectedPhotoOrder[i])
+          );
+
+        const publishedNames=new Set(publishedOrder);
+        const filesListed=expectedFiles.every(file=>publishedNames.has(file));
 
         if(
           published &&
           published.id===albumId &&
           published.status==='ready' &&
           countMatches &&
+          orderMatches &&
           filesListed
         ){
-          // album.json뿐 아니라 이번 저장에서 기대하는 실제 사진 파일도
-          // GitHub Pages에서 열리는지 확인합니다.
+          // 실제 사진 파일까지 Pages에서 열리는지 확인합니다.
           const filesToCheck=expectedFiles.length
             ? expectedFiles
-            : (photos[0]?.file?[photos[0].file]:[]);
+            : (
+                expectedPhotoOrder.length
+                  ? [expectedPhotoOrder[0],expectedPhotoOrder[expectedPhotoOrder.length-1]].filter(Boolean)
+                  : (publishedPhotos[0]?.file?[publishedPhotos[0].file]:[])
+              );
 
           let allPhotosReady=true;
           for(const file of filesToCheck){
@@ -486,13 +508,14 @@ async function waitForPagesReady(albumId, options={}){
             return {
               ready:true,
               album:published,
-              photoCount:photos.length
+              photoCount:publishedPhotos.length,
+              photoOrder:publishedOrder
             };
           }
         }
       }
     }catch(e){
-      // GitHub Pages 배포가 끝날 때까지 재시도합니다.
+      // GitHub Pages가 최신 commit을 제공할 때까지 재시도합니다.
     }
 
     await new Promise(resolve=>setTimeout(resolve,intervalMs));
@@ -514,13 +537,13 @@ async function activateViewerWhenReady(albumId, options={}){
   btn.textContent='사진책 준비 중…';
   status.textContent=expectedPhotoCount===null
     ? 'album.json 반영 대기 중…'
-    : `GitHub Pages ${expectedPhotoCount}장 반영 대기 중…`;
+    : `GitHub Pages ${expectedPhotoCount}장 · 사진 순서 반영 대기 중…`;
   status.className='tag pending';
 
   const result=await waitForPagesReady(albumId,options);
 
   if(result.ready){
-    status.textContent=`앨범·사진 ${result.photoCount}장 반영 완료`;
+    status.textContent=`앨범·사진 ${result.photoCount}장 · 순서 반영 완료`;
     status.className='tag ready';
     btn.disabled=false;
     btn.textContent='사진책 보기';
@@ -649,10 +672,15 @@ document.querySelector('#make').onclick=async()=>{
         <div class="planrow"><span>앨범 ID</span><span class="tag">${editAlbumId}</span></div>
         <div class="planrow"><span>새 사진</span><span class="tag ready">${added.length}장 추가</span></div>
         <div class="planrow"><span>전체 사진</span><span class="tag ready">${photos.length}장</span></div>
-        <div class="planrow"><span>GitHub Pages</span><span class="tag pending" id="pagesReadyStatus">반영 대기 중…</span></div>
+        <div class="planrow"><span>저장 순서</span><span class="tag ready">${photos.map(p=>p.file).join(' → ')}</span></div>
+        <div class="planrow"><span>GitHub Pages</span><span class="tag pending" id="pagesReadyStatus">순서 포함 반영 대기 중…</span></div>
         <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" id="viewerBtn" type="button" disabled>사진책 준비 중…</button></span></div>`;
 
-      activateViewerWhenReady(editAlbumId,{expectedPhotoCount:photos.length,expectedFiles:added.map(p=>p.file)});
+      activateViewerWhenReady(editAlbumId,{
+        expectedPhotoCount:photos.length,
+        expectedPhotoOrder:photos.map(p=>p.file),
+        expectedFiles:added.map(p=>p.file)
+      });
       plan.scrollIntoView({behavior:'smooth',block:'center'});
     }catch(e){
       fill.style.width='100%';
@@ -764,7 +792,11 @@ document.querySelector('#make').onclick=async()=>{
       <div class="planrow"><span>GitHub Pages</span><span class="tag pending" id="pagesReadyStatus">반영 대기 중…</span></div>
       <div class="planrow"><span>사진책 Viewer</span><span><button class="btn green" id="viewerBtn" type="button" disabled>사진책 준비 중…</button></span></div>`;
 
-    activateViewerWhenReady(albumId,{expectedPhotoCount:photos.length,expectedFiles:[photos[0]?.file,photos[photos.length-1]?.file].filter(Boolean)});
+    activateViewerWhenReady(albumId,{
+      expectedPhotoCount:photos.length,
+      expectedPhotoOrder:photos.map(p=>p.file),
+      expectedFiles:[photos[0]?.file,photos[photos.length-1]?.file].filter(Boolean)
+    });
     plan.scrollIntoView({behavior:'smooth',block:'center'});
   }catch(e){
     fill.style.width='100%';
