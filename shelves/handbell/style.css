@@ -1,9 +1,235 @@
+:root{
+  --cream:#f7f0e7;
+  --paper:#fffdf8;
+  --ink:#3b2a1e;
+  --muted:#8a7767;
+  --wood1:#deb98d;
+  --wood2:#b98554;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  min-height:100vh;
+  font-family:"Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;
+  color:var(--ink);
+  background:linear-gradient(#fffdf9,#f4eadc);
+  overflow-x:hidden;
+}
+button,input,select{font:inherit}
 
-:root{--cream:#f7f0e7;--paper:#fffdf8;--ink:#3b2a1e;--muted:#8a7767}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:"Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;color:var(--ink);background:linear-gradient(#fffdf9,#f4eadc)}
-header{text-align:center;padding:42px 5vw 26px;border-bottom:1px solid #e6dccf;background:#fffdf9}
-.eyebrow{font-family:Georgia,serif;letter-spacing:.14em;font-size:12px}h1{font-family:Georgia,"Noto Serif KR",serif;font-weight:500;font-size:42px;margin:9px 0}header p{color:var(--muted);margin:0}
-main{max-width:1160px;margin:auto;padding:34px 4vw 60px}.yearline{display:flex;gap:12px;align-items:baseline;margin-bottom:16px}.yearline span{font:28px Georgia,serif}.yearline small{color:var(--muted)}
-.bookshelf{display:flex;gap:26px;align-items:flex-end;min-height:300px;padding:8px 20px 0}.bookcard{border:0;background:none;cursor:pointer;text-align:left}.book{width:180px;height:245px;background:#f5eadb;padding:14px;box-shadow:0 14px 22px rgba(75,48,26,.28),inset 9px 0 10px rgba(150,117,82,.15);border-radius:3px;transition:.25s;position:relative}.book:hover{transform:translateY(-12px) rotateY(-4deg)}.book img{width:100%;height:165px;object-fit:cover;border:1px solid #e3d8ca}.title{font-family:Georgia,"Noto Serif KR",serif;font-size:19px;margin-top:9px}.date{font-size:12px;color:var(--muted);margin-top:4px}.wood{height:18px;border-radius:3px;background:linear-gradient(#deb98d,#b98554);box-shadow:0 11px 14px rgba(77,50,29,.27)}
-.empty{padding:70px 20px;text-align:center;color:var(--muted);background:rgba(255,255,255,.45);border-radius:18px}.privacy{text-align:center;margin-top:32px;color:#9a8877;font-size:12px}
-@media(max-width:760px){h1{font-size:31px}.bookshelf{padding-left:5px}.book{width:150px;height:215px}.book img{height:140px}}
+header{
+  text-align:center;
+  padding:42px 5vw 26px;
+  border-bottom:1px solid #e6dccf;
+  background:#fffdf9;
+}
+.eyebrow{
+  font-family:Georgia,serif;
+  letter-spacing:.14em;
+  font-size:12px;
+}
+h1{
+  font-family:Georgia,"Noto Serif KR",serif;
+  font-weight:500;
+  font-size:42px;
+  margin:9px 0;
+}
+header p{color:var(--muted);margin:0}
+
+main{
+  max-width:1160px;
+  margin:auto;
+  padding:26px 4vw 60px;
+}
+
+/* V1.2 — 검색/연도 선택 */
+.shelf-tools{
+  display:grid;
+  grid-template-columns:minmax(220px,1fr) 180px auto;
+  gap:14px;
+  align-items:end;
+  margin:0 0 28px;
+  padding:14px 16px;
+  background:rgba(255,253,248,.72);
+  border:1px solid #eadfce;
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(80,53,31,.05);
+}
+.tool-field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.tool-field label{
+  font-size:11px;
+  color:#8b7765;
+  font-weight:700;
+}
+.tool-field input,
+.tool-field select{
+  width:100%;
+  height:42px;
+  padding:0 12px;
+  border:1px solid #dfd3c4;
+  border-radius:10px;
+  background:#fffdf9;
+  color:var(--ink);
+  outline:none;
+}
+.tool-field input:focus,
+.tool-field select:focus{
+  border-color:#b78c60;
+  box-shadow:0 0 0 3px rgba(183,140,96,.11);
+}
+.result-count{
+  min-width:76px;
+  padding-bottom:11px;
+  color:#9a8877;
+  font-size:12px;
+  text-align:right;
+}
+
+.year-section{margin-bottom:44px}
+.yearline{
+  display:flex;
+  gap:12px;
+  align-items:baseline;
+  margin-bottom:18px;
+}
+.yearline span{font:28px Georgia,serif}
+.yearline small{color:var(--muted)}
+
+.shelf-stack{
+  display:flex;
+  flex-direction:column;
+  gap:28px;
+}
+.shelf-row-wrap{width:100%}
+.bookshelf{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:26px;
+  align-items:end;
+  min-height:300px;
+  padding:8px 20px 0;
+}
+
+.book-slot{
+  position:relative;
+  justify-self:center;
+  width:180px;
+}
+.bookcard{
+  display:block;
+  width:100%;
+  border:0;
+  background:none;
+  cursor:pointer;
+  text-align:left;
+  padding:0;
+  perspective:1000px;
+}
+.book{
+  width:180px;
+  height:245px;
+  background:#f5eadb;
+  padding:14px;
+  box-shadow:
+    0 14px 22px rgba(75,48,26,.28),
+    inset 9px 0 10px rgba(150,117,82,.15);
+  border-radius:3px;
+  transition:.25s transform,.25s box-shadow;
+  position:relative;
+}
+.book-slot:hover .book{
+  transform:translateY(-12px) rotateY(-4deg);
+  box-shadow:
+    0 24px 30px rgba(75,48,26,.24),
+    inset 9px 0 10px rgba(150,117,82,.15);
+}
+.cover-frame{
+  width:100%;
+  height:165px;
+  background:#fffdf8;
+  border:1px solid #e3d8ca;
+  overflow:hidden;
+}
+.book img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.title{
+  font-family:Georgia,"Noto Serif KR",serif;
+  font-size:19px;
+  margin-top:9px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.date{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+
+.wood{
+  height:18px;
+  border-radius:3px;
+  background:linear-gradient(var(--wood1),var(--wood2));
+  box-shadow:0 11px 14px rgba(77,50,29,.27);
+}
+
+.empty{
+  padding:70px 20px;
+  text-align:center;
+  color:var(--muted);
+  background:rgba(255,255,255,.45);
+  border-radius:18px;
+}
+.privacy{
+  text-align:center;
+  margin-top:32px;
+  color:#9a8877;
+  font-size:12px;
+}
+
+@media(max-width:980px){
+  .bookshelf{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+@media(max-width:760px){
+  h1{font-size:31px}
+  main{padding-left:16px;padding-right:16px}
+  .shelf-tools{
+    grid-template-columns:1fr 120px;
+    gap:10px;
+  }
+  .result-count{
+    grid-column:1/-1;
+    padding:0;
+    text-align:left;
+  }
+  .bookshelf{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+    min-height:250px;
+    padding:6px 4px 0;
+  }
+  .book-slot{width:150px}
+  .book{width:150px;height:215px}
+  .cover-frame{height:140px}
+  .title{font-size:17px}
+  .shelf-stack{gap:24px}
+}
+
+@media(max-width:360px){
+  .bookshelf{gap:10px}
+  .book-slot{width:138px}
+  .book{width:138px;height:205px;padding:12px}
+  .cover-frame{height:134px}
+}
+
+/* V1.3: 공개 책장에서는 수정 메뉴를 노출하지 않습니다. 수정은 Maker 관리자 화면에서만 수행합니다. */

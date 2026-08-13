@@ -1,5 +1,36 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PAGE FLIP</title><link rel="stylesheet" href="style.css"></head>
-<body><header><div class="eyebrow">YOUNGCHOON'S PHOTO BOOK</div><h1 id="title">PAGE FLIP</h1><p id="subtitle"></p></header>
-<main><div id="albums"></div><div class="privacy">공유받은 링크로 들어오는 독립 앨범 책장</div></main><script src="app.js"></script></body></html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PAGE FLIP</title>
+  <link rel="stylesheet" href="style.css?v=130">
+</head>
+<body>
+  <header>
+    <div class="eyebrow">YOUNGCHOON'S PHOTO BOOK</div>
+    <h1 id="title">PAGE FLIP</h1>
+    <p id="subtitle"></p>
+  </header>
+
+  <main>
+    <section class="shelf-tools" aria-label="앨범 찾기">
+      <div class="tool-field search-field">
+        <label for="albumSearch">앨범 검색</label>
+        <input id="albumSearch" type="search" placeholder="제목이나 날짜로 검색" autocomplete="off">
+      </div>
+      <div class="tool-field year-field">
+        <label for="yearSelect">연도</label>
+        <select id="yearSelect">
+          <option value="all">전체 연도</option>
+        </select>
+      </div>
+      <div class="result-count" id="resultCount"></div>
+    </section>
+
+    <div id="albums"></div>
+    <div class="privacy">공유받은 링크로 들어오는 독립 앨범 책장</div>
+  </main>
+  <script src="app.js?v=130"></script>
+</body>
+</html>
