@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PAGE FLIP</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=950" />
   <link rel="stylesheet" href="./episode-fix.css?v=921">
 </head>
 <body>
@@ -46,6 +46,10 @@
       <div id="bookArea" class="book-area">
         <div id="book" class="open-book">
           <div id="spread" class="spread"></div>
+          <div id="turnSheet" class="turn-sheet" aria-hidden="true">
+            <div class="turn-face turn-front"></div>
+            <div class="turn-face turn-back"></div>
+          </div>
           <div class="curl-shadow" aria-hidden="true"></div>
           <div id="pageCurl" class="page-curl" aria-hidden="true"></div>
           <button class="nav-zone prev" id="prevBtn" aria-label="이전 페이지">‹</button>
@@ -73,6 +77,6 @@
   <div id="shareToast" class="share-toast" role="status" aria-live="polite"></div>
   <div id="loadError" style="display:none;position:fixed;inset:0;z-index:9999;background:#fffdf8;padding:40px;text-align:center;color:#9b3f3f"></div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=950"></script>
 </body>
 </html>

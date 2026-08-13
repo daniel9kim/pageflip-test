@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V9.4 — Real Page Turn
+// PAGE FLIP Viewer V9.5 — Page Content Turn
 let album=null;
 let photos=[];
 let story='';
@@ -14,6 +14,9 @@ const spreadEl=document.querySelector('#spread');
 const book=document.querySelector('#book');
 const curl=document.querySelector('#pageCurl');
 const shadow=document.querySelector('.curl-shadow');
+const turnSheet=document.querySelector('#turnSheet');
+const turnFront=turnSheet?.querySelector('.turn-front');
+const turnBack=turnSheet?.querySelector('.turn-back');
 const indicator=document.querySelector('#pageIndicator');
 const mobile=()=>matchMedia('(max-width:760px)').matches;
 
@@ -317,11 +320,93 @@ function render(){
   resetCurl();
 }
 
+
+function clonePageForTurn(node){
+  if(!node) return null;
+  const clone=node.cloneNode(true);
+  clone.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
+  clone.querySelectorAll('button').forEach(btn=>btn.tabIndex=-1);
+  return clone;
+}
+
+function prepareTurnSheet(){
+  if(!turnSheet||mobile()) return false;
+
+  const currentPages=[...spreadEl.children];
+  if(!currentPages.length) return false;
+
+  // 현재 펼침면의 오른쪽 면 자체를 앞면으로 복제합니다.
+  // 한 장짜리 가로/정사각형 펼침은 전체 장면을 사용합니다.
+  const source=currentPages.length>1 ? currentPages[currentPages.length-1] : currentPages[0];
+
+  turnFront.innerHTML='';
+  turnBack.innerHTML='';
+
+  const frontClone=clonePageForTurn(source);
+  if(frontClone){
+    frontClone.classList.add('turn-clone');
+    turnFront.appendChild(frontClone);
+  }
+
+  // 종이 뒷면은 다음 펼침면의 왼쪽 페이지 분위기를 미리 보여줍니다.
+  const oldCurrent=current;
+  const next=current+1;
+  if(next<spreads.length){
+    current=next;
+    const holder=document.createElement('div');
+    const oldSpread=spreadEl;
+    // render 구조를 건드리지 않고 다음 면의 대표 사진을 간단히 생성
+    const ns=spreads[next];
+    let backNode=null;
+    if(ns?.type==='pair') backNode=makePage(ns.items[0],'left',ns.start+1);
+    else if(ns?.type==='portrait-story') backNode=makePage(ns.items[0],'left',ns.start+1);
+    else if(ns?.type==='landscape'||ns?.type==='square'){
+      const p=ns.items?.[0];
+      const d=document.createElement('div');
+      d.className='page turn-preview-page';
+      if(p){
+        const img=document.createElement('img');
+        img.src=photoSrc(p); img.alt='';
+        d.appendChild(img);
+      }
+      backNode=d;
+    }else if(ns?.type==='essay'){
+      const pair=essaySpread();
+      backNode=pair[0];
+    }
+    current=oldCurrent;
+    if(backNode){
+      const backClone=clonePageForTurn(backNode);
+      backClone.classList.add('turn-clone');
+      turnBack.appendChild(backClone);
+    }
+  }
+
+  turnSheet.classList.add('active');
+  turnSheet.style.transform='rotateY(0deg)';
+  return true;
+}
+
+function setTurnSheet(p){
+  if(!turnSheet||mobile()) return;
+  p=Math.max(0,Math.min(1,p));
+  const angle=-180*p;
+  turnSheet.style.transform=`rotateY(${angle}deg)`;
+  turnSheet.style.setProperty('--sheet-progress',p.toFixed(3));
+  turnSheet.style.opacity=p<=.995?'1':'0';
+}
+
 function resetCurl(){
   curl.style.cssText='';
   shadow.style.cssText='';
   book.style.setProperty('--turn-progress','0');
   book.classList.remove('dragging','settling','curl-hover');
+  if(turnSheet){
+    turnSheet.classList.remove('active');
+    turnSheet.style.cssText='';
+  }
+  if(turnFront) turnFront.innerHTML='';
+  if(turnBack) turnBack.innerHTML='';
 }
 
 function ease(t){return 1-Math.pow(1-t,4)}
@@ -370,6 +455,7 @@ function setCurl(p,yRatio=.9){
 
   // 책 전체에도 아주 약한 상태 클래스를 주어 CSS에서 제본부를 반응시킵니다.
   book.style.setProperty('--turn-progress',p.toFixed(3));
+  if(turnSheet?.classList.contains('active')) setTurnSheet(p);
 }
 function animateTo(from,to,dur,done){
   book.classList.add('dragging');
@@ -394,6 +480,7 @@ function turn(delta){
     return;
   }
   locked=true;
+  prepareTurnSheet();
   animateTo(.04,1,720,()=>{
     current=next;
     render();
@@ -449,6 +536,7 @@ book.addEventListener('pointerdown',e=>{
   const r=book.getBoundingClientRect();
   if(r.right-e.clientX<170&&r.bottom-e.clientY<170&&current<spreads.length-1){
     drag={x:e.clientX,y:e.clientY,p:.03,yRatio:.9};
+    prepareTurnSheet();
     book.setPointerCapture(e.pointerId);
     book.classList.add('dragging');
     setCurl(.03,.9);

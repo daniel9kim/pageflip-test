@@ -194,3 +194,92 @@
     transition:none !important;
   }
 }
+
+/* =========================================================
+   PAGE FLIP V9.5 — Page Content Turn
+   실제 오른쪽 페이지의 콘텐츠가 종이와 함께 넘어가는 효과
+   ========================================================= */
+.turn-sheet{
+  --sheet-progress:0;
+  position:absolute;
+  top:0;
+  right:0;
+  width:50%;
+  height:100%;
+  z-index:8;
+  transform-origin:left center;
+  transform-style:preserve-3d;
+  perspective:1800px;
+  pointer-events:none;
+  opacity:0;
+  visibility:hidden;
+  will-change:transform,opacity;
+}
+.turn-sheet.active{
+  opacity:1;
+  visibility:visible;
+}
+.turn-face{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  background:#fffdf8;
+  transform-style:preserve-3d;
+}
+.turn-front{
+  transform:rotateY(0deg);
+  box-shadow:
+    calc(-10px - 24px * var(--sheet-progress)) 0
+    calc(18px + 28px * var(--sheet-progress))
+    rgba(48,34,23,.18);
+}
+.turn-back{
+  transform:rotateY(180deg);
+  background:linear-gradient(90deg,#fffdf8,#f8f2e9);
+  box-shadow:inset -14px 0 24px rgba(70,51,36,.08);
+}
+.turn-clone{
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+}
+.turn-face > .page.turn-clone,
+.turn-face > .essay-page.turn-clone{
+  width:100%!important;
+}
+.turn-face > .landscape-spread.turn-clone{
+  width:200%!important;
+  transform:translateX(-50%);
+}
+.turn-back .turn-preview-page{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:6%;
+}
+.turn-back .turn-preview-page img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.open-book.dragging .turn-sheet,
+.open-book .turn-sheet.active{
+  filter:drop-shadow(-8px 5px 12px rgba(0,0,0,.12));
+}
+/* 실제 페이지가 움직일 때 기존 curl은 종이 끝의 얇은 말림으로만 사용 */
+.turn-sheet.active ~ #pageCurl{
+  z-index:9;
+  mix-blend-mode:multiply;
+  opacity:.38!important;
+}
+.turn-sheet.active ~ .curl-shadow{
+  z-index:7;
+}
+@media(max-width:760px){
+  .turn-sheet{display:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .turn-sheet{transition:none!important}
+}
