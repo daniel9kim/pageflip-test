@@ -4,16 +4,6 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
-      "id": "album-1786453299093",
-      "title": "눈썹 7",
-      "date": "2026-08-07",
-      "summary": "눈썹 문신 후 일주일의 기록",
-      "cover": "../../albums/album-1786453299093/photos/001.webp",
-      "album": "../../albums/album-1786453299093/album.json",
-      "photoCount": 4,
-      "updatedAt": "2026-08-13T09:39:26.052Z"
-    },
-    {
       "id": "album-1786453131376",
       "title": "눈썹 6",
       "date": "2026-08-06",
