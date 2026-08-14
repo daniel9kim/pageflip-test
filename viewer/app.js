@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.0 — Natural Page Turn
+// PAGE FLIP Viewer V11.1 — Natural Page Turn Refinement
 let album=null;
 let photos=[];
 let story='';
@@ -481,11 +481,13 @@ function setCurl(p,yRatio=.9,direction=turnDirection){
 
   // V9.4 Real Page Turn:
   // 오른쪽 페이지가 모서리에서 시작해 중앙 제본부를 지나 왼쪽으로 넘어가는 느낌.
-  const foldX=W*(1-p*.965);
-  const foldY=H*Math.max(.10,Math.min(.97,yRatio));
-  const cw=Math.max(54,W-foldX+110);
-  const ch=Math.max(54,H-foldY+150);
-  const bend=18+p*28;
+  // V11.1: 말림 효과를 실제 페이지 끝부분에만 제한합니다.
+  // 큰 삼각형이 책 밖으로 솟는 느낌을 줄이고 제본부는 안정적으로 유지합니다.
+  const foldX=W*(1-p*.78);
+  const foldY=H*Math.max(.18,Math.min(.96,yRatio));
+  const cw=Math.max(46,Math.min(W*.46,W-foldX+58));
+  const ch=Math.max(46,Math.min(H*.48,H-foldY+78));
+  const bend=12+p*16;
 
   curl.style.width=cw+'px';
   curl.style.height=ch+'px';
@@ -499,8 +501,8 @@ function setCurl(p,yRatio=.9,direction=turnDirection){
   curl.style.bottom='0';
   curl.style.opacity=String(Math.min(1,.28+p*1.8));
   curl.style.clipPath=direction>0
-    ? `polygon(100% 0,100% 100%,0 100%,${bend}% 73%,${44-p*8}% 42%)`
-    : `polygon(0 0,0 100%,100% 100%,${100-bend}% 73%,${56+p*8}% 42%)`;
+    ? `polygon(100% 12%,100% 100%,8% 100%,${bend}% 78%,${58-p*5}% 52%)`
+    : `polygon(0 12%,0 100%,92% 100%,${100-bend}% 78%,${42+p*5}% 52%)`;
   curl.style.background=
     'linear-gradient(132deg,'+
     'rgba(255,255,255,.995) 0 38%,'+
@@ -513,15 +515,15 @@ function setCurl(p,yRatio=.9,direction=turnDirection){
   curl.style.transformOrigin=direction>0?'100% 100%':'0% 100%';
   const sx=direction>0?-1:1;
   curl.style.transform=
-    `translate3d(${sx*p*W*.91}px,${-p*H*.075}px,0) `+
-    `perspective(${Math.max(700,W*1.25)}px) rotate(${sx*p*15}deg) rotateY(${-sx*p*34}deg) skewY(${sx*p*1.8}deg)`;
+    `translate3d(${sx*p*W*.72}px,${-p*H*.025}px,0) `+
+    `perspective(${Math.max(1100,W*1.8)}px) rotate(${sx*p*7}deg) rotateY(${-sx*p*20}deg) skewY(${sx*p*.7}deg)`;
   curl.style.filter=
-    `drop-shadow(${sx*(8+p*34)}px ${-3-p*12}px ${10+p*25}px rgba(0,0,0,${.10+p*.22}))`;
+    `drop-shadow(${sx*(5+p*18)}px ${-2-p*5}px ${8+p*14}px rgba(0,0,0,${.08+p*.14}))`;
 
   // 움직이는 종이 아래의 그림자. 중앙에 가까워질수록 가장 진해집니다.
   const mid=1-Math.abs(.52-p)/.52;
-  const strength=Math.max(.08,Math.min(.48,.12+p*.20+mid*.16));
-  shadow.style.opacity=String(Math.min(.82,.14+p*.70));
+  const strength=Math.max(.06,Math.min(.34,.09+p*.13+mid*.11));
+  shadow.style.opacity=String(Math.min(.58,.10+p*.46));
   const shadowX=direction>0 ? 100-p*78 : p*78;
   shadow.style.background=
     `radial-gradient(ellipse at ${shadowX}% ${100-yRatio*35}%,`+

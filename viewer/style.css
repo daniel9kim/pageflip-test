@@ -581,3 +581,20 @@
     height:78vh;
   }
 }
+
+
+/* =========================================================
+   PAGE FLIP Viewer V11.1 — Natural Page Turn Refinement
+   과도한 돌출/삼각 접힘/그림자를 줄이고 제본부 고정감을 강화
+   ========================================================= */
+@media (min-width:761px){
+  .open-book{ perspective:3000px; }
+}
+.open-book.dragging .turn-sheet,
+.open-book .turn-sheet.active{
+  filter:drop-shadow(-6px 4px 10px rgba(0,0,0,.10));
+}
+.spread::after{
+  width:26px;
+  background:linear-gradient(90deg,transparent 0%,rgba(72,51,35,.045) 28%,rgba(72,51,35,.13) 46%,rgba(255,255,255,.28) 50%,rgba(72,51,35,.11) 55%,rgba(72,51,35,.035) 72%,transparent 100%);
+}

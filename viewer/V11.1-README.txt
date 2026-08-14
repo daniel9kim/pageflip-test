@@ -1,0 +1,11 @@
+PAGE FLIP Viewer V11.1 — Natural Page Turn Refinement
+
+변경 사항
+- 페이지 끝 말림 크기 약 60~70% 수준으로 절제
+- 책 바깥쪽 돌출 거리 축소
+- 하단 삼각형 접힘 완화
+- 그림자 강도 축소
+- 중앙 제본부 고정감 강화
+- 기존 album.json / 사진 / 표지 / 감상문 / 모바일 구조 유지
+
+적용: viewer 폴더의 파일을 기존 GitHub viewer 폴더에 덮어쓰기
