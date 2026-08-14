@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V10.2 — Next Image On Back Face
+// PAGE FLIP Viewer V11.0 — Natural Page Turn
 let album=null;
 let photos=[];
 let story='';
@@ -470,7 +470,10 @@ function resetCurl(){
   if(turnBack) turnBack.innerHTML='';
 }
 
-function ease(t){return 1-Math.pow(1-t,4)}
+function ease(t){
+  // 종이가 처음에는 손을 따라 움직이고, 중간부터 자연스럽게 넘어가는 곡선
+  return t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+}
 
 function setCurl(p,yRatio=.9,direction=turnDirection){
   p=Math.max(0,Math.min(1,p));
@@ -550,7 +553,7 @@ function turn(delta){
   turnDirection=delta<0?-1:1;
   prepareTurnSheet(turnDirection);
 
-  animateTo(.04,1,720,()=>{
+  animateTo(.035,1,860,()=>{
     current=next;
     render();
     locked=false;
@@ -634,17 +637,26 @@ book.addEventListener('pointerup',()=>{
   const p=drag.p||0;
   drag=null;
   const direction=turnDirection;
-  if(p>.38){
+  if(p>.34){
     locked=true;
-    animateTo(p,1,Math.max(300,680*(1-p)),()=>{
+    animateTo(p,1,Math.max(320,760*(1-p)),()=>{
       current=Math.max(0,Math.min(current+direction,spreads.length-1));
       render();
       locked=false;
     },direction);
   }else{
     book.classList.add('settling');
-    animateTo(p,0,360,resetCurl,direction);
+    animateTo(p,0,420,resetCurl,direction);
   }
+});
+
+book.addEventListener('pointercancel',()=>{
+  if(!drag)return;
+  const p=drag.p||0;
+  const direction=drag.direction||turnDirection;
+  drag=null;
+  book.classList.add('settling');
+  animateTo(p,0,320,resetCurl,direction);
 });
 
 let tx=null;
@@ -652,7 +664,7 @@ book.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
 book.addEventListener('touchend',e=>{
   if(tx==null)return;
   const dx=tx-e.changedTouches[0].clientX;
-  if(Math.abs(dx)>50)turn(dx>0?1:-1);
+  if(Math.abs(dx)>64)turn(dx>0?1:-1);
   tx=null;
 },{passive:true});
 

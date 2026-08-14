@@ -489,3 +489,95 @@
   object-fit:contain !important;
 }
 /* 뒷면 자체가 rotateY(180deg) 되어 있으므로 콘텐츠를 추가 반전하지 않습니다. */
+
+
+/* =========================================================
+   PAGE FLIP Viewer V11.0 — Natural Page Turn
+   기존 레이아웃/앨범 구조는 유지하고 책의 크기와 넘김 감각만 개선
+   ========================================================= */
+
+/* PC에서는 화면을 조금 더 적극적으로 사용 */
+@media (min-width:761px){
+  .book-area{
+    padding:18px 24px;
+  }
+  .open-book{
+    width:min(1260px,94vw);
+    height:min(770px,76vh);
+    perspective:2200px;
+  }
+}
+
+/* 실제 책처럼 가운데 제본부는 정적이고, 넘기는 장만 움직이게 */
+.open-book{
+  transform-style:preserve-3d;
+  --page-bend:0;
+}
+.spread{
+  box-shadow:
+    inset 0 0 0 1px rgba(116,91,68,.035),
+    0 2px 0 rgba(255,255,255,.5);
+}
+.spread::after{
+  width:30px;
+  background:
+    linear-gradient(90deg,
+      transparent 0%,
+      rgba(72,51,35,.055) 28%,
+      rgba(72,51,35,.14) 45%,
+      rgba(255,255,255,.32) 50%,
+      rgba(72,51,35,.12) 56%,
+      rgba(72,51,35,.045) 72%,
+      transparent 100%);
+}
+
+/* 넘기는 종이는 GPU 합성으로 조금 더 매끄럽게 */
+.turn-sheet{
+  will-change:transform,filter;
+  transform-style:preserve-3d;
+  backface-visibility:hidden;
+}
+.turn-face{
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+.open-book.dragging .turn-sheet,
+.open-book .turn-sheet.active{
+  filter:
+    drop-shadow(-10px 7px 15px rgba(0,0,0,.13))
+    drop-shadow(-2px 1px 3px rgba(0,0,0,.08));
+}
+
+/* 모서리에 가까이 갔을 때만 아주 미세하게 종이가 들림 */
+.open-book.curl-hover{
+  cursor:grab;
+}
+.open-book.dragging{
+  cursor:grabbing;
+}
+
+/* 하단 사용법 안내는 처음에만 보이고 조용히 사라짐 */
+.reader-footer .hint{
+  animation:pageflipHintFade 8s ease forwards;
+}
+@keyframes pageflipHintFade{
+  0%,55%{opacity:.7}
+  100%{opacity:.08}
+}
+
+/* 움직임 감소 설정 존중 */
+@media (prefers-reduced-motion:reduce){
+  .reader-footer .hint{animation:none}
+  .turn-sheet,.page-curl,.curl-shadow{transition:none!important}
+}
+
+/* 모바일은 기존 단면 구성을 유지하면서 터치 영역 확보 */
+@media(max-width:760px){
+  .book-area{
+    padding:10px;
+  }
+  .open-book{
+    width:94vw;
+    height:78vh;
+  }
+}
