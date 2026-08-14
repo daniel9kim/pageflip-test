@@ -4,16 +4,6 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
-      "id": "album-1786451733198",
-      "title": "테스트앨범1",
-      "date": "2026-08-05",
-      "summary": "테스트앨범1",
-      "cover": "../../albums/album-1786451733198/photos/001.webp",
-      "album": "../../albums/album-1786451733198/album.json",
-      "photoCount": 1,
-      "updatedAt": "2026-08-11T12:35:37.577Z"
-    },
-    {
       "id": "album-1786451286176",
       "title": "눈썹 2",
       "date": "2026-08-05",
