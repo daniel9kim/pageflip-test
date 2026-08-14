@@ -19,7 +19,7 @@ button,input,select{font:inherit}
 
 header{
   text-align:center;
-  padding:42px 5vw 26px;
+  padding:42px 4vw 26px;
   border-bottom:1px solid #e6dccf;
   background:#fffdf9;
 }
@@ -37,12 +37,11 @@ h1{
 header p{color:var(--muted);margin:0}
 
 main{
-  max-width:1160px;
+  width:min(1240px,100%);
   margin:auto;
-  padding:26px 4vw 60px;
+  padding:26px clamp(18px,3vw,38px) 60px;
 }
 
-/* V1.2 — 검색/연도 선택 */
 .shelf-tools{
   display:grid;
   grid-template-columns:minmax(220px,1fr) 180px auto;
@@ -94,7 +93,7 @@ main{
   display:flex;
   gap:12px;
   align-items:baseline;
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
 .yearline span{font:28px Georgia,serif}
 .yearline small{color:var(--muted)}
@@ -102,22 +101,25 @@ main{
 .shelf-stack{
   display:flex;
   flex-direction:column;
-  gap:28px;
+  gap:27px;
 }
 .shelf-row-wrap{width:100%}
+
+/* V1.4 — 화면 폭에 맞춘 4/3/2열 자동 배치 */
 .bookshelf{
   display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:26px;
+  grid-template-columns:repeat(var(--books-per-row,4),minmax(0,1fr));
+  gap:clamp(12px,2vw,24px);
   align-items:end;
-  min-height:300px;
-  padding:8px 20px 0;
+  min-height:290px;
+  padding:8px clamp(4px,1vw,12px) 0;
 }
 
 .book-slot{
   position:relative;
   justify-self:center;
-  width:180px;
+  width:min(180px,100%);
+  min-width:0;
 }
 .bookcard{
   display:block;
@@ -130,7 +132,7 @@ main{
   perspective:1000px;
 }
 .book{
-  width:180px;
+  width:100%;
   height:245px;
   background:#f5eadb;
   padding:14px;
@@ -142,9 +144,9 @@ main{
   position:relative;
 }
 .book-slot:hover .book{
-  transform:translateY(-12px) rotateY(-4deg);
+  transform:translateY(-10px) rotateY(-3deg);
   box-shadow:
-    0 24px 30px rgba(75,48,26,.24),
+    0 22px 28px rgba(75,48,26,.24),
     inset 9px 0 10px rgba(150,117,82,.15);
 }
 .cover-frame{
@@ -174,60 +176,6 @@ main{
   margin-top:4px;
 }
 
-/* hover 시에만 보이는 앨범 관리 메뉴 */
-.more-btn{
-  position:absolute;
-  top:8px;
-  right:8px;
-  z-index:3;
-  width:32px;
-  height:32px;
-  border:1px solid rgba(255,255,255,.55);
-  border-radius:50%;
-  background:rgba(61,44,31,.75);
-  color:#fff;
-  font-size:21px;
-  line-height:1;
-  cursor:pointer;
-  display:grid;
-  place-items:center;
-  opacity:0;
-  transform:translateY(3px);
-  transition:.18s ease;
-  box-shadow:0 5px 14px rgba(0,0,0,.16);
-}
-.book-slot:hover .more-btn,
-.more-btn:focus-visible{
-  opacity:1;
-  transform:translateY(0);
-}
-.more-btn:hover{background:rgba(61,44,31,.92)}
-
-.menu-layer{
-  position:fixed;
-  z-index:1000;
-  min-width:150px;
-  padding:6px;
-  border:1px solid #e2d5c5;
-  border-radius:11px;
-  background:#fffdf9;
-  box-shadow:0 13px 32px rgba(63,43,27,.22);
-}
-.menu-layer[hidden]{display:none}
-.menu-layer button{
-  display:block;
-  width:100%;
-  border:0;
-  border-radius:8px;
-  background:transparent;
-  padding:10px 12px;
-  color:var(--ink);
-  text-align:left;
-  cursor:pointer;
-  font-size:13px;
-}
-.menu-layer button:hover{background:#f4eadc}
-
 .wood{
   height:18px;
   border-radius:3px;
@@ -249,13 +197,10 @@ main{
   font-size:12px;
 }
 
-@media(max-width:980px){
-  .bookshelf{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
-
 @media(max-width:760px){
   h1{font-size:31px}
-  main{padding-left:16px;padding-right:16px}
+  header{padding-top:34px}
+  main{padding-left:14px;padding-right:14px}
   .shelf-tools{
     grid-template-columns:1fr 120px;
     gap:10px;
@@ -266,26 +211,20 @@ main{
     text-align:left;
   }
   .bookshelf{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:18px;
-    min-height:250px;
-    padding:6px 4px 0;
+    gap:16px;
+    min-height:242px;
+    padding:6px 2px 0;
   }
-  .book-slot{width:150px}
-  .book{width:150px;height:215px}
+  .book-slot{width:min(150px,100%)}
+  .book{height:215px;padding:12px}
   .cover-frame{height:140px}
   .title{font-size:17px}
   .shelf-stack{gap:24px}
-  .more-btn{
-    opacity:.82;
-    width:30px;
-    height:30px;
-  }
 }
 
-@media(max-width:360px){
+@media(max-width:420px){
   .bookshelf{gap:10px}
-  .book-slot{width:138px}
-  .book{width:138px;height:205px;padding:12px}
-  .cover-frame{height:134px}
+  .book-slot{width:min(142px,100%)}
+  .book{height:208px;padding:11px}
+  .cover-frame{height:136px}
 }
