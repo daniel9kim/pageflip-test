@@ -1,0 +1,11 @@
+PAGE FLIP Viewer V11.2 — No Triangle Fold
+
+이번 단계의 목표는 한 가지입니다.
+
+- 페이지 아래쪽에 나타나던 삼각형 형태의 접힘(page-curl)을 완전히 제거했습니다.
+- 사진/텍스트가 붙은 실제 turn-sheet 페이지 넘김은 그대로 유지합니다.
+- 종이 아래 그림자는 넓고 부드러운 음영으로만 남겼습니다.
+- 기존 album.json / Viewer 데이터 구조 / 모바일 단면 구조는 변경하지 않았습니다.
+
+적용:
+GitHub의 viewer/ 폴더에 이 ZIP의 viewer/ 내용을 덮어쓰세요.

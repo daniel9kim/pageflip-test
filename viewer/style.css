@@ -598,3 +598,49 @@
   width:26px;
   background:linear-gradient(90deg,transparent 0%,rgba(72,51,35,.045) 28%,rgba(72,51,35,.13) 46%,rgba(255,255,255,.28) 50%,rgba(72,51,35,.11) 55%,rgba(72,51,35,.035) 72%,transparent 100%);
 }
+
+
+/* =========================================================
+   PAGE FLIP Viewer V11.2 — No Triangle Fold
+   하단 삼각형 모서리 접힘 효과를 완전히 제거합니다.
+   실제 페이지 콘텐츠를 담은 turn-sheet만 페이지 넘김에 사용합니다.
+   ========================================================= */
+
+/* 과거 page-curl의 polygon/triangle 효과를 완전히 비활성화 */
+#pageCurl,
+.page-curl,
+.open-book.curl-hover .page-curl,
+.open-book.turning .page-curl,
+.open-book.dragging .page-curl,
+.open-book.settling .page-curl{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+  opacity:0 !important;
+  background:none !important;
+  border:0 !important;
+  clip-path:none !important;
+  filter:none !important;
+  animation:none !important;
+  transform:none !important;
+}
+
+/* turn-sheet 아래 그림자는 삼각형이 아니라 넓고 부드러운 종이 그림자로 유지 */
+.curl-shadow{
+  background:
+    radial-gradient(
+      ellipse at 76% 58%,
+      rgba(48,34,23,.12) 0%,
+      rgba(48,34,23,.055) 24%,
+      transparent 58%
+    ) !important;
+  filter:blur(1px);
+}
+
+/* 넘기는 실제 종이의 바깥 모서리를 살짝 둥글게 해 딱딱한 판 느낌 완화 */
+.turn-sheet:not(.reverse) .turn-face{
+  border-radius:0 10px 10px 0;
+}
+.turn-sheet.reverse .turn-face{
+  border-radius:10px 0 0 10px;
+}
