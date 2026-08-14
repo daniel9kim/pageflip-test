@@ -5,10 +5,20 @@
   "summary": "",
   "story": "",
   "shelf": "장로합창단",
+  "shelfKey": "elders",
   "photoCount": 1,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-14T21:02:22.899Z",
-  "updatedAt": "2026-08-14T21:02:22.899Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786741342899/photos/001.webp",
+      "originalName": "KakaoTalk_20260810_080352834.jpg",
+      "width": 893,
+      "height": 1587,
+      "bytes": 167864
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-14T21:02:26.915Z"
 }
