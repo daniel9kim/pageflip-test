@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V12.2 — verified connection-status fix
+// PAGE FLIP Maker V12.3 — verified Access authentication flow
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -118,6 +118,25 @@ document.querySelector('#closeModal').onclick=()=>modal.classList.remove('show')
 modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
 document.querySelector('#openRepo').onclick=()=>window.open('https://github.com/daniel9kim/pageflip-test','_blank','noopener');
 document.querySelector('#checkStatus').onclick=checkStatus;
+
+document.querySelector('#authAccess').onclick=()=>{
+  // Direct navigation makes the Worker origin first-party, so Cloudflare Access can set/refresh its cookie.
+  window.open(
+    API_BASE+'/api/status?from=maker&ts='+Date.now(),
+    '_blank',
+    'noopener'
+  );
+  const result=document.querySelector('#result');
+  if(result){
+    result.textContent='Cloudflare 인증 창을 열었습니다. 인증을 마친 뒤 이 Maker 탭으로 돌아오면 자동으로 다시 확인합니다.';
+    result.className='result';
+  }
+  document.querySelector('#ghDot').className='gh-dot warn';
+  document.querySelector('#ghLabel').textContent='Cloudflare 인증 대기';
+  document.querySelector('#ghStatus').textContent='새 탭에서 Access 인증을 완료한 뒤 Maker로 돌아와 주세요.';
+  document.querySelector('#connectBtn').textContent='인증 후 확인';
+};
+
 
 
 function ensureAdminPanel(){
@@ -410,7 +429,9 @@ async function checkStatus(){
   }else if(response.type==='api'){
     detail=response.data?.message||'Worker가 정상 상태가 아닌 응답을 보냈습니다.';
   }else if(response.type==='network'){
-    detail=response.error?.message||'네트워크 요청에 실패했습니다.';
+    // When Access redirects a cross-origin fetch to its login page,
+    // browsers commonly surface only "Failed to fetch".
+    detail='Cloudflare Access 인증 세션을 확인하지 못했습니다. “Cloudflare 인증 열기”를 눌러 인증을 갱신해 주세요.';
   }
 
   if(result){
@@ -420,8 +441,8 @@ async function checkStatus(){
   setHeader(
     'warn',
     'GitHub 연결 확인 필요',
-    detail+' “연결 상태 확인”을 다시 눌러 확인할 수 있습니다.',
-    '연결 상태 확인'
+    detail,
+    '인증 후 확인'
   );
   return false;
 }
@@ -1133,3 +1154,13 @@ ensureAdminPanel();
     window.open(`../shelves/${key}/`,'_blank','noopener');
   };
 })();
+
+
+/* ACCESS_FOCUS_RECHECK_V12_3 */
+let _pageflipLastFocusCheck=0;
+window.addEventListener('focus',()=>{
+  const now=Date.now();
+  if(now-_pageflipLastFocusCheck<1200) return;
+  _pageflipLastFocusCheck=now;
+  setTimeout(()=>checkStatus(),450);
+});
