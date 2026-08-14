@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.1 — Natural Page Turn Refinement
+// PAGE FLIP Viewer V11.3 — Landscape Turn Fix
 let album=null;
 let photos=[];
 let story='';
@@ -414,9 +414,22 @@ function prepareTurnSheet(direction=1){
   // 대신 원래 위치의 페이지를 live spread에서 완전히 분리해
   // 3D 합성 중 희미한 원본 자국(ghost)을 구조적으로 없앱니다.
   turnSource=source;
-  turnSourcePlaceholder=document.createComment('page-turn-source');
-  if(source.parentNode){
-    source.parentNode.replaceChild(turnSourcePlaceholder,source);
+  const isLandscapeSource=source.classList?.contains('landscape-hero-spread');
+  if(isLandscapeSource){
+    // V11.3: 가로사진은 한 장이 양면 전체를 차지하므로 원본 전체를 DOM에서 제거하면
+    // 반대쪽 절반까지 사라집니다. 넘기는 쪽 절반만 가리고, 나머지 절반은 책에 남깁니다.
+    turnSourcePlaceholder=null;
+    source.classList.add('landscape-turn-source');
+    source.classList.toggle('turning-forward',turnDirection>0);
+    source.classList.toggle('turning-reverse',turnDirection<0);
+    if(frontClone){
+      frontClone.classList.add(turnDirection>0?'landscape-turn-right':'landscape-turn-left');
+    }
+  }else{
+    turnSourcePlaceholder=document.createComment('page-turn-source');
+    if(source.parentNode){
+      source.parentNode.replaceChild(turnSourcePlaceholder,source);
+    }
   }
 
   if(turnUnderlay){
@@ -454,6 +467,9 @@ function resetCurl(){
   // 정상 넘김 완료 시 render()가 새 spread를 만들기 때문에 placeholder는 사라집니다.
   if(turnSource && turnSourcePlaceholder && turnSourcePlaceholder.parentNode){
     turnSourcePlaceholder.parentNode.replaceChild(turnSource,turnSourcePlaceholder);
+  }
+  if(turnSource?.classList){
+    turnSource.classList.remove('landscape-turn-source','turning-forward','turning-reverse');
   }
   turnSource=null;
   turnSourcePlaceholder=null;
