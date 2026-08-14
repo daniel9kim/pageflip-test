@@ -244,3 +244,35 @@ main{
 [aria-label="더보기"]{
   display:none !important;
 }
+
+
+/* PAGE FLIP Shelf V1.6 — 날짜 옆 사진 수 */
+.book-meta{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:4px;
+  min-width:0;
+  white-space:nowrap;
+}
+.book-meta .date{
+  margin-top:0;
+  flex:0 0 auto;
+}
+.photo-count{
+  color:#9a8877;
+  font-size:11px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.photo-count:not(:empty)::before{
+  content:"·";
+  margin-right:7px;
+  color:#c0ad99;
+}
+
+@media(max-width:420px){
+  .book-meta{gap:5px}
+  .photo-count{font-size:10px}
+  .photo-count:not(:empty)::before{margin-right:5px}
+}

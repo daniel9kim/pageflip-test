@@ -1,4 +1,4 @@
-// PAGE FLIP Shelf V1.5
+// PAGE FLIP Shelf V1.6
 // - 날짜 최신순 정렬
 // - 화면 폭에 따라 4/3/2권 자동 배치
 // - 공개 책장에서는 수정 메뉴를 노출하지 않음
@@ -188,13 +188,74 @@ function makeBookCard(a) {
         '<img src="' + escapeAttr(a.cover || '') + '" alt="">' +
       '</div>' +
       '<div class="title">' + escapeHtml(a.title || '앨범') + '</div>' +
-      '<div class="date">' + escapeHtml(String(a.date || '').replaceAll('-', '.')) + '</div>' +
+      '<div class="book-meta">' +
+        '<span class="date">' + escapeHtml(String(a.date || '').replaceAll('-', '.')) + '</span>' +
+        '<span class="photo-count" data-photo-count>사진 수 확인 중</span>' +
+      '</div>' +
     '</div>';
 
   btn.onclick = () => openViewer(a);
   wrap.appendChild(btn);
 
+  // shelf.json에 사진 수가 있으면 즉시 표시하고,
+  // 없으면 해당 album.json을 읽어 실제 사진 수를 확인합니다.
+  hydratePhotoCount(wrap, a);
+
   return wrap;
+}
+
+async function hydratePhotoCount(card, a) {
+  const el = card.querySelector('[data-photo-count]');
+  if (!el) return;
+
+  const known = getKnownPhotoCount(a);
+  if (known !== null) {
+    el.textContent = `사진 ${known}장`;
+    return;
+  }
+
+  try {
+    const url = absoluteAlbumUrl(a);
+    const r = await fetch(url, { cache: 'no-store' });
+    if (!r.ok) throw new Error(String(r.status));
+    const album = await r.json();
+
+    const count = getKnownPhotoCount(album);
+    el.textContent = count === null ? '' : `사진 ${count}장`;
+  } catch (err) {
+    // 사진 수를 못 읽어도 책장 이용에는 지장이 없도록 날짜만 남깁니다.
+    el.textContent = '';
+  }
+}
+
+function getKnownPhotoCount(obj) {
+  if (!obj || typeof obj !== 'object') return null;
+
+  const direct = [
+    obj.photoCount,
+    obj.photosCount,
+    obj.imageCount,
+    obj.imagesCount,
+    obj.count
+  ];
+
+  for (const value of direct) {
+    const n = Number(value);
+    if (Number.isFinite(n) && n >= 0) return n;
+  }
+
+  if (Array.isArray(obj.photos)) return obj.photos.length;
+  if (Array.isArray(obj.images)) return obj.images.length;
+  if (Array.isArray(obj.pages)) {
+    // pages 배열 안에 image/photo가 있는 구조도 대응
+    const imagePages = obj.pages.filter(p =>
+      p && typeof p === 'object' &&
+      (p.image || p.photo || p.src || p.url || p.file)
+    );
+    if (imagePages.length) return imagePages.length;
+  }
+
+  return null;
 }
 
 function absoluteAlbumUrl(a) {
