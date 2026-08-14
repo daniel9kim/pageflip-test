@@ -1,0 +1,10 @@
+PAGE FLIP Viewer V11.4 — Mobile Reading Experience
+
+- PC Viewer layout and page-turn behavior unchanged
+- Mobile top bar reduced
+- Mobile bottom page indicator bar reduced
+- Book width expanded to 96vw
+- Internal page/photo margins reduced
+- Navigation arrows made smaller and lighter
+- Existing horizontal swipe navigation retained
+- V11.2 no-triangle-fold and V11.3 landscape-turn fixes retained

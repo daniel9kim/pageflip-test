@@ -645,3 +645,58 @@
   border-radius:10px 0 0 10px;
 }
 \n\n/* =========================================================\n   PAGE FLIP Viewer V11.3 — Landscape Turn Fix\n   가로사진이 양면 전체를 차지할 때 넘김 중 반대쪽 절반이 사라지는 현상 수정\n   ========================================================= */\n@media (min-width:761px){\n  /* 원본 가로 spread는 넘기지 않는 절반을 책 위에 계속 남겨 둡니다. */\n  #spread > .landscape-turn-source.turning-forward{\n    clip-path:inset(0 50% 0 0);\n  }\n  #spread > .landscape-turn-source.turning-reverse{\n    clip-path:inset(0 0 0 50%);\n  }\n\n  /* turn-sheet는 책의 절반 폭이므로 2배 폭의 가로 spread에서 필요한 절반만 보여줍니다. */\n  .turn-front > .landscape-spread.turn-clone.landscape-turn-right{\n    width:200% !important;\n    transform:translateX(-50%) !important;\n  }\n  .turn-front > .landscape-spread.turn-clone.landscape-turn-left{\n    width:200% !important;\n    transform:translateX(0) !important;\n  }\n\n  /* 가로사진 프레임/이미지는 복제된 2배 폭 안에서도 원래 spread 비율을 그대로 유지 */\n  .turn-front > .landscape-spread.turn-clone .landscape-hero-frame,\n  .turn-front > .landscape-spread.turn-clone .landscape-hero-photo{\n    max-width:none !important;\n  }\n}\n
+/* =========================================================
+   PAGE FLIP Viewer V11.4 — Mobile Reading Experience
+   PC layout/turn behavior is intentionally unchanged.
+   ========================================================= */
+@media (max-width:760px){
+  .reader-topbar{
+    height:54px;
+    padding:7px 14px;
+  }
+  .reader-topbar > div{font-size:13px;line-height:1.15}
+  .reader-topbar span{font-size:10px;margin-top:2px}
+  .reader-topbar .text-btn,
+  .reader-topbar .icon-btn{font-size:14px;padding:6px 4px}
+
+  .book-area{
+    height:calc(100dvh - 92px);
+    min-height:0;
+    padding:8px 6px;
+  }
+  .open-book{
+    width:96vw;
+    height:min(80dvh,760px);
+    max-height:calc(100dvh - 108px);
+  }
+  .spread{border-radius:8px}
+  .page{padding:5.2%}
+  .landscape-spread{padding:4.5%}
+
+  .page.portrait-photo-page,
+  .page.portrait-photo-page.left,
+  .page.portrait-photo-page.right{
+    padding:4.5% !important;
+  }
+  .page.portrait-photo-page .portrait-photo{
+    max-width:100%;
+    max-height:calc(100% - 28px);
+  }
+
+  .nav-zone{
+    width:13%;
+    font-size:38px;
+    opacity:.32;
+  }
+  .reader-footer{
+    height:38px;
+    min-height:38px;
+    font-size:12px;
+    gap:12px;
+  }
+  .page-number{bottom:8px;font-size:10px}
+
+  /* Touch should feel like a reader: vertical page scrolling is suppressed
+     inside the book while horizontal swipe remains handled by app.js. */
+  .open-book{touch-action:pan-y;}
+}
