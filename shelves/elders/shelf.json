@@ -24,6 +24,16 @@
       "updatedAt": "2026-08-15T11:38:49.637Z"
     },
     {
+      "id": "album-1786795788325",
+      "title": "핸드벨 연습",
+      "date": "2025-02-05",
+      "summary": "",
+      "cover": "../../albums/album-1786795788325/photos/001.webp",
+      "album": "../../albums/album-1786795788325/album.json",
+      "photoCount": 2,
+      "updatedAt": "2026-08-15T12:09:56.422Z"
+    },
+    {
       "id": "album-1786795665244",
       "title": "바리톤 번개모임",
       "date": "2025-02-01",
