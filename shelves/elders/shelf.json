@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786804857204",
+      "title": "2025 전국 장로 수련회",
+      "date": "2025-07-02",
+      "summary": "",
+      "cover": "../../albums/album-1786804857204/photos/001.webp",
+      "album": "../../albums/album-1786804857204/album.json",
+      "photoCount": 8,
+      "updatedAt": "2026-08-15T14:41:52.998Z"
+    },
+    {
       "id": "album-1786804720690",
       "title": "권사합창단",
       "date": "2025-06-14",
