@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786836943215",
+      "title": "열방교회 초청연주",
+      "date": "2026-04-03",
+      "summary": "",
+      "cover": "../../albums/album-1786836943215/photos/001.webp",
+      "album": "../../albums/album-1786836943215/album.json",
+      "photoCount": 7,
+      "updatedAt": "2026-08-15T23:36:17.464Z"
+    },
+    {
       "id": "album-1786836663994",
       "title": "양평동교회 초청연주",
       "date": "2026-03-29",
