@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V12.3 — verified Access authentication flow
+// PAGE FLIP Maker V12.4 — canonical shelf key
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -14,6 +14,29 @@ const SHELF_SOURCES=[
   {key:'family',label:'가족사진',url:new URL('../shelves/family/shelf.json',location.href).href},
   {key:'personal',label:'개인사진',url:new URL('../shelves/personal/shelf.json',location.href).href}
 ];
+
+const SHELF_KEY_BY_LABEL={
+  '장로합창단':'elders',
+  '핸드벨':'handbell',
+  '가족':'family',
+  '가족사진':'family',
+  '영춘이 개인':'personal',
+  '개인사진':'personal'
+};
+
+function selectedShelfIdentity(){
+  const select=document.querySelector('#shelf');
+  const raw=String(select?.value||'').trim();
+  const key=SHELF_KEY_BY_LABEL[raw] || (
+    ['elders','handbell','family','personal'].includes(raw) ? raw : ''
+  );
+  if(!key) throw new Error('올바른 책장을 선택해 주세요.');
+  const source=SHELF_SOURCES.find(s=>s.key===key);
+  return {
+    key,
+    label:source?.label || raw
+  };
+}
 let adminAlbums=[];
 
 
@@ -882,12 +905,21 @@ document.querySelector('#make').onclick=async()=>{
   const prog=document.querySelector('#progress'),fill=document.querySelector('#fill'),msg=document.querySelector('#msg');
   const plan=document.querySelector('#uploadPlan');
 
+  let shelfIdentity;
+  try{
+    shelfIdentity=selectedShelfIdentity();
+  }catch(e){
+    alert(e.message||'올바른 책장을 선택해 주세요.');
+    return;
+  }
+
   const metadata={
     title,
     date:document.querySelector('#date').value||'',
     summary:document.querySelector('#summary').value.trim(),
     story:document.querySelector('#story').value.trim(),
-    shelf:document.querySelector('#shelf').value,
+    shelf:shelfIdentity.label,
+    shelfKey:shelfIdentity.key,
     coverIndex:cover
   };
 
@@ -1146,7 +1178,11 @@ ensureAdminPanel();
     '가족':'family',
     '가족사진':'family',
     '영춘이 개인':'personal',
-    '개인사진':'personal'
+    '개인사진':'personal',
+    'elders':'elders',
+    'handbell':'handbell',
+    'family':'family',
+    'personal':'personal'
   };
 
   btn.onclick=()=>{
