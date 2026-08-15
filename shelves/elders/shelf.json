@@ -14,6 +14,16 @@
       "updatedAt": "2026-08-12T18:34:20.313Z"
     },
     {
+      "id": "album-1786801252128",
+      "title": "난곡신일교회 초청연",
+      "date": "2025-04-13",
+      "summary": "",
+      "cover": "../../albums/album-1786801252128/photos/001.webp",
+      "album": "../../albums/album-1786801252128/album.json",
+      "photoCount": 6,
+      "updatedAt": "2026-08-15T13:41:10.021Z"
+    },
+    {
       "id": "album-1786801125902",
       "title": "합창단 입단식",
       "date": "2025-03-28",
