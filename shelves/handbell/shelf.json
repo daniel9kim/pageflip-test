@@ -1,5 +1,17 @@
 {
+  "id": "handbell",
   "title": "핸드벨 앨범 책장",
   "subtitle": "핸드벨 연주와 함께한 순간들을 모았습니다.",
-  "albums": []
+  "albums": [
+    {
+      "id": "album-1786753699589",
+      "title": "테스트앨범",
+      "date": "",
+      "summary": "",
+      "cover": "../../albums/album-1786753699589/photos/001.webp",
+      "album": "../../albums/album-1786753699589/album.json",
+      "photoCount": 4,
+      "updatedAt": "2026-08-15T00:28:33.452Z"
+    }
+  ]
 }
