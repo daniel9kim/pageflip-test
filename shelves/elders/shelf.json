@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786834183287",
+      "title": "문호교회 초청연주",
+      "date": "2025-12-07",
+      "summary": "",
+      "cover": "../../albums/album-1786834183287/photos/001.webp",
+      "album": "../../albums/album-1786834183287/album.json",
+      "photoCount": 10,
+      "updatedAt": "2026-08-15T22:50:14.843Z"
+    },
+    {
       "id": "album-1786833977305",
       "title": "태국선교여행 03",
       "date": "2025-11-14",
