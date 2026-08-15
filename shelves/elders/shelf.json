@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786804502403",
+      "title": "언더우드 아카데미",
+      "date": "2025-06-07",
+      "summary": "",
+      "cover": "../../albums/album-1786804502403/photos/001.webp",
+      "album": "../../albums/album-1786804502403/album.json",
+      "photoCount": 4,
+      "updatedAt": "2026-08-15T14:36:02.947Z"
+    },
+    {
       "id": "album-1786802205782",
       "title": "영락 세계 합창",
       "date": "2025-06-01",
