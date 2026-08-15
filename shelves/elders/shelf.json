@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786832343554",
+      "title": "태국 선교 여행",
+      "date": "2025-11-09",
+      "summary": "",
+      "cover": "../../albums/album-1786832343554/photos/001.webp",
+      "album": "../../albums/album-1786832343554/album.json",
+      "photoCount": 6,
+      "updatedAt": "2026-08-15T22:19:21.636Z"
+    },
+    {
       "id": "album-1786832259027",
       "title": "태국 선교 여행",
       "date": "2025-11-09",
