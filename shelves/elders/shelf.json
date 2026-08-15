@@ -32,6 +32,16 @@
       "album": "../../albums/album-1786559636653/album.json",
       "photoCount": 9,
       "updatedAt": "2026-08-12T18:34:20.313Z"
+    },
+    {
+      "id": "album-1786753563899",
+      "title": "프라자호텔 1",
+      "date": "2025-08-01",
+      "summary": "프라자호텔 첫만남",
+      "cover": "../../albums/album-1786753563899/photos/001.webp",
+      "album": "../../albums/album-1786753563899/album.json",
+      "photoCount": 6,
+      "updatedAt": "2026-08-15T00:26:18.292Z"
     }
   ]
 }
