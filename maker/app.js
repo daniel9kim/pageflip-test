@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V12.4 — canonical shelf key
+// PAGE FLIP Maker V12.5 — explicit edit photo add UI
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -41,6 +41,15 @@ let adminAlbums=[];
 
 
 choose.onclick=e=>{e.stopPropagation();input.click()};
+const addPhotoBtn=document.querySelector('#addPhotoBtn');
+if(addPhotoBtn){
+  addPhotoBtn.onclick=e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    input.value='';
+    input.click();
+  };
+}
 drop.onclick=()=>input.click();
 input.onchange=e=>load([...e.target.files]);
 ['dragenter','dragover'].forEach(x=>drop.addEventListener(x,e=>{e.preventDefault();drop.classList.add('over')}));
@@ -73,6 +82,23 @@ function load(files){
   document.querySelector('#editor').scrollIntoView({behavior:'smooth'})
 }
 
+
+function updateEditAddStatus(){
+  const box=document.querySelector('#editAddStatus');
+  if(!box) return;
+  if(!isEditMode()){
+    box.style.display='none';
+    return;
+  }
+  box.style.display='block';
+  if(selected.length){
+    box.innerHTML=`<b>새 사진 ${selected.length}장</b>이 추가 대기 중입니다. <span>“수정 저장”을 누르면 기존 앨범의 마지막에 추가됩니다.</span>`;
+    box.className='edit-add-status has-new';
+  }else{
+    box.innerHTML='새 사진을 추가하려면 <b>+ 사진 추가</b>를 누르세요.';
+    box.className='edit-add-status';
+  }
+}
 
 function renderEditPhotos(){
   if(!editAlbum)return;
@@ -125,6 +151,7 @@ function renderEditPhotos(){
   const dropTitle=drop.querySelector('h2'),dropText=drop.querySelector('p');
   if(dropTitle)dropTitle.textContent=selected.length?`새 사진 ${selected.length}장 선택됨`:'새 사진 추가';
   if(dropText)dropText.textContent=selected.length?'“수정 저장”을 누르면 기존 앨범에 추가됩니다.':'추가할 사진을 드래그하거나 사진 선택 버튼을 눌러 주세요.';
+  updateEditAddStatus();
 }
 
 function stats(p,l){
@@ -504,17 +531,20 @@ function renderExistingAlbum(album){
   const introTitle=document.querySelector('.intro h1');
   const introText=document.querySelector('.intro p');
   if(introTitle) introTitle.textContent='사진책 수정하기';
-  if(introText) introText.textContent='사진을 드래그해 순서를 바꾸고, 삭제·추가·표지 변경과 제목·날짜·기록·책장을 수정합니다.';
+  if(introText) introText.textContent='사진 추가·삭제·순서 변경·표지 변경과 제목·날짜·기록·책장을 수정합니다.';
 
-  // V10.2-2: 기존 사진 삭제를 먼저 연결합니다.
-  // 새 사진 추가는 다음 단계에서 안전하게 연결합니다.
-  drop.style.opacity='1';
-  drop.style.pointerEvents='auto';
-  const dropTitle=drop.querySelector('h2');
-  const dropText=drop.querySelector('p');
-  if(dropTitle) dropTitle.textContent='새 사진 추가';
-  if(dropText) dropText.textContent='추가할 사진을 드래그하거나 사진 선택 버튼을 눌러 주세요.';
+  // V12.5: 수정 화면 안에서 사진 추가 기능이 바로 보이도록 합니다.
+  // 기존 상단 대형 드롭존은 숨기고, 사진 목록 옆에 명확한 + 사진 추가 버튼을 제공합니다.
+  drop.style.display='none';
+  const addBtn=document.querySelector('#addPhotoBtn');
+  if(addBtn) addBtn.style.display='inline-flex';
 
+  const manageLabel=document.querySelector('#photoManageLabel');
+  const manageHint=document.querySelector('#photoManageHint');
+  if(manageLabel) manageLabel.textContent='사진 관리';
+  if(manageHint) manageHint.textContent='사진 추가 후 필요하면 드래그해 순서를 바꾸고, 원하는 사진을 눌러 표지로 선택하세요.';
+
+  updateEditAddStatus();
   document.querySelector('#editor').scrollIntoView({behavior:'smooth'});
 }
 
@@ -527,7 +557,7 @@ function renderExistingStats(){
     `<div class="stat">기존 사진 <b>${photos.length}</b>장</div>`+
     `<div class="stat">세로 <b>${p}</b>장</div>`+
     `<div class="stat">가로 <b>${l}</b>장</div>`+
-    `<div class="stat">수정 모드 <b>삭제·순서 변경</b></div>`;
+    `<div class="stat">수정 모드 <b>추가·삭제·순서 변경</b></div>`;
 }
 
 
@@ -1010,6 +1040,7 @@ document.querySelector('#make').onclick=async()=>{
       msg.textContent='새 사진 추가와 사진책 수정 저장이 완료되었습니다.';
       renderExistingStats();
       renderExistingThumbs();
+      updateEditAddStatus();
 
       plan.innerHTML+=`
         <div style="border-top:1px solid #e5dbcf;margin:14px 0 4px"></div>
