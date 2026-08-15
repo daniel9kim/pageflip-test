@@ -1,0 +1,21 @@
+PAGE FLIP Viewer V11.5.2 — Mobile Pinch Photo Zoom
+
+추가 기능
+- 모바일 Viewer에서 사진을 두 손가락으로 벌리면 확대
+- 최대 4배 확대
+- 두 손가락을 모으면 축소
+- 거의 원래 크기까지 축소하면 자동으로 1배 복귀
+- 확대 상태에서는 좌우 페이지 스와이프가 실행되지 않음
+- 확대 사진을 빠르게 두 번 탭하면 1배로 복귀
+- 페이지를 넘기면 확대 상태 자동 초기화
+
+유지
+- PC Viewer 동작 변경 없음
+- V11.4.2 가로사진 forward/reverse 보정 유지
+- V11.5.1 단일 엔딩/모바일 표지 보정 유지
+
+검증
+- app.js JavaScript 문법 검사
+- 기존 swipe handler를 pinch-aware handler로 교체
+- render 시 zoom state reset
+- 모바일 CSS touch-action 및 zoom overflow 처리 확인

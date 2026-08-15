@@ -997,3 +997,42 @@
     font-size:clamp(11px,3.5vw,14px) !important;
   }
 }
+
+
+/* =========================================================
+   PAGE FLIP Viewer V11.5.2 — Mobile Pinch Photo Zoom
+   ========================================================= */
+@media(max-width:760px){
+  /* 사진 자체에서 브라우저 기본 제스처 대신 Viewer 확대 제스처 사용 */
+  #spread .page img,
+  #spread .landscape-spread img,
+  #spread .essay-art{
+    transform:scale(1);
+    transform-origin:50% 50%;
+    transition:transform .16s ease-out;
+    touch-action:none;
+    user-select:none;
+    -webkit-user-drag:none;
+    position:relative;
+    z-index:2;
+  }
+
+  #spread img.pinch-zoomed{
+    transition:none;
+    z-index:20;
+  }
+
+  /* 확대된 사진은 페이지 영역 밖으로도 볼 수 있도록 spread clipping 완화 */
+  .open-book.photo-zoomed .spread{
+    overflow:visible !important;
+  }
+
+  .open-book.photo-zoomed .nav-zone{
+    pointer-events:none;
+    opacity:.08;
+  }
+
+  .open-book.photo-zoomed{
+    cursor:zoom-out;
+  }
+}

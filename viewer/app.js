@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.5.1 — Single Ending + Mobile Cover Fit
+// PAGE FLIP Viewer V11.5.2 — Mobile Pinch Photo Zoom
 let album=null;
 let photos=[];
 let story='';
@@ -318,6 +318,10 @@ function makeBackCoverBlank(side='right'){
 }
 
 function render(){
+  book.classList.remove('photo-zoomed');
+  pinch.active=false;
+  pinch.img=null;
+  tx=null;
   spreadEl.innerHTML='';
   const s=spreads[current];
   if(!s){
@@ -806,6 +810,7 @@ book.addEventListener('pointermove',e=>{
 });
 book.addEventListener('pointerleave',()=>{if(!drag)resetCurl()});
 book.addEventListener('pointerdown',e=>{
+  if(mobile() && e.pointerType==='touch') return;
   const r=book.getBoundingClientRect();
   const rightCorner=r.right-e.clientX<170&&r.bottom-e.clientY<170&&current<spreads.length-1;
   const leftCorner=e.clientX-r.left<170&&r.bottom-e.clientY<170&&current>0;
@@ -846,14 +851,166 @@ book.addEventListener('pointercancel',()=>{
   animateTo(p,0,320,resetCurl,direction);
 });
 
+// =========================================================
+// V11.5.2 — Mobile Pinch Photo Zoom
+// 두 손가락 확대/축소 + 확대 중 페이지 스와이프 방지
+// =========================================================
 let tx=null;
-book.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+let pinch={
+  img:null,
+  active:false,
+  startDist:0,
+  startScale:1
+};
+
+function pinchDistance(touches){
+  if(!touches || touches.length<2) return 0;
+  const dx=touches[0].clientX-touches[1].clientX;
+  const dy=touches[0].clientY-touches[1].clientY;
+  return Math.hypot(dx,dy);
+}
+
+function zoomScale(img){
+  return Number(img?.dataset?.zoomScale||1) || 1;
+}
+
+function setPhotoZoom(img,scale){
+  if(!img) return;
+  const safe=Math.max(1,Math.min(4,scale));
+  img.dataset.zoomScale=String(safe);
+  img.style.transform=`scale(${safe})`;
+  img.classList.toggle('pinch-zoomed',safe>1.01);
+  book.classList.toggle('photo-zoomed',safe>1.01);
+}
+
+function resetPhotoZoom(img){
+  if(!img) return;
+  img.dataset.zoomScale='1';
+  img.style.transform='scale(1)';
+  img.style.transformOrigin='50% 50%';
+  img.classList.remove('pinch-zoomed');
+  book.classList.remove('photo-zoomed');
+}
+
+function currentZoomedPhoto(){
+  return spreadEl.querySelector('img.pinch-zoomed');
+}
+
+function touchPhotoAtPoint(touch){
+  const el=document.elementFromPoint(touch.clientX,touch.clientY);
+  const img=el?.closest?.(
+    '.page img, .landscape-spread img, .essay-art'
+  );
+  return img && spreadEl.contains(img) ? img : null;
+}
+
+book.addEventListener('touchstart',e=>{
+  if(!mobile()) return;
+
+  if(e.touches.length===2){
+    const mid={
+      clientX:(e.touches[0].clientX+e.touches[1].clientX)/2,
+      clientY:(e.touches[0].clientY+e.touches[1].clientY)/2
+    };
+
+    const img=touchPhotoAtPoint(mid) ||
+      e.target.closest?.('.page img, .landscape-spread img, .essay-art');
+
+    if(!img || !spreadEl.contains(img)) return;
+
+    // 다른 사진이 확대 중이면 먼저 원복
+    const old=currentZoomedPhoto();
+    if(old && old!==img) resetPhotoZoom(old);
+
+    const rect=img.getBoundingClientRect();
+    const ox=Math.max(0,Math.min(100,((mid.clientX-rect.left)/rect.width)*100));
+    const oy=Math.max(0,Math.min(100,((mid.clientY-rect.top)/rect.height)*100));
+
+    img.style.transformOrigin=`${ox}% ${oy}%`;
+    img.style.willChange='transform';
+
+    pinch.img=img;
+    pinch.active=true;
+    pinch.startDist=Math.max(1,pinchDistance(e.touches));
+    pinch.startScale=zoomScale(img);
+    tx=null;
+
+    e.preventDefault();
+    return;
+  }
+
+  if(e.touches.length===1){
+    // 사진이 확대되어 있는 동안에는 페이지 넘김을 시작하지 않습니다.
+    if(currentZoomedPhoto()){
+      tx=null;
+      return;
+    }
+    tx=e.touches[0].clientX;
+  }
+},{passive:false});
+
+book.addEventListener('touchmove',e=>{
+  if(!mobile() || !pinch.active || e.touches.length<2 || !pinch.img) return;
+
+  const dist=pinchDistance(e.touches);
+  const scale=pinch.startScale*(dist/pinch.startDist);
+  setPhotoZoom(pinch.img,scale);
+  e.preventDefault();
+},{passive:false});
+
 book.addEventListener('touchend',e=>{
-  if(tx==null)return;
+  if(!mobile()) return;
+
+  if(pinch.active){
+    // 한 손가락이 먼저 떨어지는 순간에는 페이지 넘김으로 연결하지 않음
+    if(e.touches.length<2){
+      const img=pinch.img;
+      pinch.active=false;
+      pinch.img=null;
+      pinch.startDist=0;
+
+      if(img){
+        if(zoomScale(img)<1.06) resetPhotoZoom(img);
+        else img.style.willChange='auto';
+      }
+    }
+    tx=null;
+    e.preventDefault();
+    return;
+  }
+
+  if(currentZoomedPhoto()){
+    tx=null;
+    return;
+  }
+
+  if(tx==null || !e.changedTouches.length) return;
   const dx=tx-e.changedTouches[0].clientX;
-  if(Math.abs(dx)>64)turn(dx>0?1:-1);
+  if(Math.abs(dx)>64) turn(dx>0?1:-1);
+  tx=null;
+},{passive:false});
+
+book.addEventListener('touchcancel',()=>{
+  pinch.active=false;
+  pinch.img=null;
   tx=null;
 },{passive:true});
+
+// 확대된 사진을 빠르게 두 번 누르면 원래 크기로 복귀
+let lastPhotoTap=0;
+book.addEventListener('click',e=>{
+  if(!mobile()) return;
+  const img=e.target.closest?.('.page img, .landscape-spread img, .essay-art');
+  if(!img || !spreadEl.contains(img)) return;
+
+  const now=Date.now();
+  if(now-lastPhotoTap<320 && zoomScale(img)>1.01){
+    resetPhotoZoom(img);
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  lastPhotoTap=now;
+},true);
 
 document.querySelector('#fullscreenBtn').onclick=async()=>{
   try{
