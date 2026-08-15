@@ -700,3 +700,36 @@
      inside the book while horizontal swipe remains handled by app.js. */
   .open-book{touch-action:pan-y;}
 }
+
+/* =========================================================
+   PAGE FLIP Viewer V11.4.1 — Forward Landscape Layer Fix
+   forward turn: turn-back = next left page / underlay = next right page
+   ========================================================= */
+@media (min-width:761px){
+  .turn-underlay .landscape-underlay-half{
+    position:relative;
+    overflow:hidden;
+    padding:0 !important;
+  }
+  .turn-underlay .landscape-underlay-full{
+    position:absolute;
+    top:0;
+    right:0;
+    width:200%;
+    height:100%;
+    padding:9.6% 13%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fffdf8;
+    box-sizing:border-box;
+  }
+  .turn-underlay .landscape-underlay-full img{
+    display:block;
+    width:auto !important;
+    height:auto !important;
+    max-width:94% !important;
+    max-height:86% !important;
+    object-fit:contain !important;
+  }
+}

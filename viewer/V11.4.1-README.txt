@@ -1,0 +1,3 @@
+PAGE FLIP Viewer V11.4.1
+Forward landscape page-turn layer fix.
+Reverse turn behavior unchanged.

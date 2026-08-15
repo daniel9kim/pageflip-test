@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.3 — Landscape Turn Fix
+// PAGE FLIP Viewer V11.4.1 — Forward Landscape Layer Fix
 let album=null;
 let photos=[];
 let story='';
@@ -376,6 +376,44 @@ function makeRevealPage(targetIndex,direction){
   return null;
 }
 
+
+function makeUnderlayPage(targetIndex,direction){
+  const s=spreads[targetIndex];
+  if(!s) return null;
+
+  // 앞으로 넘길 때 오른쪽 책 면 아래에는 다음 spread의 오른쪽 면이 있어야 합니다.
+  // turn-back은 다음 spread의 왼쪽 면을 담당하므로 두 레이어를 분리합니다.
+  if(direction>0){
+    if(s.type==='essay'){
+      const [,right]=essaySpread();
+      return right;
+    }
+    if(s.type==='portrait-story') return makeStoryPage('right');
+    if(s.type==='pair'){
+      const item=s.items[1]||null;
+      return item ? makePage(item,'right',s.start+2) : makePage(null,'right','');
+    }
+    if(s.type==='landscape' || s.type==='square'){
+      const d=document.createElement('div');
+      d.className='page reveal-photo-page landscape-underlay-half landscape-underlay-right';
+      const p=s.items?.[0];
+      if(p){
+        const wrap=document.createElement('div');
+        wrap.className='landscape-underlay-full';
+        const img=document.createElement('img');
+        img.src=photoSrc(p);
+        img.alt='다음 펼침 오른쪽 면';
+        wrap.appendChild(img);
+        d.appendChild(wrap);
+      }
+      return d;
+    }
+  }
+
+  // 뒤로 넘기기는 기존 동작이 정상적이므로 그대로 유지합니다.
+  return makeRevealPage(targetIndex,direction);
+}
+
 function prepareTurnSheet(direction=1){
   if(!turnSheet||mobile()) return false;
 
@@ -434,7 +472,7 @@ function prepareTurnSheet(direction=1){
 
   if(turnUnderlay){
     turnUnderlay.innerHTML='';
-    const reveal=makeRevealPage(targetIndex,turnDirection);
+    const reveal=makeUnderlayPage(targetIndex,turnDirection);
     if(reveal){
       reveal.classList.add('turn-reveal-page');
       turnUnderlay.appendChild(reveal);
