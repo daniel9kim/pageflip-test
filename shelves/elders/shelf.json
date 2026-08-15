@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786805234955",
+      "title": "바리톤 번개모",
+      "date": "2025-08-07",
+      "summary": "",
+      "cover": "../../albums/album-1786805234955/photos/001.webp",
+      "album": "../../albums/album-1786805234955/album.json",
+      "photoCount": 10,
+      "updatedAt": "2026-08-15T14:47:53.595Z"
+    },
+    {
       "id": "album-1786805052882",
       "title": "수유동 교회 초청연주",
       "date": "2025-07-20",
