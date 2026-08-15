@@ -34,6 +34,16 @@
       "updatedAt": "2026-08-12T18:34:20.313Z"
     },
     {
+      "id": "album-1786769330553",
+      "title": "대학로 연극",
+      "date": "2026-05-04",
+      "summary": "",
+      "cover": "../../albums/album-1786769330553/photos/001.webp",
+      "album": "../../albums/album-1786769330553/album.json",
+      "photoCount": 8,
+      "updatedAt": "2026-08-15T04:49:27.798Z"
+    },
+    {
       "id": "album-1786768916594",
       "title": "초소책방",
       "date": "2026-04-28",
