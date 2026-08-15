@@ -8,8 +8,25 @@
   "shelfKey": "elders",
   "photoCount": 2,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-15T12:11:27.026Z",
-  "updatedAt": "2026-08-15T12:11:27.026Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786795887026/photos/001.webp",
+      "originalName": "480218941_9747369941964255_2887918476526093294_n.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 170302
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786795887026/photos/002.webp",
+      "originalName": "477800441_9747370335297549_2843768171244710769_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 245100
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-15T12:11:43.874Z"
 }
