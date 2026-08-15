@@ -8,8 +8,25 @@
   "shelfKey": "personal",
   "photoCount": 2,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-15T09:33:07.576Z",
-  "updatedAt": "2026-08-15T09:33:07.576Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786786387576/photos/001.webp",
+      "originalName": "34019.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 298498
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786786387576/photos/002.webp",
+      "originalName": "34023.png",
+      "width": 1118,
+      "height": 1407,
+      "bytes": 327916
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-15T09:33:16.062Z"
 }
