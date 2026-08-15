@@ -5,10 +5,172 @@
   "summary": "",
   "story": "",
   "shelf": "장로합창단",
+  "shelfKey": "elders",
   "photoCount": 20,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-15T04:57:01.835Z",
-  "updatedAt": "2026-08-15T04:57:01.835Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786769821835/photos/001.webp",
+      "originalName": "20260610_135642.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 372066
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786769821835/photos/002.webp",
+      "originalName": "20260610_114959.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 550118
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786769821835/photos/003.webp",
+      "originalName": "20260610_115043.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 466538
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786769821835/photos/004.webp",
+      "originalName": "20260610_115122.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 457698
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786769821835/photos/005.webp",
+      "originalName": "20260610_115211.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 415262
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1786769821835/photos/006.webp",
+      "originalName": "20260610_115311.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 421122
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1786769821835/photos/007.webp",
+      "originalName": "20260610_132545.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 215066
+    },
+    {
+      "file": "008.webp",
+      "path": "albums/album-1786769821835/photos/008.webp",
+      "originalName": "20260610_132552.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 210796
+    },
+    {
+      "file": "009.webp",
+      "path": "albums/album-1786769821835/photos/009.webp",
+      "originalName": "20260610_135637.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 365110
+    },
+    {
+      "file": "010.webp",
+      "path": "albums/album-1786769821835/photos/010.webp",
+      "originalName": "20260610_143454.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 183148
+    },
+    {
+      "file": "011.webp",
+      "path": "albums/album-1786769821835/photos/011.webp",
+      "originalName": "20260610_163809.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 281350
+    },
+    {
+      "file": "012.webp",
+      "path": "albums/album-1786769821835/photos/012.webp",
+      "originalName": "20260610_163842.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 276520
+    },
+    {
+      "file": "013.webp",
+      "path": "albums/album-1786769821835/photos/013.webp",
+      "originalName": "20260610_163914.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 295936
+    },
+    {
+      "file": "014.webp",
+      "path": "albums/album-1786769821835/photos/014.webp",
+      "originalName": "20260610_165614.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 134936
+    },
+    {
+      "file": "015.webp",
+      "path": "albums/album-1786769821835/photos/015.webp",
+      "originalName": "20260610_165630.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 118496
+    },
+    {
+      "file": "016.webp",
+      "path": "albums/album-1786769821835/photos/016.webp",
+      "originalName": "20260610_165634.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 128272
+    },
+    {
+      "file": "017.webp",
+      "path": "albums/album-1786769821835/photos/017.webp",
+      "originalName": "20260610_183930.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 117626
+    },
+    {
+      "file": "018.webp",
+      "path": "albums/album-1786769821835/photos/018.webp",
+      "originalName": "20260610_183935.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 133992
+    },
+    {
+      "file": "019.webp",
+      "path": "albums/album-1786769821835/photos/019.webp",
+      "originalName": "20260610_205956.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 122872
+    },
+    {
+      "file": "020.webp",
+      "path": "albums/album-1786769821835/photos/020.webp",
+      "originalName": "20260610_210013.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 184688
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-15T04:58:08.082Z"
 }
