@@ -34,6 +34,16 @@
       "updatedAt": "2026-08-12T18:34:20.313Z"
     },
     {
+      "id": "album-1786768554624",
+      "title": "현대미술관",
+      "date": "2026-01-20",
+      "summary": "",
+      "cover": "../../albums/album-1786768554624/photos/001.webp",
+      "album": "../../albums/album-1786768554624/album.json",
+      "photoCount": 7,
+      "updatedAt": "2026-08-15T04:36:11.581Z"
+    },
+    {
       "id": "album-1786758772069",
       "title": "스케이팅",
       "date": "2026-01-06",
