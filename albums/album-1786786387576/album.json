@@ -2,8 +2,8 @@
   "id": "album-1786786387576",
   "title": "테스트앨범",
   "date": "",
-  "summary": "",
-  "story": "",
+  "summary": "테스트앨범 한 줄 요약",
+  "story": "테스트앨범 그날의 기록",
   "shelf": "영춘이 개인",
   "shelfKey": "personal",
   "photoCount": 3,
@@ -36,6 +36,6 @@
     }
   ],
   "status": "ready",
-  "updatedAt": "2026-08-15T10:08:21.225Z",
+  "updatedAt": "2026-08-15T10:19:38.934Z",
   "createdAt": "2026-08-15T10:08:21.225Z"
 }
