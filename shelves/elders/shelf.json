@@ -34,6 +34,16 @@
       "updatedAt": "2026-08-12T18:34:20.313Z"
     },
     {
+      "id": "album-1786769821835",
+      "title": "네스트 호텔",
+      "date": "2026-06-10",
+      "summary": "",
+      "cover": "../../albums/album-1786769821835/photos/001.webp",
+      "album": "../../albums/album-1786769821835/album.json",
+      "photoCount": 20,
+      "updatedAt": "2026-08-15T04:58:08.082Z"
+    },
+    {
       "id": "album-1786769662445",
       "title": "서울 핼스쇼",
       "date": "2026-06-09",
