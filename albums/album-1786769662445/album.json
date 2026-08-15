@@ -5,10 +5,76 @@
   "summary": "",
   "story": "",
   "shelf": "장로합창단",
+  "shelfKey": "elders",
   "photoCount": 8,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-15T04:54:22.445Z",
-  "updatedAt": "2026-08-15T04:54:22.445Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786769662445/photos/001.webp",
+      "originalName": "20260609_160719.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 237882
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786769662445/photos/002.webp",
+      "originalName": "20260609_175521.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 170902
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786769662445/photos/003.webp",
+      "originalName": "20260609_180705.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 282772
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786769662445/photos/004.webp",
+      "originalName": "20260609_180710.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 233162
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786769662445/photos/005.webp",
+      "originalName": "20260609_181419.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 245410
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1786769662445/photos/006.webp",
+      "originalName": "20260609_181428.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 286650
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1786769662445/photos/007.webp",
+      "originalName": "20260609_181429.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 284474
+    },
+    {
+      "file": "008.webp",
+      "path": "albums/album-1786769662445/photos/008.webp",
+      "originalName": "1781006537720.jpg",
+      "width": 770,
+      "height": 1800,
+      "bytes": 45958
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-15T04:54:43.455Z"
 }
