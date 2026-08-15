@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V12.5 — explicit edit photo add UI
+// PAGE FLIP Maker V12.6 — mobile photo order controls
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -134,6 +134,38 @@ function renderEditPhotos(){
       renderEditPhotos();
     };
     d.appendChild(x);
+
+    const moves=document.createElement('div');
+    moves.className='thumb-move-controls';
+
+    const left=document.createElement('button');
+    left.type='button';
+    left.className='thumb-move-btn';
+    left.textContent='←';
+    left.title='새 사진 순서 앞으로';
+    left.disabled=(j===0);
+    left.onclick=e=>{
+      e.preventDefault(); e.stopPropagation();
+      if(j<=0)return;
+      [selected[j-1],selected[j]]=[selected[j],selected[j-1]];
+      renderEditPhotos();
+    };
+
+    const right=document.createElement('button');
+    right.type='button';
+    right.className='thumb-move-btn';
+    right.textContent='→';
+    right.title='새 사진 순서 뒤로';
+    right.disabled=(j===selected.length-1);
+    right.onclick=e=>{
+      e.preventDefault(); e.stopPropagation();
+      if(j>=selected.length-1)return;
+      [selected[j],selected[j+1]]=[selected[j+1],selected[j]];
+      renderEditPhotos();
+    };
+
+    moves.append(left,right);
+    d.appendChild(moves);
 
     d.onclick=()=>{
       cover=i;
@@ -625,6 +657,14 @@ function moveExistingPhoto(from,to){
   if(msg)msg.textContent='사진 순서가 변경되었습니다. “수정 저장”을 눌러 반영해 주세요.';
 }
 
+function moveExistingPhotoOneStep(index,delta){
+  if(!editAlbum) return;
+  const photos=Array.isArray(editAlbum.photos)?editAlbum.photos:[];
+  const target=index+delta;
+  if(target<0 || target>=photos.length) return;
+  moveExistingPhoto(index,target);
+}
+
 function renderExistingThumbs(){
   if(!editAlbum) return;
   const photos=Array.isArray(editAlbum.photos)?editAlbum.photos:[];
@@ -681,6 +721,39 @@ function renderExistingThumbs(){
       fontWeight:'800',zIndex:'2',boxShadow:'0 1px 5px rgba(0,0,0,.12)'
     });
     d.appendChild(order);
+
+    // V12.6: 모바일에서도 안정적으로 사진 순서를 바꿀 수 있는 한 칸 이동 버튼
+    const moves=document.createElement('div');
+    moves.className='thumb-move-controls';
+
+    const left=document.createElement('button');
+    left.type='button';
+    left.className='thumb-move-btn';
+    left.textContent='←';
+    left.title='한 칸 앞으로';
+    left.setAttribute('aria-label',`${i+1}번 사진을 한 칸 앞으로 이동`);
+    left.disabled=(i===0);
+    left.onclick=e=>{
+      e.preventDefault();
+      e.stopPropagation();
+      moveExistingPhotoOneStep(i,-1);
+    };
+
+    const right=document.createElement('button');
+    right.type='button';
+    right.className='thumb-move-btn';
+    right.textContent='→';
+    right.title='한 칸 뒤로';
+    right.setAttribute('aria-label',`${i+1}번 사진을 한 칸 뒤로 이동`);
+    right.disabled=(i===photos.length-1);
+    right.onclick=e=>{
+      e.preventDefault();
+      e.stopPropagation();
+      moveExistingPhotoOneStep(i,1);
+    };
+
+    moves.append(left,right);
+    d.appendChild(moves);
 
     d.onclick=()=>{
       cover=i;

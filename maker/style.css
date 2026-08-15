@@ -118,3 +118,55 @@ header{height:70px;padding:0 32px;display:flex;align-items:center;justify-conten
     padding-top:8px;
   }
 }
+
+
+/* =========================================================
+   PAGE FLIP Maker V12.6 — Mobile Photo Order Controls
+   ========================================================= */
+.thumb-move-controls{
+  position:absolute;
+  left:50%;
+  bottom:4px;
+  transform:translateX(-50%);
+  display:flex;
+  gap:4px;
+  z-index:4;
+}
+.thumb-move-btn{
+  width:30px;
+  height:26px;
+  min-width:30px;
+  padding:0;
+  border:1px solid rgba(66,48,36,.18);
+  border-radius:8px;
+  background:rgba(255,253,248,.94);
+  color:#493e34;
+  font-size:15px;
+  font-weight:800;
+  line-height:24px;
+  box-shadow:0 1px 5px rgba(0,0,0,.13);
+  cursor:pointer;
+  touch-action:manipulation;
+}
+.thumb-move-btn:disabled{
+  opacity:.28;
+  cursor:default;
+}
+.thumb-move-btn:not(:disabled):active{
+  transform:translateY(1px);
+}
+
+@media(max-width:760px){
+  .thumb-move-controls{
+    bottom:5px;
+    gap:5px;
+  }
+  .thumb-move-btn{
+    width:36px;
+    min-width:36px;
+    height:32px;
+    font-size:17px;
+    line-height:30px;
+    border-radius:9px;
+  }
+}
