@@ -5,10 +5,44 @@
   "summary": "",
   "story": "",
   "shelf": "핸드벨",
+  "shelfKey": "handbell",
   "photoCount": 4,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-15T00:28:19.589Z",
-  "updatedAt": "2026-08-15T00:28:19.589Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786753699589/photos/001.webp",
+      "originalName": "KakaoTalk_20260810_080352834_05.jpg",
+      "width": 1050,
+      "height": 1400,
+      "bytes": 194058
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786753699589/photos/002.webp",
+      "originalName": "KakaoTalk_20260810_080352834_01.jpg",
+      "width": 893,
+      "height": 1587,
+      "bytes": 166676
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786753699589/photos/003.webp",
+      "originalName": "KakaoTalk_20260810_080352834_02.jpg",
+      "width": 1400,
+      "height": 1050,
+      "bytes": 50526
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786753699589/photos/004.webp",
+      "originalName": "KakaoTalk_20260810_080352834.jpg",
+      "width": 893,
+      "height": 1587,
+      "bytes": 167864
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-15T00:28:33.452Z"
 }
