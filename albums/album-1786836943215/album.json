@@ -8,8 +8,65 @@
   "shelfKey": "elders",
   "photoCount": 7,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-15T23:35:43.215Z",
-  "updatedAt": "2026-08-15T23:35:43.215Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786836943215/photos/001.webp",
+      "originalName": "666207313_27025673850373929_6370803514086461048_n.jpg",
+      "width": 1800,
+      "height": 1200,
+      "bytes": 204984
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786836943215/photos/002.webp",
+      "originalName": "668152848_27025673580373956_6254114593386133729_n.jpg",
+      "width": 1400,
+      "height": 1050,
+      "bytes": 136602
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786836943215/photos/003.webp",
+      "originalName": "665995315_27025673127040668_3809648413731328192_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 42998
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786836943215/photos/004.webp",
+      "originalName": "666894436_27025672743707373_1472204570482621561_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 117658
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786836943215/photos/005.webp",
+      "originalName": "666849165_27025672360374078_5220164531789940939_n.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 90898
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1786836943215/photos/006.webp",
+      "originalName": "667314898_27025671990374115_754309863136356651_n.jpg",
+      "width": 768,
+      "height": 1364,
+      "bytes": 58176
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1786836943215/photos/007.webp",
+      "originalName": "666679062_27025671820374132_4185621462382089809_n.jpg",
+      "width": 1222,
+      "height": 1727,
+      "bytes": 237826
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-15T23:36:17.464Z"
 }
