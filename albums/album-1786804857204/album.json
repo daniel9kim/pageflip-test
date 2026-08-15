@@ -8,8 +8,73 @@
   "shelfKey": "elders",
   "photoCount": 8,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-15T14:40:57.204Z",
-  "updatedAt": "2026-08-15T14:40:57.204Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786804857204/photos/001.webp",
+      "originalName": "514694771_24498399663101373_6723038685966972940_n.jpg",
+      "width": 1800,
+      "height": 1350,
+      "bytes": 172662
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786804857204/photos/002.webp",
+      "originalName": "514957581_24498399363101403_256809290229999314_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 169320
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786804857204/photos/003.webp",
+      "originalName": "514369676_24498399119768094_8982451008982298475_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 124870
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786804857204/photos/004.webp",
+      "originalName": "514369654_24498398903101449_1584297540081951087_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 136142
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786804857204/photos/005.webp",
+      "originalName": "514284652_24498398683101471_4194176790318932044_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 144826
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1786804857204/photos/006.webp",
+      "originalName": "514355339_24498398369768169_3799181512763220934_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 171192
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1786804857204/photos/007.webp",
+      "originalName": "514248623_24498396309768375_7085429971990552887_n.jpg",
+      "width": 736,
+      "height": 1000,
+      "bytes": 89412
+    },
+    {
+      "file": "008.webp",
+      "path": "albums/album-1786804857204/photos/008.webp",
+      "originalName": "515066037_24498399966434676_6259635657300661768_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 116370
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-15T14:41:52.998Z"
 }
