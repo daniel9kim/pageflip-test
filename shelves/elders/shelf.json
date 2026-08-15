@@ -12,16 +12,6 @@
       "album": "../../albums/album-1786559636653/album.json",
       "photoCount": 9,
       "updatedAt": "2026-08-12T18:34:20.313Z"
-    },
-    {
-      "id": "album-1786790239260",
-      "title": "서울 시흥교회 초청연주",
-      "date": "2025-02-09",
-      "summary": "서울 시흥교회 초청연주",
-      "cover": "../../albums/album-1786790239260/photos/001.webp",
-      "album": "../../albums/album-1786790239260/album.json",
-      "photoCount": 6,
-      "updatedAt": "2026-08-15T10:37:43.717Z"
     }
   ]
 }

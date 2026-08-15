@@ -276,3 +276,59 @@ main{
   .photo-count{font-size:10px}
   .photo-count:not(:empty)::before{margin-right:5px}
 }
+
+
+/* =========================================================
+   PAGE FLIP Shelves — Mobile Scroll Stability
+   모바일 브라우저의 scroll anchoring으로 인한 미세 점프 방지
+   ========================================================= */
+
+/* 동적 album.json 반영 중 브라우저가 스크롤 위치를 임의 보정하지 않도록 함 */
+.shelf,
+.shelf-section,
+.year-section,
+.album-grid,
+.album-list,
+.album-card,
+.book-card,
+.book,
+.bookshelf,
+.shelf-row {
+  overflow-anchor: none;
+}
+
+/* 카드 내부 메타 영역 높이를 안정적으로 유지 */
+.album-meta,
+.book-meta,
+.card-meta,
+.album-info,
+.book-info {
+  min-height: 1.4em;
+}
+
+/* 사진 수/날짜가 늦게 들어와도 줄 높이가 바뀌지 않도록 고정 */
+.photo-count,
+.album-count,
+.meta-count,
+.album-date,
+.book-date {
+  line-height: 1.35;
+  min-height: 1.35em;
+}
+
+/* 모바일에서 카드 폭/높이 계산이 자주 다시 일어나지 않도록 안정화 */
+@media (max-width: 760px) {
+  .album-card,
+  .book-card,
+  .book {
+    contain: layout paint;
+  }
+
+  .album-meta,
+  .book-meta,
+  .card-meta,
+  .album-info,
+  .book-info {
+    min-height: 2.7em;
+  }
+}
