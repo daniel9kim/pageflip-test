@@ -22,6 +22,16 @@
       "album": "../../albums/album-1786793911390/album.json",
       "photoCount": 6,
       "updatedAt": "2026-08-15T11:38:49.637Z"
+    },
+    {
+      "id": "album-1786795371683",
+      "title": "장로 합창단 입단",
+      "date": "2025-01-17",
+      "summary": "",
+      "cover": "../../albums/album-1786795371683/photos/001.webp",
+      "album": "../../albums/album-1786795371683/album.json",
+      "photoCount": 3,
+      "updatedAt": "2026-08-15T12:03:20.581Z"
     }
   ]
 }
