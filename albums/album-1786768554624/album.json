@@ -5,10 +5,68 @@
   "summary": "",
   "story": "",
   "shelf": "장로합창단",
+  "shelfKey": "elders",
   "photoCount": 7,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-15T04:35:54.624Z",
-  "updatedAt": "2026-08-15T04:35:54.624Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786768554624/photos/001.webp",
+      "originalName": "20260120_193918.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 222536
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786768554624/photos/002.webp",
+      "originalName": "20260120_183749.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 119666
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786768554624/photos/003.webp",
+      "originalName": "20260120_183735.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 92478
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786768554624/photos/004.webp",
+      "originalName": "20260120_183732.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 105032
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786768554624/photos/005.webp",
+      "originalName": "20260120_182617.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 226762
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1786768554624/photos/006.webp",
+      "originalName": "20260120_182305.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 39206
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1786768554624/photos/007.webp",
+      "originalName": "20260120_182257.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 29666
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-15T04:36:11.581Z"
 }
