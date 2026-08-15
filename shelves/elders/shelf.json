@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786836359477",
+      "title": "장로성가단 임원",
+      "date": "2026-01-30",
+      "summary": "",
+      "cover": "../../albums/album-1786836359477/photos/001.webp",
+      "album": "../../albums/album-1786836359477/album.json",
+      "photoCount": 2,
+      "updatedAt": "2026-08-15T23:26:06.266Z"
+    },
+    {
       "id": "album-1786834183287",
       "title": "문호교회 초청연주",
       "date": "2025-12-07",
