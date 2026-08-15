@@ -14,6 +14,16 @@
       "updatedAt": "2026-08-12T18:34:20.313Z"
     },
     {
+      "id": "album-1786801818492",
+      "title": "사랑하는 엄마, 아빠께",
+      "date": "2025-05-24",
+      "summary": "",
+      "cover": "../../albums/album-1786801818492/photos/001.webp",
+      "album": "../../albums/album-1786801818492/album.json",
+      "photoCount": 3,
+      "updatedAt": "2026-08-15T13:50:29.376Z"
+    },
+    {
       "id": "album-1786801715209",
       "title": "합창단 정기연주회",
       "date": "2025-05-17",
