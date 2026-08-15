@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.4.1 — Forward Landscape Layer Fix
+// PAGE FLIP Viewer V11.4.2 — Forward Landscape Half-Sheet Fix
 let album=null;
 let photos=[];
 let story='';
@@ -334,6 +334,36 @@ function clonePageForTurn(node){
 }
 
 
+
+function makeLandscapeTurnHalf(s,side='left'){
+  const d=document.createElement('div');
+  d.className='page reveal-photo-page landscape-turn-half landscape-turn-half-'+side;
+
+  const full=document.createElement('div');
+  full.className='landscape-spread landscape-hero-spread landscape-turn-full-spread';
+
+  const frame=document.createElement('div');
+  frame.className='landscape-hero-frame';
+
+  const p=s?.items?.[0];
+  if(p){
+    const img=document.createElement('img');
+    img.src=photoSrc(p);
+    img.alt=side==='left'?'가로사진 왼쪽 면':'가로사진 오른쪽 면';
+    img.className='landscape-hero-photo';
+    frame.appendChild(img);
+  }
+
+  const gutter=document.createElement('div');
+  gutter.className='landscape-photo-gutter';
+  gutter.setAttribute('aria-hidden','true');
+  frame.appendChild(gutter);
+
+  full.appendChild(frame);
+  d.appendChild(full);
+  return d;
+}
+
 function makeRevealPage(targetIndex,direction){
   const s=spreads[targetIndex];
   if(!s) return null;
@@ -357,7 +387,27 @@ function makeRevealPage(targetIndex,direction){
     return makePage(item,direction>0?'left':'right',no);
   }
 
-  if(s.type==='landscape' || s.type==='square'){
+  if(s.type==='landscape'){
+    // 앞으로 넘길 때만 다음 가로 spread의 왼쪽 절반을 정확히 사용합니다.
+    // 뒤로 넘기기는 V11.4에서 정상 확인된 기존 동작을 그대로 둡니다.
+    if(direction>0) return makeLandscapeTurnHalf(s,'left');
+
+    const d=document.createElement('div');
+    d.className='page reveal-photo-page';
+    const p=s.items?.[0];
+    if(p){
+      const img=document.createElement('img');
+      img.src=photoSrc(p);
+      img.alt='이전 페이지 미리보기';
+      img.style.width='100%';
+      img.style.height='100%';
+      img.style.objectFit='contain';
+      d.appendChild(img);
+    }
+    return d;
+  }
+
+  if(s.type==='square'){
     const d=document.createElement('div');
     d.className='page reveal-photo-page';
     const p=s.items?.[0];
@@ -393,18 +443,21 @@ function makeUnderlayPage(targetIndex,direction){
       const item=s.items[1]||null;
       return item ? makePage(item,'right',s.start+2) : makePage(null,'right','');
     }
-    if(s.type==='landscape' || s.type==='square'){
+    if(s.type==='landscape'){
+      return makeLandscapeTurnHalf(s,'right');
+    }
+    if(s.type==='square'){
       const d=document.createElement('div');
-      d.className='page reveal-photo-page landscape-underlay-half landscape-underlay-right';
+      d.className='page reveal-photo-page';
       const p=s.items?.[0];
       if(p){
-        const wrap=document.createElement('div');
-        wrap.className='landscape-underlay-full';
         const img=document.createElement('img');
         img.src=photoSrc(p);
         img.alt='다음 펼침 오른쪽 면';
-        wrap.appendChild(img);
-        d.appendChild(wrap);
+        img.style.width='100%';
+        img.style.height='100%';
+        img.style.objectFit='contain';
+        d.appendChild(img);
       }
       return d;
     }

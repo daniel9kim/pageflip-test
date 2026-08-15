@@ -1,0 +1,19 @@
+PAGE FLIP Viewer V11.4.2 — Forward Landscape Half-Sheet Fix
+
+수정 목표
+- PC에서 가로사진을 앞으로 넘길 때 같은 사진이 겹쳐 보이던 문제 수정
+- 뒤로 넘기기는 기존 정상 동작 유지
+- 모바일 Viewer는 변경하지 않음
+
+핵심 수정
+1. 다음 가로 spread를 한 장 전체 이미지로 반쪽 페이지에 다시 넣지 않음
+2. 다음 가로 spread의 왼쪽 절반(turn-back)과 오른쪽 절반(underlay)을
+   동일한 전체 spread 좌표에서 각각 정확히 잘라 표시
+3. 기존 V11.4.1의 별도 확대 underlay 방식은 더 이상 사용하지 않음
+4. 캐시 버전 v1142 적용
+
+검증
+- app.js JavaScript 문법 검사 통과
+- forward landscape target은 left-half / right-half 두 레이어로 분리됨
+- reverse landscape 코드는 기존 방식으로 유지됨
+- viewer 파일 구성 및 캐시 참조 확인 완료

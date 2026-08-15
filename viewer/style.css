@@ -644,7 +644,38 @@
 .turn-sheet.reverse .turn-face{
   border-radius:10px 0 0 10px;
 }
-\n\n/* =========================================================\n   PAGE FLIP Viewer V11.3 — Landscape Turn Fix\n   가로사진이 양면 전체를 차지할 때 넘김 중 반대쪽 절반이 사라지는 현상 수정\n   ========================================================= */\n@media (min-width:761px){\n  /* 원본 가로 spread는 넘기지 않는 절반을 책 위에 계속 남겨 둡니다. */\n  #spread > .landscape-turn-source.turning-forward{\n    clip-path:inset(0 50% 0 0);\n  }\n  #spread > .landscape-turn-source.turning-reverse{\n    clip-path:inset(0 0 0 50%);\n  }\n\n  /* turn-sheet는 책의 절반 폭이므로 2배 폭의 가로 spread에서 필요한 절반만 보여줍니다. */\n  .turn-front > .landscape-spread.turn-clone.landscape-turn-right{\n    width:200% !important;\n    transform:translateX(-50%) !important;\n  }\n  .turn-front > .landscape-spread.turn-clone.landscape-turn-left{\n    width:200% !important;\n    transform:translateX(0) !important;\n  }\n\n  /* 가로사진 프레임/이미지는 복제된 2배 폭 안에서도 원래 spread 비율을 그대로 유지 */\n  .turn-front > .landscape-spread.turn-clone .landscape-hero-frame,\n  .turn-front > .landscape-spread.turn-clone .landscape-hero-photo{\n    max-width:none !important;\n  }\n}\n
+
+
+/* =========================================================
+   PAGE FLIP Viewer V11.3 — Landscape Turn Fix
+   가로사진이 양면 전체를 차지할 때 넘김 중 반대쪽 절반이 사라지는 현상 수정
+   ========================================================= */
+@media (min-width:761px){
+  /* 원본 가로 spread는 넘기지 않는 절반을 책 위에 계속 남겨 둡니다. */
+  #spread > .landscape-turn-source.turning-forward{
+    clip-path:inset(0 50% 0 0);
+  }
+  #spread > .landscape-turn-source.turning-reverse{
+    clip-path:inset(0 0 0 50%);
+  }
+
+  /* turn-sheet는 책의 절반 폭이므로 2배 폭의 가로 spread에서 필요한 절반만 보여줍니다. */
+  .turn-front > .landscape-spread.turn-clone.landscape-turn-right{
+    width:200% !important;
+    transform:translateX(-50%) !important;
+  }
+  .turn-front > .landscape-spread.turn-clone.landscape-turn-left{
+    width:200% !important;
+    transform:translateX(0) !important;
+  }
+
+  /* 가로사진 프레임/이미지는 복제된 2배 폭 안에서도 원래 spread 비율을 그대로 유지 */
+  .turn-front > .landscape-spread.turn-clone .landscape-hero-frame,
+  .turn-front > .landscape-spread.turn-clone .landscape-hero-photo{
+    max-width:none !important;
+  }
+}
+
 /* =========================================================
    PAGE FLIP Viewer V11.4 — Mobile Reading Experience
    PC layout/turn behavior is intentionally unchanged.
@@ -731,5 +762,57 @@
     max-width:94% !important;
     max-height:86% !important;
     object-fit:contain !important;
+  }
+}
+
+
+/* =========================================================
+   PAGE FLIP Viewer V11.4.2 — Forward Landscape Half-Sheet Fix
+   가로사진 target spread를 전체 한 장으로 중복 표시하지 않고,
+   같은 전체 spread 좌표계의 왼쪽/오른쪽 절반을 각각 잘라 사용합니다.
+   ========================================================= */
+@media (min-width:761px){
+  .turn-face .landscape-turn-half,
+  .turn-underlay .landscape-turn-half{
+    position:relative;
+    overflow:hidden;
+    padding:0 !important;
+    background:#fffdf8 !important;
+  }
+
+  .landscape-turn-half .landscape-turn-full-spread{
+    position:absolute !important;
+    top:0 !important;
+    width:200% !important;
+    height:100% !important;
+    margin:0 !important;
+    max-width:none !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+  }
+
+  .landscape-turn-half-left .landscape-turn-full-spread{
+    left:0 !important;
+  }
+
+  .landscape-turn-half-right .landscape-turn-full-spread{
+    left:-100% !important;
+  }
+
+  .landscape-turn-half .landscape-hero-frame{
+    width:100% !important;
+    height:100% !important;
+    max-width:none !important;
+    margin:0 !important;
+  }
+
+  .landscape-turn-half .landscape-hero-photo{
+    max-width:100% !important;
+    max-height:100% !important;
+  }
+
+  .turn-underlay .landscape-underlay-half,
+  .turn-underlay .landscape-underlay-full{
+    display:none !important;
   }
 }
