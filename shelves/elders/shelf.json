@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786802205782",
+      "title": "영락 세계 합창",
+      "date": "2025-06-01",
+      "summary": "",
+      "cover": "../../albums/album-1786802205782/photos/001.webp",
+      "album": "../../albums/album-1786802205782/album.json",
+      "photoCount": 5,
+      "updatedAt": "2026-08-15T13:57:12.124Z"
+    },
+    {
       "id": "album-1786801818492",
       "title": "사랑하는 엄마, 아빠께",
       "date": "2025-05-24",
