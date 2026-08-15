@@ -14,6 +14,16 @@
       "updatedAt": "2026-08-12T18:34:20.313Z"
     },
     {
+      "id": "album-1786801125902",
+      "title": "합창단 입단식",
+      "date": "2025-03-28",
+      "summary": "",
+      "cover": "../../albums/album-1786801125902/photos/001.webp",
+      "album": "../../albums/album-1786801125902/album.json",
+      "photoCount": 4,
+      "updatedAt": "2026-08-15T13:38:58.526Z"
+    },
+    {
       "id": "album-1786801033170",
       "title": "신일교회 초청연주",
       "date": "2025-03-09",
