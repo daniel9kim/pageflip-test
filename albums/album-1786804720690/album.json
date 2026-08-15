@@ -8,8 +8,41 @@
   "shelfKey": "elders",
   "photoCount": 4,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-15T14:38:40.690Z",
-  "updatedAt": "2026-08-15T14:38:40.690Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786804720690/photos/001.webp",
+      "originalName": "507492044_24361898170084857_3558568644085321238_n.jpg",
+      "width": 1800,
+      "height": 1350,
+      "bytes": 269014
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786804720690/photos/002.webp",
+      "originalName": "506484514_24361896890084985_1202004550937120281_n.jpg",
+      "width": 967,
+      "height": 1512,
+      "bytes": 169962
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786804720690/photos/003.webp",
+      "originalName": "506452704_24361896676751673_5179385088865757021_n.jpg",
+      "width": 736,
+      "height": 1000,
+      "bytes": 76176
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786804720690/photos/004.webp",
+      "originalName": "507574907_24361896383418369_4893339172948274390_n.jpg",
+      "width": 434,
+      "height": 590,
+      "bytes": 22302
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-15T14:38:53.261Z"
 }
