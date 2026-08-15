@@ -7,11 +7,11 @@
       "id": "album-1786786387576",
       "title": "테스트앨범",
       "date": "",
-      "summary": "",
+      "summary": "테스트앨범 한 줄 요약",
       "cover": "../../albums/album-1786786387576/photos/001.webp",
       "album": "../../albums/album-1786786387576/album.json",
       "photoCount": 3,
-      "updatedAt": "2026-08-15T10:08:21.225Z"
+      "updatedAt": "2026-08-15T10:19:38.934Z"
     }
   ]
 }
