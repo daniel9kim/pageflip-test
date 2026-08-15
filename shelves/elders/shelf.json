@@ -4,16 +4,6 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
-      "id": "album-1786559636653",
-      "title": "뱅크시 01",
-      "date": "2026-08-01",
-      "summary": "뱅크시 01",
-      "cover": "../../albums/album-1786559636653/photos/001.webp",
-      "album": "../../albums/album-1786559636653/album.json",
-      "photoCount": 9,
-      "updatedAt": "2026-08-12T18:34:20.313Z"
-    },
-    {
       "id": "album-1786801818492",
       "title": "사랑하는 엄마, 아빠께",
       "date": "2025-05-24",
