@@ -6,7 +6,7 @@
   "story": "",
   "shelf": "영춘이 개인",
   "shelfKey": "personal",
-  "photoCount": 2,
+  "photoCount": 3,
   "coverIndex": 0,
   "cover": "001.webp",
   "photos": [
@@ -25,8 +25,17 @@
       "width": 1118,
       "height": 1407,
       "bytes": 327916
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786786387576/photos/003.webp",
+      "originalName": "KakaoTalk_20260509_070829048_02.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 131236
     }
   ],
   "status": "ready",
-  "updatedAt": "2026-08-15T09:33:16.062Z"
+  "updatedAt": "2026-08-15T10:08:21.225Z",
+  "createdAt": "2026-08-15T10:08:21.225Z"
 }
