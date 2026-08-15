@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786831903803",
+      "title": "당일교회 초청연주",
+      "date": "2025-10-12",
+      "summary": "",
+      "cover": "../../albums/album-1786831903803/photos/001.webp",
+      "album": "../../albums/album-1786831903803/album.json",
+      "photoCount": 10,
+      "updatedAt": "2026-08-15T22:12:31.364Z"
+    },
+    {
       "id": "album-1786831740297",
       "title": "권사합창단 초청연주",
       "date": "2025-09-21",
