@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786804720690",
+      "title": "권사합창단",
+      "date": "2025-06-14",
+      "summary": "",
+      "cover": "../../albums/album-1786804720690/photos/001.webp",
+      "album": "../../albums/album-1786804720690/album.json",
+      "photoCount": 4,
+      "updatedAt": "2026-08-15T14:38:53.261Z"
+    },
+    {
       "id": "album-1786804502403",
       "title": "언더우드 아카데미",
       "date": "2025-06-07",
