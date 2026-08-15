@@ -14,6 +14,16 @@
       "updatedAt": "2026-08-12T18:34:20.313Z"
     },
     {
+      "id": "album-1786795887026",
+      "title": "합창단 연",
+      "date": "2025-02-14",
+      "summary": "",
+      "cover": "../../albums/album-1786795887026/photos/001.webp",
+      "album": "../../albums/album-1786795887026/album.json",
+      "photoCount": 2,
+      "updatedAt": "2026-08-15T12:11:43.874Z"
+    },
+    {
       "id": "album-1786793911390",
       "title": "서울 시흥교회 초청연주",
       "date": "2025-02-09",
