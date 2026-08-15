@@ -5,10 +5,52 @@
   "summary": "",
   "story": "",
   "shelf": "장로합창단",
+  "shelfKey": "elders",
   "photoCount": 5,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-15T00:47:21.166Z",
-  "updatedAt": "2026-08-15T00:47:21.166Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786754841166/photos/001.webp",
+      "originalName": "33982.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 216284
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786754841166/photos/002.webp",
+      "originalName": "33986.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 150118
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786754841166/photos/003.webp",
+      "originalName": "33985.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 163200
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786754841166/photos/004.webp",
+      "originalName": "33984.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 162336
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786754841166/photos/005.webp",
+      "originalName": "33983.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 55932
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-15T00:47:34.497Z"
 }
