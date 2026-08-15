@@ -1,0 +1,15 @@
+PAGE FLIP Viewer V11.5.1
+
+수정
+1. 마지막 사진 옆에 엔딩 정보를 붙이지 않음.
+2. 엔딩 페이지는 사진 콘텐츠가 모두 끝난 뒤 정확히 한 번만 생성.
+   기존 별도 back-cover spread 제거.
+3. 모바일 표지 제목/날짜/설명/메타 폰트에 clamp() 적용.
+4. 모바일 physical-book을 내용 기반 높이로 변경하여
+   긴 제목/설명과 '책 펼치기' 버튼 겹침 방지.
+5. PC의 기존 사진 레이아웃 및 가로사진 페이지 넘김 보정은 유지.
+
+점검
+- app.js JavaScript syntax check
+- ending spread count construction 확인
+- 모바일 cover CSS override 확인

@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.5 — Ending Page + Back Cover
+// PAGE FLIP Viewer V11.5.1 — Single Ending + Mobile Cover Fit
 let album=null;
 let photos=[];
 let story='';
@@ -98,10 +98,11 @@ function buildSpreads(){
 
   // V11.5: 사진 콘텐츠가 완전히 끝난 뒤 엔딩 페이지와 뒷표지를 독립 spread로 추가합니다.
   // 마지막 사진이 가로사진이어도 landscape spread 전체가 먼저 끝난 뒤 엔딩으로 이동합니다.
+  // V11.5.1: 마지막 사진 spread가 완전히 끝난 뒤 엔딩을 정확히 한 번만 표시합니다.
+  // 별도의 두 번째 엔딩/뒷표지 spread는 만들지 않습니다.
   spreads=[
     ...content,
-    {type:'ending'},
-    {type:'back-cover'}
+    {type:'ending'}
   ];
 }
 
@@ -335,11 +336,9 @@ function render(){
       if(btn) btn.onclick=openStory;
     }
   }else if(s.type==='ending'){
-    spreadEl.appendChild(makeEndingPage('left'));
-    if(!mobile()) spreadEl.appendChild(makeEndingBlank('right'));
-  }else if(s.type==='back-cover'){
-    spreadEl.appendChild(makeBackCoverPage('left'));
-    if(!mobile()) spreadEl.appendChild(makeBackCoverBlank('right'));
+    const ending=makeEndingPage('left');
+    ending.classList.add('ending-only');
+    spreadEl.appendChild(ending);
   }else if(s.type==='portrait-story'){
     spreadEl.appendChild(makePage(s.items[0],'left',s.start+1));
     if(!mobile()){
@@ -391,7 +390,6 @@ function render(){
   }
 
   if(s.type==='ending') indicator.textContent='마지막 기록';
-  else if(s.type==='back-cover') indicator.textContent='뒷표지';
   else indicator.textContent=`${current+1} / ${spreads.length}`;
   resetCurl();
 }
@@ -448,11 +446,9 @@ function makeRevealPage(targetIndex,direction){
   }
 
   if(s.type==='ending'){
-    return direction>0 ? makeEndingPage('left') : makeEndingBlank('right');
-  }
-
-  if(s.type==='back-cover'){
-    return direction>0 ? makeBackCoverPage('left') : makeBackCoverBlank('right');
+    const ending=makeEndingPage(direction>0?'left':'right');
+    ending.classList.add('ending-only');
+    return ending;
   }
 
   if(s.type==='portrait-story'){
