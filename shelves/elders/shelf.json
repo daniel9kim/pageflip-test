@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786836464679",
+      "title": "단원수",
+      "date": "2026-03-06",
+      "summary": "",
+      "cover": "../../albums/album-1786836464679/photos/001.webp",
+      "album": "../../albums/album-1786836464679/album.json",
+      "photoCount": 5,
+      "updatedAt": "2026-08-15T23:27:59.553Z"
+    },
+    {
       "id": "album-1786836359477",
       "title": "장로성가단 임원",
       "date": "2026-01-30",
