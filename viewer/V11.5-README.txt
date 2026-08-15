@@ -1,0 +1,12 @@
+PAGE FLIP Viewer V11.5 — Ending Page + Back Cover
+
+- 마지막 사진 뒤에 엔딩 페이지 추가
+- 엔딩 다음에 뒷표지 추가
+- 엔딩: 앨범 제목 / 날짜 / YOUNGCHOON'S PHOTO BOOK
+- THE END 문구 없음
+- PC 양면 / 모바일 단면 지원
+
+가로사진 마지막 처리
+- ending/back-cover는 사진 spread와 분리된 독립 spread
+- 마지막 가로사진 spread가 완전히 끝난 다음 ending으로 이동
+- V11.4.2의 landscape forward/reverse half-sheet 로직은 수정하지 않음

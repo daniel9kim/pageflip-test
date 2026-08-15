@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.4.2 — Forward Landscape Half-Sheet Fix
+// PAGE FLIP Viewer V11.5 — Ending Page + Back Cover
 let album=null;
 let photos=[];
 let story='';
@@ -94,7 +94,15 @@ function buildSpreads(){
     }
   }
 
-  spreads=story.trim()?[{type:'essay'},...base]:base;
+  const content=story.trim()?[{type:'essay'},...base]:base;
+
+  // V11.5: 사진 콘텐츠가 완전히 끝난 뒤 엔딩 페이지와 뒷표지를 독립 spread로 추가합니다.
+  // 마지막 사진이 가로사진이어도 landscape spread 전체가 먼저 끝난 뒤 엔딩으로 이동합니다.
+  spreads=[
+    ...content,
+    {type:'ending'},
+    {type:'back-cover'}
+  ];
 }
 
 function bindAlbum(){
@@ -252,6 +260,62 @@ function essaySpread(){
   return [left,right];
 }
 
+function makeEndingPage(side='left'){
+  const d=document.createElement('div');
+  d.className='page '+side+' ending-page';
+
+  const box=document.createElement('div');
+  box.className='ending-inner';
+
+  const title=document.createElement('div');
+  title.className='ending-title';
+  title.textContent=album?.title||'PHOTO BOOK';
+
+  const date=document.createElement('div');
+  date.className='ending-date';
+  date.textContent=formatDate(album?.date||'');
+
+  const line=document.createElement('div');
+  line.className='ending-line';
+
+  const brand=document.createElement('div');
+  brand.className='ending-brand';
+  brand.textContent="YOUNGCHOON'S PHOTO BOOK";
+
+  box.append(title,date,line,brand);
+  d.appendChild(box);
+  return d;
+}
+
+function makeEndingBlank(side='right'){
+  const d=document.createElement('div');
+  d.className='page '+side+' ending-blank';
+  return d;
+}
+
+function makeBackCoverPage(side='left'){
+  const d=document.createElement('div');
+  d.className='page '+side+' back-cover-page';
+
+  const mark=document.createElement('div');
+  mark.className='back-cover-mark';
+
+  const logo=document.createElement('span');
+  logo.textContent='PAGE FLIP';
+  const sub=document.createElement('small');
+  sub.textContent="YOUNGCHOON'S PHOTO BOOK";
+
+  mark.append(logo,sub);
+  d.appendChild(mark);
+  return d;
+}
+
+function makeBackCoverBlank(side='right'){
+  const d=document.createElement('div');
+  d.className='page '+side+' back-cover-blank';
+  return d;
+}
+
 function render(){
   spreadEl.innerHTML='';
   const s=spreads[current];
@@ -270,6 +334,12 @@ function render(){
       const btn=l.querySelector('.read-more');
       if(btn) btn.onclick=openStory;
     }
+  }else if(s.type==='ending'){
+    spreadEl.appendChild(makeEndingPage('left'));
+    if(!mobile()) spreadEl.appendChild(makeEndingBlank('right'));
+  }else if(s.type==='back-cover'){
+    spreadEl.appendChild(makeBackCoverPage('left'));
+    if(!mobile()) spreadEl.appendChild(makeBackCoverBlank('right'));
   }else if(s.type==='portrait-story'){
     spreadEl.appendChild(makePage(s.items[0],'left',s.start+1));
     if(!mobile()){
@@ -320,7 +390,9 @@ function render(){
     }
   }
 
-  indicator.textContent=`${current+1} / ${spreads.length}`;
+  if(s.type==='ending') indicator.textContent='마지막 기록';
+  else if(s.type==='back-cover') indicator.textContent='뒷표지';
+  else indicator.textContent=`${current+1} / ${spreads.length}`;
   resetCurl();
 }
 
@@ -373,6 +445,14 @@ function makeRevealPage(targetIndex,direction){
   if(s.type==='essay'){
     const [left,right]=essaySpread();
     return direction>0 ? left : right;
+  }
+
+  if(s.type==='ending'){
+    return direction>0 ? makeEndingPage('left') : makeEndingBlank('right');
+  }
+
+  if(s.type==='back-cover'){
+    return direction>0 ? makeBackCoverPage('left') : makeBackCoverBlank('right');
   }
 
   if(s.type==='portrait-story'){
@@ -438,6 +518,8 @@ function makeUnderlayPage(targetIndex,direction){
       const [,right]=essaySpread();
       return right;
     }
+    if(s.type==='ending') return makeEndingBlank('right');
+    if(s.type==='back-cover') return makeBackCoverBlank('right');
     if(s.type==='portrait-story') return makeStoryPage('right');
     if(s.type==='pair'){
       const item=s.items[1]||null;
