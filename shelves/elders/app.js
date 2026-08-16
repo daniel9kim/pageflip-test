@@ -11,6 +11,71 @@ const searchInput = document.querySelector('#albumSearch');
 const yearSelect = document.querySelector('#yearSelect');
 const resultCount = document.querySelector('#resultCount');
 
+// PAGE FLIP Analytics
+// 책장 이용과 무관하게 동작하는 비차단 기록입니다.
+// Analytics 서버가 일시적으로 실패해도 책장은 그대로 열립니다.
+const ANALYTICS_URL = 'https://pageflip-analytics.withme-jesus.workers.dev/event';
+const SHELF_ID = 'elders';
+
+function getAnalyticsVisitorId() {
+  const key = 'pageflip_visitor_id';
+
+  try {
+    let id = localStorage.getItem(key);
+    if (!id) {
+      id = (globalThis.crypto?.randomUUID?.() ||
+        ('v-' + Date.now() + '-' + Math.random().toString(36).slice(2)));
+      localStorage.setItem(key, id);
+    }
+    return id;
+  } catch (_) {
+    return 'anonymous';
+  }
+}
+
+function getAnalyticsDeviceType() {
+  const ua = navigator.userAgent || '';
+  if (/iPad|Tablet|PlayBook|Silk/i.test(ua)) return 'tablet';
+  if (/Mobi|Android|iPhone|iPod/i.test(ua)) return 'mobile';
+  return 'pc';
+}
+
+function getAnalyticsOS() {
+  const ua = navigator.userAgent || '';
+  if (/Windows/i.test(ua)) return 'Windows';
+  if (/Android/i.test(ua)) return 'Android';
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'iOS';
+  if (/Mac OS X|Macintosh/i.test(ua)) return 'macOS';
+  if (/Linux/i.test(ua)) return 'Linux';
+  return 'Other';
+}
+
+function trackShelfView() {
+  const payload = {
+    event_type: 'shelf_view',
+    visitor_id: getAnalyticsVisitorId(),
+    shelf_id: SHELF_ID,
+    album_id: null,
+    album_title: null,
+    page_no: null,
+    device_type: getAnalyticsDeviceType(),
+    os: getAnalyticsOS()
+  };
+
+  // 응답을 읽을 필요가 없으므로 no-cors로 전송합니다.
+  // 이렇게 하면 Analytics 쪽 CORS 설정과 관계없이 기록 요청을 보낼 수 있습니다.
+  fetch(ANALYTICS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+    body: JSON.stringify(payload),
+    keepalive: true
+  }).catch(() => {});
+}
+
+// 한 번의 책장 로드당 1건 기록
+trackShelfView();
+
 (async () => {
   const r = await fetch('shelf.json', { cache: 'no-store' });
   if (!r.ok) throw new Error(`shelf.json을 불러오지 못했습니다. (${r.status})`);
