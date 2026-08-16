@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>PAGE FLIP · 통계 대시보드</title>
+  <link rel="stylesheet" href="style.css?v=1" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-main">PAGE FLIP</div>
+        <div class="brand-sub">PHOTO BOOK</div>
+      </div>
+
+      <nav class="nav">
+        <a href="#" class="nav-item"><span>▣</span><b>책장 목록</b></a>
+        <a href="#" class="nav-item"><span>▱</span><b>앨범 만들기</b></a>
+        <a href="#" class="nav-item active"><span>▥</span><b>통계</b></a>
+        <a href="#" class="nav-item"><span>⚙</span><b>설정</b></a>
+      </nav>
+
+      <div class="profile">
+        <div class="avatar">D</div>
+        <div>
+          <strong>Den</strong>
+          <small>관리자</small>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="page-header">
+        <div>
+          <h1>통계 대시보드</h1>
+          <p>방문자와 사진책 이용 현황을 확인하세요.</p>
+        </div>
+        <label class="range">
+          <span>▣</span>
+          <select id="rangeSelect">
+            <option>최근 7일</option>
+            <option>최근 30일</option>
+            <option>이번 달</option>
+          </select>
+        </label>
+      </header>
+
+      <section class="kpi-grid">
+        <article class="card kpi-card">
+          <h2>오늘</h2>
+          <div class="kpi-pair">
+            <div>
+              <span class="label">방문자</span>
+              <strong>12<small>명</small></strong>
+              <em>어제 18명 <i>▼ 33%</i></em>
+            </div>
+            <div>
+              <span class="label">페이지뷰</span>
+              <strong>31<small>회</small></strong>
+              <em>어제 45회 <i>▼ 31%</i></em>
+            </div>
+          </div>
+        </article>
+
+        <article class="card kpi-card">
+          <h2>최근 7일</h2>
+          <div class="kpi-pair">
+            <div>
+              <span class="label">방문자</span>
+              <strong>47<small>명</small></strong>
+              <em>이전 7일 56명 <i>▼ 16%</i></em>
+            </div>
+            <div>
+              <span class="label">페이지뷰</span>
+              <strong>128<small>회</small></strong>
+              <em>이전 7일 162회 <i>▼ 21%</i></em>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="two-col">
+        <article class="card">
+          <div class="card-head">
+            <h2>일별 페이지뷰 추이</h2>
+            <div class="segmented"><button class="on">7일</button><button>30일</button></div>
+          </div>
+          <div class="chart" id="chart">
+            <div class="grid-line g1"></div><div class="grid-line g2"></div><div class="grid-line g3"></div><div class="grid-line g4"></div>
+            <svg viewBox="0 0 600 280" preserveAspectRatio="none" aria-label="일별 페이지뷰 그래프">
+              <polyline points="30,105 190,175 350,130 540,70" fill="none" stroke="currentColor" stroke-width="4"/>
+              <circle cx="30" cy="105" r="7"/><circle cx="190" cy="175" r="7"/><circle cx="350" cy="130" r="7"/><circle cx="540" cy="70" r="7"/>
+            </svg>
+            <div class="chart-labels">
+              <span><b>27</b><small>08/12</small></span>
+              <span><b>18</b><small>08/13</small></span>
+              <span><b>24</b><small>08/14</small></span>
+              <span><b>31</b><small>08/15</small></span>
+            </div>
+          </div>
+          <p class="footnote">※ 페이지뷰: 사진책 페이지가 열리거나 넘겨진 총 횟수</p>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h2>인기 앨범 TOP 3</h2>
+            <button class="ghost">전체 보기</button>
+          </div>
+          <ol class="ranking">
+            <li>
+              <span class="rank">1</span>
+              <div class="album-thumb">♪</div>
+              <div class="rank-body"><strong>전국장로찬양축제</strong><div class="bar"><i style="width:100%"></i></div></div>
+              <b>42<small>회</small></b>
+            </li>
+            <li>
+              <span class="rank">2</span>
+              <div class="album-thumb">♬</div>
+              <div class="rank-body"><strong>시흥교회 초청연주</strong><div class="bar"><i style="width:74%"></i></div></div>
+              <b>31<small>회</small></b>
+            </li>
+            <li>
+              <span class="rank">3</span>
+              <div class="album-thumb">♫</div>
+              <div class="rank-body"><strong>핸드벨 연주회</strong><div class="bar"><i style="width:43%"></i></div></div>
+              <b>18<small>회</small></b>
+            </li>
+          </ol>
+        </article>
+      </section>
+
+      <section class="card visitor-card">
+        <div class="card-head">
+          <h2>최근 방문자</h2>
+          <button class="ghost">전체 보기</button>
+        </div>
+        <div class="visitor-row">
+          <div class="visitor-id">
+            <div class="anon">#</div>
+            <div><strong>#A3F2</strong><span>모바일 · Android</span></div>
+          </div>
+          <div class="visitor-stat"><small>오늘</small><b>3<em>회</em></b></div>
+          <div class="visitor-stat"><small>최근 30일</small><b>11<em>회</em></b></div>
+          <div class="visitor-stat"><small>최근 접속</small><b>08/15 20:31</b></div>
+        </div>
+        <p class="footnote">※ 방문자 정보는 익명 ID로 처리되어 저장됩니다.</p>
+      </section>
+
+      <section class="card analysis-card">
+        <h2>장로합창단 책장 분석</h2>
+        <div class="analysis-kpis">
+          <div><strong>53<small>명</small></strong><p>장로합창단 책장을 방문했습니다.</p></div>
+          <div><strong>38<small>명 · 71.7%</small></strong><p>그중 ‘시흥교회 초청연주’를 열었습니다.</p></div>
+          <div><strong>2.4<small>권</small></strong><p>방문자 한 명이 평균적으로 감상한 사진책 수입니다.</p></div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>앨범명</th><th>열람한 방문자 수</th><th>열람 비율</th><th>평균 열람 권수</th></tr></thead>
+            <tbody>
+              <tr><td>시흥교회 초청연주</td><td>38명</td><td>71.7%</td><td>2.1권</td></tr>
+              <tr><td>전국장로찬양축제</td><td>32명</td><td>60.4%</td><td>2.8권</td></tr>
+              <tr><td>핸드벨 연주회</td><td>19명</td><td>35.8%</td><td>1.7권</td></tr>
+              <tr><td>전주샘물교회 연주</td><td>14명</td><td>26.4%</td><td>1.4권</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js?v=1"></script>
+</body>
+</html>
