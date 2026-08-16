@@ -14,6 +14,16 @@
       "updatedAt": "2026-08-16T11:13:05.130Z"
     },
     {
+      "id": "album-1786920392871",
+      "title": "메시아 연습",
+      "date": "2025-10-28",
+      "summary": "",
+      "cover": "../../albums/album-1786920392871/photos/001.webp",
+      "album": "../../albums/album-1786920392871/album.json",
+      "photoCount": 7,
+      "updatedAt": "2026-08-16T22:46:48.643Z"
+    },
+    {
       "id": "album-1786920247161",
       "title": "당일교회 초청연주",
       "date": "2025-10-12",
