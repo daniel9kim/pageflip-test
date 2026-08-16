@@ -50,6 +50,16 @@ function getAnalyticsOS() {
   return 'Other';
 }
 
+function sendAnalyticsEvent(payload) {
+  fetch(ANALYTICS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+    body: JSON.stringify(payload),
+    keepalive: true
+  }).catch(() => {});
+}
+
 function trackShelfView() {
   const payload = {
     event_type: 'shelf_view',
@@ -62,15 +72,8 @@ function trackShelfView() {
     os: getAnalyticsOS()
   };
 
-  // 응답을 읽을 필요가 없으므로 no-cors로 전송합니다.
-  // 이렇게 하면 Analytics 쪽 CORS 설정과 관계없이 기록 요청을 보낼 수 있습니다.
-  fetch(ANALYTICS_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-    body: JSON.stringify(payload),
-    keepalive: true
-  }).catch(() => {});
+  // Analytics 실패 여부와 관계없이 책장은 계속 동작합니다.
+  sendAnalyticsEvent(payload);
 }
 
 // 한 번의 책장 로드당 1건 기록
@@ -328,6 +331,19 @@ function absoluteAlbumUrl(a) {
 }
 
 function openViewer(a) {
+  // 실제 사진책을 열 때 1건 기록합니다.
+  // keepalive 전송이므로 곧바로 Viewer로 이동해도 기록 요청은 계속 처리됩니다.
+  sendAnalyticsEvent({
+    event_type: 'album_open',
+    visitor_id: getAnalyticsVisitorId(),
+    shelf_id: SHELF_ID,
+    album_id: String(a?.id || a?.albumId || a?.album || ''),
+    album_title: String(a?.title || ''),
+    page_no: null,
+    device_type: getAnalyticsDeviceType(),
+    os: getAnalyticsOS()
+  });
+
   location.href = '../../viewer/?album=' + encodeURIComponent(absoluteAlbumUrl(a));
 }
 
