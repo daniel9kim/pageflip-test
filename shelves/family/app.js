@@ -266,13 +266,41 @@ function openViewer(a) {
   location.href = '../../viewer/?album=' + encodeURIComponent(absoluteAlbumUrl(a));
 }
 
-// 창 크기가 바뀌면 4/3/2열을 다시 계산
+// 창 크기가 바뀔 때 '열 수'가 실제로 달라진 경우에만 다시 그립니다.
+// 모바일 브라우저는 주소창이 숨거나 나타날 때 높이만 바뀌어도 resize를 발생시키므로,
+// 매번 renderShelf()를 호출하면 DOM이 통째로 재생성되어 스크롤이 위로 튈 수 있습니다.
 let resizeTimer = null;
+let lastBooksPerRow = null;
+
+function rememberBooksPerRow(){
+  lastBooksPerRow = getBooksPerRow();
+}
+
+// 최초 렌더 이후 현재 열 수를 기억
+requestAnimationFrame(rememberBooksPerRow);
+
 addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
-    if (allAlbums.length) renderShelf();
-  }, 120);
+    if (!allAlbums.length) return;
+
+    const nextBooksPerRow = getBooksPerRow();
+
+    // 폭 변화로 4↔3↔2열이 실제로 바뀔 때만 재렌더
+    if (lastBooksPerRow === null) {
+      lastBooksPerRow = nextBooksPerRow;
+      return;
+    }
+
+    if (nextBooksPerRow !== lastBooksPerRow) {
+      lastBooksPerRow = nextBooksPerRow;
+
+      // 회전/창 크기 변경 때도 현재 읽던 위치를 최대한 유지
+      const y = window.scrollY;
+      renderShelf();
+      requestAnimationFrame(() => window.scrollTo({ top:y, left:0, behavior:'auto' }));
+    }
+  }, 160);
 });
 
 function escapeHtml(s) {
