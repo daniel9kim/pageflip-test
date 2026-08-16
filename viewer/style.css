@@ -1049,3 +1049,21 @@
   .open-book.record-page-zoom-active .spread{overflow:visible !important;}
   .open-book.record-page-zoom-active .nav-zone{pointer-events:none;opacity:.08;}
 }
+
+
+/* =========================================================
+   PAGE FLIP Viewer V11.5.4 — Mobile Essay Preview Pinch Fix
+   첫 감상문 화면(.essay-page)도 전체 페이지 핀치 확대 대상에 포함
+   ========================================================= */
+@media(max-width:760px){
+  #spread .essay-page.record-page-zoomed,
+  #spread .episode-page.record-page-zoomed,
+  #spread .story-companion.record-page-zoomed,
+  #spread .page.record-page-zoomed{
+    transition:none !important;
+    position:relative;
+    z-index:40 !important;
+    touch-action:none;
+    will-change:transform;
+  }
+}

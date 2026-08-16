@@ -1,0 +1,15 @@
+PAGE FLIP Viewer V11.5.4
+
+원인
+- 모바일에서 처음 보이는 감상문 요약 화면은 .page가 아니라
+  <article class="essay-page ..."> 구조였습니다.
+- V11.5.3 핀치 감지기는 .page만 찾았기 때문에 해당 화면을 인식하지 못했습니다.
+
+수정
+- .page + .essay-page + .episode-page + .story-companion 모두 핀치 대상으로 인식
+- 기존 사진 핀치 확대 유지
+- 전체 감상문 동작 유지
+- PC 동작 변경 없음
+
+배포 데이터 보호
+- JSON 파일은 ZIP에 포함하지 않음

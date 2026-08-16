@@ -1094,7 +1094,7 @@ shareBtn.onclick=async()=>{
 
 
 // =========================================================
-// V11.5.3 — Mobile Record Page Pinch Zoom
+// V11.5.4 — Mobile Essay Preview Pinch Fix
 // '그날의 기록'/감상문 텍스트 페이지 전체 확대
 // =========================================================
 (()=>{
@@ -1106,12 +1106,24 @@ shareBtn.onclick=async()=>{
   };
   const scaleOf=el=>Number(el?.dataset?.recordZoomScale||1)||1;
   const isRecordPage=el=>{
-    const page=el?.closest?.('.page');
+    // V11.5.4: 모바일 첫 감상문 화면은 .page가 아니라
+    // <article class="essay-page ..."> 구조이므로 두 타입을 모두 인식합니다.
+    const page=el?.closest?.('.page, .essay-page, .episode-page, .story-companion');
     if(!page || !spreadEl.contains(page)) return null;
-    // 사진을 직접 집은 경우에는 기존 V11.5.2 사진 핀치에 맡김
+
+    // 사진을 직접 집은 경우에는 기존 사진 핀치 확대에 맡김
     if(el.closest?.('img')) return null;
+
     const text=page.textContent||'';
-    return (/전체\s*감상문\s*읽기|EPISODE|그날의\s*기록/i.test(text)) ? page : null;
+    const isEssayLayout =
+      page.classList.contains('essay-page') ||
+      page.classList.contains('episode-page') ||
+      page.classList.contains('story-companion');
+
+    return (
+      isEssayLayout ||
+      /전체\s*감상문\s*읽기|EPISODE|그날의\s*기록/i.test(text)
+    ) ? page : null;
   };
   const setScale=(page,s)=>{
     s=Math.max(1,Math.min(3,s));
