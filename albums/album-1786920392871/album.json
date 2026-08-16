@@ -8,8 +8,65 @@
   "shelfKey": "elders",
   "photoCount": 7,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-16T22:46:32.871Z",
-  "updatedAt": "2026-08-16T22:46:32.871Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786920392871/photos/001.webp",
+      "originalName": "571694666_25533630506244945_9139235379762501454_n.jpg",
+      "width": 1280,
+      "height": 720,
+      "bytes": 86746
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786920392871/photos/002.webp",
+      "originalName": "571113346_25533633082911354_3979452616373724729_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 121638
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786920392871/photos/003.webp",
+      "originalName": "571218015_25533632699578059_5261593296880967024_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 114900
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786920392871/photos/004.webp",
+      "originalName": "572387466_25533632389578090_1197418556883809880_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 146940
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786920392871/photos/005.webp",
+      "originalName": "573064968_25533631759578153_7510066794511201684_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 210106
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1786920392871/photos/006.webp",
+      "originalName": "573628926_25533631366244859_1186855423801289223_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 220552
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1786920392871/photos/007.webp",
+      "originalName": "571226470_25533630946244901_4796452569797580984_n.jpg",
+      "width": 1276,
+      "height": 1800,
+      "bytes": 198816
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-16T22:46:48.643Z"
 }
