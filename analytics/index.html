@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>PAGE FLIP 통계 대시보드</title>
+  <style>
+    :root{
+      --bg:#f6f1e9;
+      --paper:#fffdf8;
+      --ink:#2f241b;
+      --muted:#8b7a68;
+      --line:#e7dccf;
+      --brown:#4a3425;
+      --brown2:#7a5436;
+      --accent:#a66a2d;
+      --green:#6f944b;
+      --purple:#8663aa;
+      --shadow:0 10px 30px rgba(74,52,37,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+      font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+    body{overflow-x:hidden}
+    button,select{font:inherit}
+    .app{display:grid;grid-template-columns:190px minmax(0,1fr);min-height:100vh}
+    .side{
+      position:sticky;top:0;height:100vh;padding:28px 16px 18px;
+      background:linear-gradient(180deg,#37271d,#4b3527);color:#fff;
+      display:flex;flex-direction:column
+    }
+    .brand{font-family:Georgia,serif;text-align:center;padding:5px 0 28px;border-bottom:1px solid #ffffff1f}
+    .brand b{font-size:25px;letter-spacing:.08em}.brand small{display:block;margin-top:5px;letter-spacing:.12em;opacity:.75}
+    .nav{display:grid;gap:8px;margin-top:28px}.nav a{color:#f6efe8;text-decoration:none;padding:13px 14px;border-radius:12px}
+    .nav a.active{background:#ffffff18}.nav a span{margin-right:9px}
+    .owner{margin-top:auto;border-top:1px solid #ffffff1f;padding:18px 8px 3px;display:flex;gap:10px;align-items:center}
+    .avatar{width:40px;height:40px;border-radius:50%;background:#eadccc;color:#3f2d20;display:grid;place-items:center;font-weight:800}
+    .owner small{display:block;opacity:.65;margin-top:2px}
+    main{width:100%;max-width:1500px;margin:0 auto;padding:32px clamp(16px,3vw,42px) 54px}
+    .top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px}
+    .top h1{font-family:Georgia,"Noto Serif KR",serif;font-size:34px;font-weight:600;margin:0}
+    .top p{color:var(--muted);margin:6px 0 0}
+    .filters{display:flex;gap:8px;flex-wrap:wrap}
+    .filters select,.filters button{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--ink)}
+    .filters button{cursor:pointer}
+    .status{font-size:12px;color:var(--muted);margin:0 0 14px}
+    .status.error{color:#a9483f}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:20px}
+    .kpi span{display:block;color:var(--muted);font-size:13px}.kpi strong{display:block;font-size:38px;margin-top:8px}
+    .kpi strong small{font-size:15px;margin-left:3px}.kpi em{font-style:normal;color:var(--muted);font-size:11px}
+    .two{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-bottom:18px}
+    .head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.head h2{font-size:17px;margin:0}
+    .chart-wrap{height:285px;position:relative;padding-top:10px}
+    #trend{width:100%;height:230px;display:block;overflow:visible}
+    .chart-empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted)}
+    .legend{display:flex;gap:18px;font-size:11px;color:var(--muted)}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+    .rank{display:grid;gap:12px}.rank-row{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center}
+    .badge{width:28px;height:28px;border-radius:50%;background:#d6ad73;color:white;display:grid;place-items:center;font-weight:800}
+    .rank-title{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bar{height:5px;background:#eee5dc;border-radius:10px;margin-top:7px;overflow:hidden}.bar i{display:block;height:100%;background:#a66a2d;border-radius:10px}
+    .rank-value{font-size:20px}.rank-value small{font-size:11px}
+    .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px}
+    .big{font-size:34px;font-weight:800;color:#8b5c32}.big small{font-size:14px}.desc{font-size:12px;color:var(--muted);line-height:1.55}
+    .device-list{display:grid;gap:10px;margin-top:15px}.device-row{display:grid;grid-template-columns:85px 1fr 45px;gap:8px;align-items:center;font-size:12px}
+    .visitor-list{display:grid;gap:10px}.visitor{display:grid;grid-template-columns:1.2fr .8fr .8fr 1fr;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);align-items:center}
+    .visitor:last-child{border-bottom:0}.visitor b{font-size:13px}.visitor small{color:var(--muted)}
+    .table{overflow:auto;border:1px solid var(--line);border-radius:12px}
+    table{width:100%;border-collapse:collapse;min-width:700px}th,td{padding:11px 13px;border-bottom:1px solid var(--line);font-size:12px;text-align:left}
+    th{background:#fbf6ef;color:#776757}tbody tr:last-child td{border-bottom:0}
+    .muted{color:var(--muted)}
+    footer{text-align:center;color:var(--muted);font-size:12px;padding-top:22px}
+    @media(max-width:1000px){
+      .app{grid-template-columns:1fr}.side{position:relative;height:auto;display:block;padding:18px}.brand{padding-bottom:14px}.nav{grid-template-columns:repeat(4,1fr);margin-top:12px}.nav a{text-align:center;padding:9px}.nav a span{margin:0}.nav a b{display:none}.owner{display:none}
+      .kpis{grid-template-columns:repeat(2,1fr)}.two,.three{grid-template-columns:1fr}.visitor{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:560px){
+      main{padding:20px 12px 40px}.top{display:block}.top h1{font-size:28px}.filters{margin-top:14px}.filters select,.filters button{flex:1}
+      .kpis{gap:10px}.card{padding:16px;border-radius:15px}.kpi strong{font-size:31px}.visitor{grid-template-columns:1fr}.chart-wrap{height:260px}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><b>PAGE FLIP</b><small>ANALYTICS</small></div>
+    <nav class="nav">
+      <a href="../shelves/elders/"><span>▣</span><b>책장</b></a>
+      <a href="../maker/"><span>▱</span><b>앨범 만들기</b></a>
+      <a class="active" href="#"><span>▥</span><b>통계</b></a>
+      <a href="#"><span>⚙</span><b>설정</b></a>
+    </nav>
+    <div class="owner"><div class="avatar">D</div><div><b>Den</b><small>관리자</small></div></div>
+  </aside>
+
+  <main>
+    <header class="top">
+      <div><h1>통계 대시보드</h1><p>PAGE FLIP 이용 현황을 실제 데이터로 확인합니다.</p></div>
+      <div class="filters">
+        <select id="days"><option value="7">최근 7일</option><option value="30">최근 30일</option><option value="90">최근 90일</option></select>
+        <select id="shelf"><option value="elders">장로합창단</option><option value="">전체 책장</option></select>
+        <button id="reload">새로고침</button>
+      </div>
+    </header>
+
+    <p id="status" class="status">데이터를 불러오는 중입니다…</p>
+
+    <section class="kpis">
+      <article class="card kpi"><span>오늘 방문자</span><strong id="todayVisitors">-</strong><em>고유 방문자 기준</em></article>
+      <article class="card kpi"><span>오늘 책장 조회</span><strong id="todayShelf">-</strong><em>shelf_view</em></article>
+      <article class="card kpi"><span>오늘 앨범 열람</span><strong id="todayAlbums">-</strong><em>album_open</em></article>
+      <article class="card kpi"><span>오늘 페이지 열람</span><strong id="todayPages">-</strong><em>page_view</em></article>
+    </section>
+
+    <section class="two">
+      <article class="card">
+        <div class="head"><h2>일별 이용 추이</h2><div class="legend"><span><i class="dot" style="background:#7a5436"></i>페이지뷰</span><span><i class="dot" style="background:#6f944b"></i>방문자</span></div></div>
+        <div class="chart-wrap"><svg id="trend" viewBox="0 0 760 230" preserveAspectRatio="none"></svg><div id="chartEmpty" class="chart-empty" hidden>표시할 데이터가 없습니다.</div></div>
+      </article>
+
+      <article class="card">
+        <div class="head"><h2>인기 앨범</h2><span class="muted" id="periodLabel">최근 7일</span></div>
+        <div id="ranking" class="rank"></div>
+      </article>
+    </section>
+
+    <section class="three">
+      <article class="card"><div class="head"><h2>열람 깊이</h2></div><div class="big" id="avgDepth">-</div><p class="desc">한 방문자가 한 앨범에서 평균적으로 도달한 가장 높은 페이지입니다.</p><p class="desc">최대 도달 페이지 <b id="furthest">-</b></p></article>
+      <article class="card"><div class="head"><h2>책장 분석</h2></div><div class="big" id="shelfVisitors">-</div><p class="desc">선택 기간 동안 책장을 방문한 고유 방문자</p><p class="desc">방문자 1명당 평균 열람 앨범 <b id="avgAlbums">-</b></p></article>
+      <article class="card"><div class="head"><h2>접속 환경</h2></div><div id="devices" class="device-list"></div></article>
+    </section>
+
+    <section class="card" style="margin-bottom:18px">
+      <div class="head"><h2>최근 방문자</h2><span class="muted">익명 visitor_id</span></div>
+      <div id="visitors" class="visitor-list"></div>
+    </section>
+
+    <section class="card">
+      <div class="head"><h2>인기 앨범 상세</h2><span class="muted">실제 album_open 기준</span></div>
+      <div class="table">
+        <table><thead><tr><th>앨범</th><th>열람 횟수</th><th>방문자</th><th>앨범 ID</th></tr></thead><tbody id="albumTable"></tbody></table>
+      </div>
+    </section>
+
+    <footer>PAGE FLIP Analytics · Asia/Seoul</footer>
+  </main>
+</div>
+
+<script>
+const API = "https://pageflip-analytics.withme-jesus.workers.dev/dashboard";
+
+const $ = id => document.getElementById(id);
+const fmt = n => new Intl.NumberFormat("ko-KR").format(Number(n || 0));
+const shortVisitor = id => {
+  const s = String(id || "");
+  if (!s) return "-";
+  if (s.startsWith("#")) return s;
+  return "#" + s.replace(/-/g,"").slice(0,6).toUpperCase();
+};
+
+async function loadDashboard(){
+  const days = $("days").value;
+  const shelf = $("shelf").value;
+  const qs = new URLSearchParams({days});
+  if (shelf) qs.set("shelf", shelf);
+
+  $("status").className = "status";
+  $("status").textContent = "데이터를 불러오는 중입니다…";
+
+  try{
+    const r = await fetch(API + "?" + qs.toString(), {cache:"no-store"});
+    if(!r.ok) throw new Error("HTTP " + r.status);
+    const d = await r.json();
+    if(!d.ok) throw new Error(d.message || "데이터 조회 실패");
+
+    $("todayVisitors").innerHTML = fmt(d.today.visitors) + "<small>명</small>";
+    $("todayShelf").innerHTML = fmt(d.today.shelf_views) + "<small>회</small>";
+    $("todayAlbums").innerHTML = fmt(d.today.album_opens) + "<small>회</small>";
+    $("todayPages").innerHTML = fmt(d.today.page_views) + "<small>회</small>";
+
+    $("periodLabel").textContent = "최근 " + d.filters.days + "일";
+    $("avgDepth").innerHTML = fmt(d.read_depth.avg_max_page) + "<small> 페이지</small>";
+    $("furthest").textContent = fmt(d.read_depth.furthest_page) + " 페이지";
+    $("shelfVisitors").innerHTML = fmt(d.shelf_analysis.visitors) + "<small>명</small>";
+    $("avgAlbums").textContent = fmt(d.shelf_analysis.avg_albums_per_visitor) + "권";
+
+    renderTrend(d.daily || []);
+    renderRanking(d.top_albums || []);
+    renderDevices(d.devices || []);
+    renderVisitors(d.recent_visitors || []);
+    renderTable(d.top_albums || []);
+
+    $("status").textContent =
+      `정상 연결 · ${d.timezone} · ${d.filters.shelf === "all" ? "전체 책장" : "장로합창단"} · 최근 ${d.filters.days}일`;
+  }catch(e){
+    $("status").className = "status error";
+    $("status").textContent = "통계 데이터를 불러오지 못했습니다: " + e.message;
+  }
+}
+
+function renderTrend(rows){
+  const svg = $("trend");
+  svg.innerHTML = "";
+  $("chartEmpty").hidden = rows.length > 0;
+  if(!rows.length) return;
+
+  const W=760,H=230,L=42,R=18,T=18,B=38;
+  const maxV = Math.max(1,...rows.map(r=>Math.max(Number(r.page_views||0),Number(r.visitors||0))));
+  const x = i => rows.length===1 ? W/2 : L + i*(W-L-R)/(rows.length-1);
+  const y = v => T + (maxV-v)*(H-T-B)/maxV;
+
+  for(let i=0;i<4;i++){
+    const yy=T+i*(H-T-B)/3;
+    svg.insertAdjacentHTML("beforeend", `<line x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}" stroke="#eadfd4" stroke-width="1"/>`);
+  }
+
+  const line = (key,color) => {
+    const pts=rows.map((r,i)=>`${x(i)},${y(Number(r[key]||0))}`).join(" ");
+    svg.insertAdjacentHTML("beforeend", `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="3" vector-effect="non-scaling-stroke"/>`);
+    rows.forEach((r,i)=>svg.insertAdjacentHTML("beforeend", `<circle cx="${x(i)}" cy="${y(Number(r[key]||0))}" r="4" fill="${color}"/>`));
+  };
+  line("page_views","#7a5436");
+  line("visitors","#6f944b");
+
+  rows.forEach((r,i)=>{
+    const label=String(r.day||"").slice(5).replace("-","/");
+    svg.insertAdjacentHTML("beforeend", `<text x="${x(i)}" y="${H-10}" text-anchor="middle" font-size="11" fill="#8b7a68">${label}</text>`);
+  });
+}
+
+function renderRanking(rows){
+  const box=$("ranking"); box.innerHTML="";
+  if(!rows.length){ box.innerHTML='<p class="muted">아직 앨범 열람 데이터가 없습니다.</p>'; return; }
+  const max=Math.max(1,...rows.slice(0,5).map(r=>Number(r.opens||0)));
+  rows.slice(0,5).forEach((r,i)=>{
+    box.insertAdjacentHTML("beforeend",`
+      <div class="rank-row">
+        <span class="badge">${i+1}</span>
+        <div><div class="rank-title">${escapeHtml(r.album_title||"제목 없음")}</div><div class="bar"><i style="width:${Math.max(6,Number(r.opens||0)/max*100)}%"></i></div></div>
+        <div class="rank-value">${fmt(r.opens)}<small>회</small></div>
+      </div>`);
+  });
+}
+
+function renderDevices(rows){
+  const box=$("devices"); box.innerHTML="";
+  const total=rows.reduce((a,r)=>a+Number(r.visitors||0),0)||1;
+  if(!rows.length){box.innerHTML='<p class="muted">접속 환경 데이터가 없습니다.</p>';return;}
+  rows.forEach(r=>{
+    const pct=Math.round(Number(r.visitors||0)/total*100);
+    box.insertAdjacentHTML("beforeend",`<div class="device-row"><b>${escapeHtml(r.device_type||"unknown")}</b><div class="bar"><i style="width:${pct}%"></i></div><span>${pct}%</span></div>`);
+  });
+}
+
+function renderVisitors(rows){
+  const box=$("visitors"); box.innerHTML="";
+  if(!rows.length){box.innerHTML='<p class="muted">최근 방문자가 없습니다.</p>';return;}
+  rows.forEach(r=>{
+    box.insertAdjacentHTML("beforeend",`
+      <div class="visitor">
+        <div><b>${shortVisitor(r.visitor_id)}</b><br><small>${escapeHtml(r.device_type)} · ${escapeHtml(r.os)}</small></div>
+        <div><small>오늘 이벤트</small><br><b>${fmt(r.today_events)}회</b></div>
+        <div><small>최근 30일</small><br><b>${fmt(r.events)}회</b></div>
+        <div><small>최근 접속</small><br><b>${escapeHtml(String(r.last_seen||"").replace(" ","  "))}</b></div>
+      </div>`);
+  });
+}
+
+function renderTable(rows){
+  const tb=$("albumTable"); tb.innerHTML="";
+  if(!rows.length){tb.innerHTML='<tr><td colspan="4" class="muted">데이터가 없습니다.</td></tr>';return;}
+  rows.forEach(r=>tb.insertAdjacentHTML("beforeend",`
+    <tr><td>${escapeHtml(r.album_title||"제목 없음")}</td><td>${fmt(r.opens)}회</td><td>${fmt(r.visitors)}명</td><td class="muted">${escapeHtml(r.album_id||"-")}</td></tr>`));
+}
+
+function escapeHtml(v){
+  return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+$("days").addEventListener("change",loadDashboard);
+$("shelf").addEventListener("change",loadDashboard);
+$("reload").addEventListener("click",loadDashboard);
+loadDashboard();
+</script>
+</body>
+</html>
