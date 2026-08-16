@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786878756888",
+      "title": "승영중학교 초청연주",
+      "date": "2026-05-20",
+      "summary": "",
+      "cover": "../../albums/album-1786878756888/photos/001.webp",
+      "album": "../../albums/album-1786878756888/album.json",
+      "photoCount": 12,
+      "updatedAt": "2026-08-16T11:13:05.130Z"
+    },
+    {
       "id": "album-1786806100730",
       "title": "장석교회 초청연주",
       "date": "2025-09-14",
