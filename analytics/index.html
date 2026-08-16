@@ -182,7 +182,7 @@
         <article class="card kpi"><span>고유 방문자</span><strong id="detailVisitors">-</strong><em>album_open 기준</em></article>
         <article class="card kpi"><span>앨범 열람</span><strong id="detailOpens">-</strong><em>album_open</em></article>
         <article class="card kpi"><span>페이지 열람</span><strong id="detailPages">-</strong><em>page_view</em></article>
-        <article class="card kpi"><span>평균 도달 페이지</span><strong id="detailAvgDepth">-</strong><em>방문자별 최고 페이지 평균</em></article>
+        <article class="card kpi"><span>최대 도달 페이지</span><strong id="detailMaxDepth">-</strong><em>가장 멀리 열람한 페이지</em></article>
       </section>
 
       <section class="detail-grid">
@@ -392,7 +392,7 @@ async function loadAlbumDetail(){
     $("detailVisitors").innerHTML = fmt(d.summary?.visitors) + "<small>명</small>";
     $("detailOpens").innerHTML = fmt(d.summary?.album_opens) + "<small>회</small>";
     $("detailPages").innerHTML = fmt(d.summary?.page_views) + "<small>회</small>";
-    $("detailAvgDepth").innerHTML = fmt(d.read_depth?.avg_max_page) + "<small> 페이지</small>";
+    $("detailMaxDepth").innerHTML = fmt(d.read_depth?.furthest_page) + "<small> P</small>";
     $("detailFurthest").textContent = "최대 도달 " + fmt(d.read_depth?.furthest_page) + "P";
 
     renderPageBars(d.pages || [], Number(d.read_depth?.furthest_page || 0));
