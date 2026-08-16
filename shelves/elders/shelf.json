@@ -14,6 +14,16 @@
       "updatedAt": "2026-08-16T11:13:05.130Z"
     },
     {
+      "id": "album-1786920247161",
+      "title": "당일교회 초청연주",
+      "date": "2025-10-12",
+      "summary": "",
+      "cover": "../../albums/album-1786920247161/photos/001.webp",
+      "album": "../../albums/album-1786920247161/album.json",
+      "photoCount": 10,
+      "updatedAt": "2026-08-16T22:44:29.761Z"
+    },
+    {
       "id": "album-1786919809376",
       "title": "권사합창단 초청연주",
       "date": "2025-09-21",
