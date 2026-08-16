@@ -14,6 +14,16 @@
       "updatedAt": "2026-08-16T11:13:05.130Z"
     },
     {
+      "id": "album-1786921521921",
+      "title": "메시아 연주",
+      "date": "2025-12-17",
+      "summary": "",
+      "cover": "../../albums/album-1786921521921/photos/001.webp",
+      "album": "../../albums/album-1786921521921/album.json",
+      "photoCount": 13,
+      "updatedAt": "2026-08-16T23:05:52.835Z"
+    },
+    {
       "id": "album-1786921362979",
       "title": "태국 찬양선교여행 03",
       "date": "2025-11-22",
