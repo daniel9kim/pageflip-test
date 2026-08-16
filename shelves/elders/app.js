@@ -50,12 +50,21 @@ function getAnalyticsOS() {
   return 'Other';
 }
 
-function sendAnalyticsEvent(payload) {
+function sendAnalyticsEvent(payload, preferBeacon = false) {
+  const body = JSON.stringify(payload);
+
+  if (preferBeacon && navigator.sendBeacon) {
+    try {
+      const blob = new Blob([body], { type: 'text/plain;charset=UTF-8' });
+      if (navigator.sendBeacon(ANALYTICS_URL, blob)) return;
+    } catch (_) {}
+  }
+
   fetch(ANALYTICS_URL, {
     method: 'POST',
     mode: 'no-cors',
     headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-    body: JSON.stringify(payload),
+    body,
     keepalive: true
   }).catch(() => {});
 }
@@ -342,7 +351,7 @@ function openViewer(a) {
     page_no: null,
     device_type: getAnalyticsDeviceType(),
     os: getAnalyticsOS()
-  });
+  }, true);
 
   location.href = '../../viewer/?album=' + encodeURIComponent(absoluteAlbumUrl(a));
 }
