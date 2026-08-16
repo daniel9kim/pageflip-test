@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786866431899",
+      "title": "문화교회 - 초청연",
+      "date": "2026-05-10",
+      "summary": "",
+      "cover": "../../albums/album-1786866431899/photos/001.webp",
+      "album": "../../albums/album-1786866431899/album.json",
+      "photoCount": 5,
+      "updatedAt": "2026-08-16T07:47:33.874Z"
+    },
+    {
       "id": "album-1786836943215",
       "title": "열방교회 초청연주",
       "date": "2026-04-03",
