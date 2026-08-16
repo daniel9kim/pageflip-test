@@ -6,6 +6,79 @@ let spreads=[];
 let current=0,locked=false,drag=null;
 let albumUrl=null;
 
+// =========================================================
+// PAGE FLIP Analytics — Viewer page_view
+// =========================================================
+const PAGEFLIP_ANALYTICS_URL='https://pageflip-analytics.withme-jesus.workers.dev/event';
+let lastTrackedPageKey='';
+
+function analyticsVisitorId(){
+  const key='pageflip_visitor_id';
+  try{
+    let id=localStorage.getItem(key);
+    if(!id){
+      id=(crypto?.randomUUID?.() || ('v-'+Date.now()+'-'+Math.random().toString(16).slice(2)));
+      localStorage.setItem(key,id);
+    }
+    return id;
+  }catch{
+    return 'session-'+Date.now();
+  }
+}
+
+function analyticsDeviceType(){
+  return matchMedia('(max-width:760px)').matches?'mobile':'pc';
+}
+
+function analyticsOS(){
+  const ua=navigator.userAgent||'';
+  if(/Windows/i.test(ua)) return 'Windows';
+  if(/Android/i.test(ua)) return 'Android';
+  if(/iPhone|iPad|iPod/i.test(ua)) return 'iOS';
+  if(/Mac OS X|Macintosh/i.test(ua)) return 'macOS';
+  if(/Linux/i.test(ua)) return 'Linux';
+  return '';
+}
+
+function currentAnalyticsPageNo(){
+  const s=spreads[current];
+  if(!s) return current+1;
+  if(Number.isFinite(Number(s.start))) return Number(s.start)+1;
+  return current+1;
+}
+
+function trackPageView(){
+  if(!album || !views.reader.classList.contains('active')) return;
+
+  const pageNo=currentAnalyticsPageNo();
+  const albumId=String(album.id||album.albumId||album.album_id||'');
+  const shelfId=String(album.shelfKey||album.shelf_id||album.shelfId||'personal');
+  const key=[albumId,current,pageNo,analyticsDeviceType()].join('|');
+  if(key===lastTrackedPageKey) return;
+  lastTrackedPageKey=key;
+
+  const payload={
+    event_type:'page_view',
+    visitor_id:analyticsVisitorId(),
+    shelf_id:shelfId,
+    album_id:albumId,
+    album_title:String(album.title||''),
+    page_no:pageNo,
+    device_type:analyticsDeviceType(),
+    os:analyticsOS()
+  };
+
+  try{
+    fetch(PAGEFLIP_ANALYTICS_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload),
+      keepalive:true,
+      cache:'no-store'
+    }).catch(()=>{});
+  }catch{}
+}
+
 const views={
   cover:document.querySelector('#coverView'),
   reader:document.querySelector('#readerView')
@@ -396,6 +469,7 @@ function render(){
   if(s.type==='ending') indicator.textContent='마지막 기록';
   else indicator.textContent=`${current+1} / ${spreads.length}`;
   resetCurl();
+  trackPageView();
 }
 
 
@@ -766,7 +840,7 @@ document.querySelector('#backToShelf').onclick=()=>{
   location.href=`../shelves/${encodeURIComponent(shelfKey)}/`;
 };
 document.querySelector('#backToCover').onclick=()=>show('cover');
-document.querySelector('#openReader').onclick=()=>{current=0;render();show('reader')};
+document.querySelector('#openReader').onclick=()=>{current=0;show('reader');render()};
 document.querySelector('#storyClose').onclick=()=>document.querySelector('#storyModal').classList.remove('open');
 document.querySelector('#storyModal').onclick=e=>{
   if(e.target.id==='storyModal') e.currentTarget.classList.remove('open');
