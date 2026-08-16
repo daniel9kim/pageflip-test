@@ -8,8 +8,105 @@
   "shelfKey": "elders",
   "photoCount": 12,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-16T22:50:24.209Z",
-  "updatedAt": "2026-08-16T22:50:24.209Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786920624209/photos/001.webp",
+      "originalName": "577141667_25606829072258421_3325332205506744998_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 214818
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786920624209/photos/002.webp",
+      "originalName": "575196240_25606828548925140_6063507626606771561_n.jpg",
+      "width": 1800,
+      "height": 1350,
+      "bytes": 204088
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786920624209/photos/003.webp",
+      "originalName": "575099547_25606828102258518_1967227577775960719_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 214190
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786920624209/photos/004.webp",
+      "originalName": "577865897_25606827778925217_1862289830792099456_n.jpg",
+      "width": 1800,
+      "height": 1350,
+      "bytes": 198322
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786920624209/photos/005.webp",
+      "originalName": "576363753_25606827395591922_2371346281538898929_n.jpg",
+      "width": 1800,
+      "height": 1350,
+      "bytes": 222912
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1786920624209/photos/006.webp",
+      "originalName": "576372242_25606826965591965_2309108955433134242_n.jpg",
+      "width": 1800,
+      "height": 1350,
+      "bytes": 187440
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1786920624209/photos/007.webp",
+      "originalName": "576998223_25606826525592009_4027148353782024070_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 110914
+    },
+    {
+      "file": "008.webp",
+      "path": "albums/album-1786920624209/photos/008.webp",
+      "originalName": "577266273_25606826252258703_4062339391005966241_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 148102
+    },
+    {
+      "file": "009.webp",
+      "path": "albums/album-1786920624209/photos/009.webp",
+      "originalName": "576858042_25606825752258753_9032866359707677001_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 101820
+    },
+    {
+      "file": "010.webp",
+      "path": "albums/album-1786920624209/photos/010.webp",
+      "originalName": "576652343_25606825478925447_19368431673368119_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 115222
+    },
+    {
+      "file": "011.webp",
+      "path": "albums/album-1786920624209/photos/011.webp",
+      "originalName": "577721798_25606825185592143_2244183055433262799_n.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 124686
+    },
+    {
+      "file": "012.webp",
+      "path": "albums/album-1786920624209/photos/012.webp",
+      "originalName": "575121181_25606824585592203_3023970993316917715_n.jpg",
+      "width": 1278,
+      "height": 1800,
+      "bytes": 231678
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-16T22:50:55.799Z"
 }
