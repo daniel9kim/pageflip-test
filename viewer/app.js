@@ -1091,3 +1091,90 @@ shareBtn.onclick=async()=>{
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply);
   else apply();
 })();
+
+
+// =========================================================
+// V11.5.3 — Mobile Record Page Pinch Zoom
+// '그날의 기록'/감상문 텍스트 페이지 전체 확대
+// =========================================================
+(()=>{
+  let rp=null, active=false, startDist=0, startScale=1;
+
+  const dist=t=>{
+    if(!t || t.length<2) return 0;
+    return Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+  };
+  const scaleOf=el=>Number(el?.dataset?.recordZoomScale||1)||1;
+  const isRecordPage=el=>{
+    const page=el?.closest?.('.page');
+    if(!page || !spreadEl.contains(page)) return null;
+    // 사진을 직접 집은 경우에는 기존 V11.5.2 사진 핀치에 맡김
+    if(el.closest?.('img')) return null;
+    const text=page.textContent||'';
+    return (/전체\s*감상문\s*읽기|EPISODE|그날의\s*기록/i.test(text)) ? page : null;
+  };
+  const setScale=(page,s)=>{
+    s=Math.max(1,Math.min(3,s));
+    page.dataset.recordZoomScale=String(s);
+    page.style.transform=`scale(${s})`;
+    page.classList.toggle('record-page-zoomed',s>1.01);
+    book.classList.toggle('record-page-zoom-active',s>1.01);
+  };
+  const reset=page=>{
+    if(!page)return;
+    page.dataset.recordZoomScale='1';
+    page.style.transform='scale(1)';
+    page.style.transformOrigin='50% 50%';
+    page.classList.remove('record-page-zoomed');
+    book.classList.remove('record-page-zoom-active');
+  };
+
+  book.addEventListener('touchstart',e=>{
+    if(!mobile() || e.touches.length!==2) return;
+    const x=(e.touches[0].clientX+e.touches[1].clientX)/2;
+    const y=(e.touches[0].clientY+e.touches[1].clientY)/2;
+    const target=document.elementFromPoint(x,y);
+    const page=isRecordPage(target);
+    if(!page)return;
+
+    const rect=page.getBoundingClientRect();
+    page.style.transformOrigin=
+      `${Math.max(0,Math.min(100,(x-rect.left)/rect.width*100))}% `+
+      `${Math.max(0,Math.min(100,(y-rect.top)/rect.height*100))}%`;
+    rp=page; active=true; startDist=Math.max(1,dist(e.touches)); startScale=scaleOf(page);
+    e.preventDefault(); e.stopImmediatePropagation();
+  },{passive:false,capture:true});
+
+  book.addEventListener('touchmove',e=>{
+    if(!mobile() || !active || !rp || e.touches.length<2)return;
+    setScale(rp,startScale*(dist(e.touches)/startDist));
+    e.preventDefault(); e.stopImmediatePropagation();
+  },{passive:false,capture:true});
+
+  book.addEventListener('touchend',e=>{
+    if(!active)return;
+    if(e.touches.length<2){
+      if(rp && scaleOf(rp)<1.06) reset(rp);
+      active=false; rp=null;
+    }
+    e.preventDefault(); e.stopImmediatePropagation();
+  },{passive:false,capture:true});
+
+  book.addEventListener('touchcancel',()=>{active=false;rp=null;},{capture:true});
+
+  let lastTap=0;
+  book.addEventListener('click',e=>{
+    if(!mobile())return;
+    const page=e.target.closest?.('.record-page-zoomed');
+    if(!page)return;
+    const now=Date.now();
+    if(now-lastTap<320){reset(page);e.preventDefault();e.stopImmediatePropagation();}
+    lastTap=now;
+  },true);
+
+  // 페이지가 바뀌면 기록 페이지 확대 상태 자동 해제
+  const observer=new MutationObserver(()=>{
+    book.classList.remove('record-page-zoom-active');
+  });
+  observer.observe(spreadEl,{childList:true});
+})();

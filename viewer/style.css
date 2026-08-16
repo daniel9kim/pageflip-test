@@ -1036,3 +1036,16 @@
     cursor:zoom-out;
   }
 }
+
+/* V11.5.3 — Mobile Record Page Pinch Zoom */
+@media(max-width:760px){
+  #spread .page.record-page-zoomed{
+    transition:none !important;
+    position:relative;
+    z-index:40 !important;
+    touch-action:none;
+    will-change:transform;
+  }
+  .open-book.record-page-zoom-active .spread{overflow:visible !important;}
+  .open-book.record-page-zoom-active .nav-zone{pointer-events:none;opacity:.08;}
+}
