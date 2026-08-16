@@ -4,14 +4,194 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
-      "id": "album-1786559636653",
-      "title": "뱅크시 01",
-      "date": "2026-08-01",
-      "summary": "뱅크시 01",
-      "cover": "../../albums/album-1786559636653/photos/001.webp",
-      "album": "../../albums/album-1786559636653/album.json",
+      "id": "album-1786806100730",
+      "title": "장석교회 초청연주",
+      "date": "2025-09-14",
+      "summary": "",
+      "cover": "../../albums/album-1786806100730/photos/001.webp",
+      "album": "../../albums/album-1786806100730/album.json",
+      "photoCount": 5,
+      "updatedAt": "2026-08-15T15:02:36.236Z"
+    },
+    {
+      "id": "album-1786805234955",
+      "title": "바리톤 번개모",
+      "date": "2025-08-07",
+      "summary": "",
+      "cover": "../../albums/album-1786805234955/photos/001.webp",
+      "album": "../../albums/album-1786805234955/album.json",
+      "photoCount": 10,
+      "updatedAt": "2026-08-15T14:47:53.595Z"
+    },
+    {
+      "id": "album-1786805052882",
+      "title": "수유동 교회 초청연주",
+      "date": "2025-07-20",
+      "summary": "",
+      "cover": "../../albums/album-1786805052882/photos/001.webp",
+      "album": "../../albums/album-1786805052882/album.json",
+      "photoCount": 10,
+      "updatedAt": "2026-08-15T14:44:43.858Z"
+    },
+    {
+      "id": "album-1786804857204",
+      "title": "2025 전국 장로 수련회",
+      "date": "2025-07-02",
+      "summary": "",
+      "cover": "../../albums/album-1786804857204/photos/001.webp",
+      "album": "../../albums/album-1786804857204/album.json",
+      "photoCount": 8,
+      "updatedAt": "2026-08-15T14:41:52.998Z"
+    },
+    {
+      "id": "album-1786804720690",
+      "title": "권사합창단",
+      "date": "2025-06-14",
+      "summary": "",
+      "cover": "../../albums/album-1786804720690/photos/001.webp",
+      "album": "../../albums/album-1786804720690/album.json",
+      "photoCount": 4,
+      "updatedAt": "2026-08-15T14:38:53.261Z"
+    },
+    {
+      "id": "album-1786804502403",
+      "title": "언더우드 아카데미",
+      "date": "2025-06-07",
+      "summary": "",
+      "cover": "../../albums/album-1786804502403/photos/001.webp",
+      "album": "../../albums/album-1786804502403/album.json",
+      "photoCount": 4,
+      "updatedAt": "2026-08-15T14:36:02.947Z"
+    },
+    {
+      "id": "album-1786802205782",
+      "title": "영락 세계 합창",
+      "date": "2025-06-01",
+      "summary": "",
+      "cover": "../../albums/album-1786802205782/photos/001.webp",
+      "album": "../../albums/album-1786802205782/album.json",
+      "photoCount": 5,
+      "updatedAt": "2026-08-15T13:57:12.124Z"
+    },
+    {
+      "id": "album-1786801818492",
+      "title": "사랑하는 엄마, 아빠께",
+      "date": "2025-05-24",
+      "summary": "",
+      "cover": "../../albums/album-1786801818492/photos/001.webp",
+      "album": "../../albums/album-1786801818492/album.json",
+      "photoCount": 3,
+      "updatedAt": "2026-08-15T13:50:29.376Z"
+    },
+    {
+      "id": "album-1786801715209",
+      "title": "합창단 정기연주회",
+      "date": "2025-05-17",
+      "summary": "",
+      "cover": "../../albums/album-1786801715209/photos/001.webp",
+      "album": "../../albums/album-1786801715209/album.json",
+      "photoCount": 17,
+      "updatedAt": "2026-08-15T13:49:22.828Z"
+    },
+    {
+      "id": "album-1786801513776",
+      "title": "리허설 정기연주회",
+      "date": "2025-05-09",
+      "summary": "",
+      "cover": "../../albums/album-1786801513776/photos/001.webp",
+      "album": "../../albums/album-1786801513776/album.json",
       "photoCount": 9,
-      "updatedAt": "2026-08-12T18:34:20.313Z"
+      "updatedAt": "2026-08-15T13:45:40.646Z"
+    },
+    {
+      "id": "album-1786801252128",
+      "title": "난곡신일교회 초청연",
+      "date": "2025-04-13",
+      "summary": "",
+      "cover": "../../albums/album-1786801252128/photos/001.webp",
+      "album": "../../albums/album-1786801252128/album.json",
+      "photoCount": 6,
+      "updatedAt": "2026-08-15T13:41:10.021Z"
+    },
+    {
+      "id": "album-1786801125902",
+      "title": "합창단 입단식",
+      "date": "2025-03-28",
+      "summary": "",
+      "cover": "../../albums/album-1786801125902/photos/001.webp",
+      "album": "../../albums/album-1786801125902/album.json",
+      "photoCount": 4,
+      "updatedAt": "2026-08-15T13:38:58.526Z"
+    },
+    {
+      "id": "album-1786801033170",
+      "title": "신일교회 초청연주",
+      "date": "2025-03-09",
+      "summary": "",
+      "cover": "../../albums/album-1786801033170/photos/001.webp",
+      "album": "../../albums/album-1786801033170/album.json",
+      "photoCount": 13,
+      "updatedAt": "2026-08-15T13:37:59.022Z"
+    },
+    {
+      "id": "album-1786795887026",
+      "title": "합창단 연",
+      "date": "2025-02-14",
+      "summary": "",
+      "cover": "../../albums/album-1786795887026/photos/001.webp",
+      "album": "../../albums/album-1786795887026/album.json",
+      "photoCount": 2,
+      "updatedAt": "2026-08-15T12:11:43.874Z"
+    },
+    {
+      "id": "album-1786793911390",
+      "title": "서울 시흥교회 초청연주",
+      "date": "2025-02-09",
+      "summary": "",
+      "cover": "../../albums/album-1786793911390/photos/001.webp",
+      "album": "../../albums/album-1786793911390/album.json",
+      "photoCount": 6,
+      "updatedAt": "2026-08-15T11:38:49.637Z"
+    },
+    {
+      "id": "album-1786795788325",
+      "title": "핸드벨 연습",
+      "date": "2025-02-05",
+      "summary": "",
+      "cover": "../../albums/album-1786795788325/photos/001.webp",
+      "album": "../../albums/album-1786795788325/album.json",
+      "photoCount": 2,
+      "updatedAt": "2026-08-15T12:09:56.422Z"
+    },
+    {
+      "id": "album-1786795665244",
+      "title": "바리톤 번개모임",
+      "date": "2025-02-01",
+      "summary": "",
+      "cover": "../../albums/album-1786795665244/photos/001.webp",
+      "album": "../../albums/album-1786795665244/album.json",
+      "photoCount": 3,
+      "updatedAt": "2026-08-15T12:07:56.671Z"
+    },
+    {
+      "id": "album-1786795528702",
+      "title": "영춘이의 [합창단] 이야기",
+      "date": "2025-01-24",
+      "summary": "",
+      "cover": "../../albums/album-1786795528702/photos/001.webp",
+      "album": "../../albums/album-1786795528702/album.json",
+      "photoCount": 6,
+      "updatedAt": "2026-08-15T12:05:49.023Z"
+    },
+    {
+      "id": "album-1786795371683",
+      "title": "장로 합창단 입단",
+      "date": "2025-01-17",
+      "summary": "",
+      "cover": "../../albums/album-1786795371683/photos/001.webp",
+      "album": "../../albums/album-1786795371683/album.json",
+      "photoCount": 3,
+      "updatedAt": "2026-08-15T12:03:20.581Z"
     }
   ]
 }
