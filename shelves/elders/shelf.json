@@ -14,6 +14,16 @@
       "updatedAt": "2026-08-16T11:13:05.130Z"
     },
     {
+      "id": "album-1786960574290",
+      "title": "문화교회 초청연주",
+      "date": "2026-05-10",
+      "summary": "",
+      "cover": "../../albums/album-1786960574290/photos/001.webp",
+      "album": "../../albums/album-1786960574290/album.json",
+      "photoCount": 5,
+      "updatedAt": "2026-08-17T09:56:26.254Z"
+    },
+    {
       "id": "album-1786960481931",
       "title": "사전답사 - 전주,익산",
       "date": "2026-05-01",
