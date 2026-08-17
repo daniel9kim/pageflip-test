@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786962506269",
+      "title": "전국장로수련회",
+      "date": "2026-07-01",
+      "summary": "",
+      "cover": "../../albums/album-1786962506269/photos/001.webp",
+      "album": "../../albums/album-1786962506269/album.json",
+      "photoCount": 8,
+      "updatedAt": "2026-08-17T10:28:45.204Z"
+    },
+    {
       "id": "album-1786960785558",
       "title": "전국장로합창 대축제",
       "date": "2026-06-13",
