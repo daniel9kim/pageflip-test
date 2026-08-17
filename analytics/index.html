@@ -183,6 +183,7 @@
         <article class="card kpi"><span>앨범 열람</span><strong id="detailOpens">-</strong><em>album_open</em></article>
         <article class="card kpi"><span>페이지 열람</span><strong id="detailPages">-</strong><em>page_view</em></article>
         <article class="card kpi"><span>최대 도달 페이지</span><strong id="detailMaxDepth">-</strong><em>가장 멀리 열람한 페이지</em></article>
+        <article class="card kpi"><span>완독률</span><strong id="detailCompletionRate">-</strong><em id="detailCompletionMeta">완독 계산 데이터 없음</em></article>
       </section>
 
       <section class="detail-grid">
@@ -393,6 +394,23 @@ async function loadAlbumDetail(){
     $("detailOpens").innerHTML = fmt(d.summary?.album_opens) + "<small>회</small>";
     $("detailPages").innerHTML = fmt(d.summary?.page_views) + "<small>회</small>";
     $("detailMaxDepth").innerHTML = fmt(d.read_depth?.furthest_page) + "<small> P</small>";
+
+    const completion = d.completion || {};
+    const eligible = Number(completion.eligible_sessions || 0);
+    const completed = Number(completion.completed_sessions || 0);
+    const completedVisitors = Number(completion.completed_visitors || 0);
+    const rate = Number(completion.completion_rate || 0);
+    const avgProgress = Number(completion.average_progress || 0);
+
+    if(eligible > 0){
+      $("detailCompletionRate").innerHTML = fmt(rate) + "<small>%</small>";
+      $("detailCompletionMeta").textContent =
+        `완독 ${fmt(completedVisitors)}명 · 계산 대상 ${fmt(eligible)}건 · 평균 진행 ${fmt(avgProgress)}%`;
+    }else{
+      $("detailCompletionRate").textContent = "-";
+      $("detailCompletionMeta").textContent = "완독 계산 가능한 새 열람 데이터가 없습니다.";
+    }
+
     $("detailFurthest").textContent = "최대 도달 " + fmt(d.read_depth?.furthest_page) + "P";
 
     renderPageBars(d.pages || [], Number(d.read_depth?.furthest_page || 0));
