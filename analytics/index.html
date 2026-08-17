@@ -170,6 +170,65 @@
 }
 </style>
 
+
+<style>
+/* Mobile readability tuning - 2026-08-17 */
+@media (max-width: 599px) {
+  body { font-size: 16px; }
+  main { padding: 22px 16px 44px; }
+  .side { padding: 18px 16px; }
+  .brand b { font-size: 27px; }
+  .brand small { font-size: 13px; }
+  .nav a { font-size: 15px; }
+
+  .top h1 { font-size: 32px; line-height: 1.2; }
+  .top p, .status, .album-meta { font-size: 14px; line-height: 1.55; }
+  .filters { gap: 8px; }
+  .filters select, .filters button { font-size: 15px; min-height: 46px; padding: 10px 12px; }
+
+  .kpis { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+  .kpi { min-height: 150px; padding: 18px 16px; }
+  .kpi span { font-size: 14px; }
+  .kpi strong { font-size: 38px; line-height: 1.08; margin-top: 10px; }
+  .kpi strong small { font-size: 17px; }
+  .kpi em { font-size: 12px; line-height: 1.45; }
+
+  .card { padding: 18px; }
+  .head h2 { font-size: 20px; }
+  .legend { font-size: 13px; gap: 14px; }
+  .rank-title { font-size: 15px; }
+  .rank-value { font-size: 22px; }
+  .rank-value small { font-size: 13px; }
+  .big { font-size: 38px; }
+  .big small { font-size: 16px; }
+  .desc { font-size: 14px; line-height: 1.6; }
+  .device-row, .page-row, .mini-row, .visitor, .reader { font-size: 14px; }
+  .visitor b, .reader b { font-size: 15px; }
+  .visitor small, .reader small { font-size: 13px; }
+  .state-badge { font-size: 13px; padding: 5px 10px; }
+  .reader-progress { font-size: 13px; }
+  .reader-progress b { font-size: 14px; }
+  th, td { font-size: 14px; padding: 12px 13px; }
+  footer { font-size: 13px; }
+
+  /* Keep KPI cards in two columns on phones, matching the approved mobile look. */
+  main .detail-kpis,
+  #albumDetailView .kpi-grid,
+  #albumDetailView .detail-kpi-grid,
+  #albumDetailView .stats-grid,
+  #albumDetailView .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  main { padding-left: 12px; padding-right: 12px; }
+  .top h1 { font-size: 30px; }
+  .kpi { padding: 16px 13px; }
+  .kpi strong { font-size: 35px; }
+}
+</style>
+
 </head>
 <body>
 <div class="app">
