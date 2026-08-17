@@ -94,9 +94,12 @@ trackShelfView();
 
   shelfData = await r.json();
 
-  document.title = 'PAGE FLIP · ' + (shelfData.title || '앨범 책장');
-  document.querySelector('#title').textContent = shelfData.title || '앨범 책장';
-  document.querySelector('#subtitle').textContent = shelfData.subtitle || '';
+  // elders 책장은 JSON 원본을 변경하지 않고 화면 표시 명칭만 교정한다.
+  const displayTitle = '장로성가단 앨범 책장';
+  const displaySubtitle = '장로성가단의 찬양과 연주 기록';
+  document.title = 'PAGE FLIP · ' + displayTitle;
+  document.querySelector('#title').textContent = displayTitle;
+  document.querySelector('#subtitle').textContent = displaySubtitle;
 
   allAlbums = Array.isArray(shelfData.albums) ? [...shelfData.albums] : [];
 
