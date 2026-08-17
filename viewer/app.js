@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.5.2 — Mobile Pinch Photo Zoom
+// PAGE FLIP Viewer V11.5.5 — Analytics Album Snapshot Metadata
 let album=null;
 let photos=[];
 let story='';
@@ -47,6 +47,37 @@ function currentAnalyticsPageNo(){
   return current+1;
 }
 
+function analyticsTotalPagesAtView(){
+  // PAGE FLIP에서는 사진 1장을 1P로 계산합니다.
+  return Array.isArray(photos) ? photos.length : 0;
+}
+
+function analyticsAlbumVersion(){
+  // album.json에 명시적 버전이 있으면 우선 사용합니다.
+  const explicit=album?.album_version ?? album?.version ?? album?.updated_at ?? album?.updatedAt;
+  if(explicit!==undefined && explicit!==null && String(explicit).trim()){
+    return String(explicit).trim().slice(0,100);
+  }
+
+  // 별도 버전이 없는 기존 앨범도 사진 추가/삭제/교체 시 버전이 바뀌도록
+  // 사진 목록을 이용해 가벼운 fingerprint를 만듭니다.
+  const signature=(Array.isArray(photos)?photos:[]).map((p,i)=>[
+    i,
+    p?.id ?? '',
+    p?.file ?? p?.f ?? '',
+    p?.url ?? p?.src ?? '',
+    p?.width ?? '',
+    p?.height ?? ''
+  ].join(':')).join('|');
+
+  let hash=2166136261;
+  for(let i=0;i<signature.length;i++){
+    hash^=signature.charCodeAt(i);
+    hash=Math.imul(hash,16777619);
+  }
+  return 'photos-'+(hash>>>0).toString(16).padStart(8,'0');
+}
+
 function trackPageView(){
   if(!album || !views.reader.classList.contains('active')) return;
 
@@ -64,6 +95,8 @@ function trackPageView(){
     album_id:albumId,
     album_title:String(album.title||''),
     page_no:pageNo,
+    total_pages_at_view:analyticsTotalPagesAtView(),
+    album_version:analyticsAlbumVersion(),
     device_type:analyticsDeviceType(),
     os:analyticsOS()
   };
