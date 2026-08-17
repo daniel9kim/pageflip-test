@@ -14,6 +14,16 @@
       "updatedAt": "2026-08-16T11:13:05.130Z"
     },
     {
+      "id": "album-1786960481931",
+      "title": "사전답사 - 전주,익산",
+      "date": "2026-05-01",
+      "summary": "",
+      "cover": "../../albums/album-1786960481931/photos/001.webp",
+      "album": "../../albums/album-1786960481931/album.json",
+      "photoCount": 9,
+      "updatedAt": "2026-08-17T09:55:04.285Z"
+    },
+    {
       "id": "album-1786959880666",
       "title": "열방교회 초청연주",
       "date": "2026-04-03",
