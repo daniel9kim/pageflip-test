@@ -87,8 +87,16 @@
     .mini-list{display:grid;gap:10px}
     .mini-row{display:grid;grid-template-columns:100px 1fr auto;gap:10px;align-items:center;font-size:12px}
     .reader-list{display:grid;gap:10px}
-    .reader{display:grid;grid-template-columns:1.2fr .7fr .7fr .7fr 1fr;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:12px;align-items:center}
+    .reader{display:grid;grid-template-columns:1.2fr .65fr .65fr .65fr 1.05fr 1fr;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px;align-items:center}
     .reader:last-child{border-bottom:0}
+    .reading-state{display:flex;flex-direction:column;gap:5px;align-items:flex-start}
+    .state-badge{display:inline-flex;align-items:center;justify-content:center;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap;background:#eee5da;color:#76583f}
+    .state-badge.complete{background:#e7f1df;color:#4e6d3d}
+    .state-badge.reading{background:#f5e8d6;color:#9a6326}
+    .state-badge.early{background:#f3dfdc;color:#985247}
+    .state-badge.unknown{background:#ece8e2;color:#77706a}
+    .reader-progress{font-size:11px;color:var(--muted);white-space:nowrap}
+    .reader-progress b{color:var(--ink);font-size:12px}
     @media(max-width:820px){
       .app{grid-template-columns:1fr}.side{position:relative;height:auto;display:block;padding:18px}.brand{padding-bottom:14px}.nav{grid-template-columns:repeat(4,1fr);margin-top:12px}.nav a{text-align:center;padding:9px}.nav a span{margin:0}.nav a b{display:none}.owner{display:none}
       .kpis{grid-template-columns:repeat(2,1fr)}.two,.three,.detail-grid{grid-template-columns:1fr}.visitor{grid-template-columns:1fr 1fr}.reader{grid-template-columns:1fr 1fr}
@@ -528,12 +536,19 @@ function renderReaders(rows){
   const box=$("detailReaders"); box.innerHTML="";
   if(!rows.length){ box.innerHTML='<p class="muted">최근 열람 방문자가 없습니다.</p>'; return; }
   rows.forEach(r=>{
+    const status=String(r.reading_status||"데이터 부족");
+    const statusClass=status==="완독" ? "complete" : status==="읽는 중" ? "reading" : status==="초반 이탈" ? "early" : "unknown";
+    const hasProgress=r.total_pages!=null && Number(r.total_pages)>0 && r.progress_rate!=null;
+    const progressText=hasProgress
+      ? `<b>${fmt(r.max_page)}/${fmt(r.total_pages)}P</b> · ${fmt(r.progress_rate)}%`
+      : `최대 ${fmt(r.max_page)}P`;
     box.insertAdjacentHTML("beforeend",`
       <div class="reader">
         <div><b>${shortVisitor(r.visitor_id)}</b><br><small class="muted">${escapeHtml(r.device_type)} · ${escapeHtml(r.os)}</small></div>
         <div><small class="muted">열람</small><br><b>${fmt(r.opens)}회</b></div>
         <div><small class="muted">페이지뷰</small><br><b>${fmt(r.page_views)}회</b></div>
         <div><small class="muted">최대 도달</small><br><b>${fmt(r.max_page)}P</b></div>
+        <div class="reading-state"><span class="state-badge ${statusClass}">${escapeHtml(status)}</span><span class="reader-progress">${progressText}</span></div>
         <div><small class="muted">최근 접속</small><br><b>${escapeHtml(r.last_seen||"-")}</b></div>
       </div>`);
   });
