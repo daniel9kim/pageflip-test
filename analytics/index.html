@@ -334,64 +334,183 @@
 
 
 <style>
-/* Balanced phone default: 360–430px */
-@media (max-width:700px){
- html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
- body{font-size:15px!important;line-height:1.45!important}
- .side{padding:15px 14px!important}
- .brand{padding:2px 0 12px!important}
- .brand b{font-size:24px!important}
- .brand small{font-size:11px!important}
- .nav{margin-top:10px!important}
- .nav a{padding:8px!important;font-size:15px!important}
- main{padding:18px 10px 38px!important}
- .top{margin-bottom:16px!important}
- .top h1{font-size:28px!important;line-height:1.15!important}
- .top p{font-size:14px!important;line-height:1.5!important;margin-top:5px!important}
- .filters{margin-top:12px!important;gap:7px!important;flex-wrap:nowrap!important}
- .filters select,.filters button{min-width:0!important;min-height:42px!important;padding:8px 9px!important;font-size:14px!important}
- .status,.album-meta{font-size:12px!important;line-height:1.5!important}
- .kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;margin-bottom:14px!important}
- .card{padding:15px!important;border-radius:14px!important}
- .kpi{min-height:126px!important}
- .kpi span{font-size:13px!important;line-height:1.3!important}
- .kpi strong{font-size:34px!important;line-height:1.02!important;margin-top:7px!important}
- .kpi strong small{font-size:15px!important}
- .kpi em{font-size:11px!important;line-height:1.4!important}
- .two,.three,.detail-grid{gap:14px!important;margin-bottom:14px!important}
- .head{margin-bottom:11px!important}
- .head h2{font-size:18px!important}
- .muted,.head .muted{font-size:12px!important}
- .chart-wrap{height:245px!important}
- #trend{height:215px!important}
- .legend{gap:12px!important;font-size:11px!important}
- #trend text{font-size:11px!important}
- .rank{gap:11px!important}
- .rank-row{grid-template-columns:29px 1fr auto!important;gap:9px!important}
- .badge{width:27px!important;height:27px!important;font-size:14px!important}
- .rank-title{font-size:13px!important}
- .rank-value{font-size:18px!important}
- .rank-value small{font-size:11px!important}
- .big{font-size:34px!important}
- .big small{font-size:14px!important}
- .desc{font-size:12px!important;line-height:1.55!important}
- .device-row,.mini-row{font-size:12px!important}
- .visitor,.reader{font-size:12px!important;line-height:1.45!important}
- .visitor b,.reader b{font-size:13px!important}
- .visitor small,.reader small{font-size:11px!important}
- .page-row{grid-template-columns:38px 1fr 72px!important;gap:7px!important;font-size:12px!important}
- .page-value{font-size:11px!important}
- th,td{font-size:12px!important;padding:10px 11px!important}
- footer{font-size:11px!important}
- main .detail-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+/* PAGE FLIP Analytics — mobile width normalization
+   Fix horizontal overflow first; preserve readable typography. */
+@media (max-width: 700px) {
+  html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box !important;
+  }
+
+  .app {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .side {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    padding: 14px 12px !important;
+    overflow: hidden !important;
+  }
+
+  .brand,
+  .nav,
+  main,
+  .top,
+  .filters,
+  .kpis,
+  .two,
+  .three,
+  .detail-grid,
+  .card,
+  .chart-wrap,
+  .rank,
+  .visitor-list,
+  .reader-list,
+  .page-bars {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  main {
+    margin: 0 !important;
+    padding: 18px 10px 38px !important;
+    overflow-x: hidden !important;
+  }
+
+  .top {
+    display: block !important;
+  }
+
+  .top > div:first-child {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .top h1 {
+    font-size: 28px !important;
+    line-height: 1.18 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .top p {
+    font-size: 14px !important;
+  }
+
+  .filters {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,0.92fr) !important;
+    gap: 7px !important;
+    margin-top: 12px !important;
+  }
+
+  .filters select,
+  .filters button {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 42px !important;
+    padding: 7px 8px !important;
+    font-size: 13px !important;
+  }
+
+  .kpis {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+    gap: 9px !important;
+  }
+
+  .kpi {
+    min-width: 0 !important;
+    min-height: 126px !important;
+    padding: 14px !important;
+  }
+
+  .kpi span { font-size: 13px !important; }
+  .kpi strong { font-size: 34px !important; line-height: 1.05 !important; }
+  .kpi strong small { font-size: 15px !important; }
+  .kpi em { font-size: 11px !important; }
+
+  .two,
+  .three,
+  .detail-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .rank-row,
+  .device-row,
+  .mini-row,
+  .page-row,
+  .visitor,
+  .reader {
+    min-width: 0 !important;
+  }
+
+  .rank-title,
+  .page-value,
+  .visitor > div,
+  .reader > div {
+    min-width: 0 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  svg, canvas, img {
+    max-width: 100% !important;
+  }
+
+  table {
+    max-width: 100% !important;
+  }
+
+  .table-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+  }
+
+  /* detail screen */
+  #albumDetail {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #detailTitle {
+    font-size: 28px !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  main .detail-kpis {
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+  }
 }
-@media(max-width:420px){
- main{padding-left:9px!important;padding-right:9px!important}
- .top h1{font-size:27px!important}
- .filters select,.filters button{font-size:13px!important;padding-left:7px!important;padding-right:7px!important}
-}
-@media(max-width:360px){
- main .detail-kpis{grid-template-columns:1fr!important}
+
+@media (max-width: 360px) {
+  .filters {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .filters button {
+    grid-column: 1 / -1 !important;
+  }
+  main .detail-kpis {
+    grid-template-columns: 1fr !important;
+  }
 }
 </style>
 
