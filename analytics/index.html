@@ -334,208 +334,64 @@
 
 
 <style>
-/* PAGE FLIP Analytics — Mobile readability refinement
-   Desktop layout is unchanged. */
-@media (max-width: 700px) {
-  html { -webkit-text-size-adjust: 100%; }
-  body { font-size: 17px !important; line-height: 1.5 !important; }
-
-  main { padding: 22px 14px 42px !important; }
-
-  /* Mobile header */
-  .brand b { font-size: 28px !important; }
-  .brand small { font-size: 13px !important; }
-  .nav a { font-size: 18px !important; }
-
-  /* Page heading / explanatory text */
-  .top h1 {
-    font-size: 34px !important;
-    line-height: 1.16 !important;
-  }
-  .top p {
-    font-size: 17px !important;
-    line-height: 1.55 !important;
-  }
-
-  /* Filters and buttons */
-  .filters select,
-  .filters button,
-  .back-btn {
-    font-size: 17px !important;
-    min-height: 50px !important;
-  }
-  .back-btn {
-    min-height: auto !important;
-    padding: 5px 0 !important;
-  }
-
-  /* Connection / album metadata */
-  .status,
-  .album-meta {
-    font-size: 15px !important;
-    line-height: 1.55 !important;
-  }
-
-  /* Cards */
-  .card { padding: 18px !important; }
-  .kpi { min-height: 154px !important; }
-  .kpi span {
-    font-size: 16px !important;
-    line-height: 1.35 !important;
-  }
-  .kpi strong {
-    font-size: 43px !important;
-    line-height: 1.05 !important;
-    margin-top: 9px !important;
-  }
-  .kpi strong small {
-    font-size: 19px !important;
-  }
-  .kpi em {
-    font-size: 14px !important;
-    line-height: 1.5 !important;
-    margin-top: 4px;
-  }
-
-  /* Section headings */
-  .head h2 {
-    font-size: 21px !important;
-    line-height: 1.3 !important;
-  }
-  .head .muted,
-  .muted {
-    font-size: 15px !important;
-  }
-
-  /* Trend chart */
-  .legend {
-    font-size: 14px !important;
-    gap: 13px !important;
-  }
-  #trend text {
-    font-size: 14px !important;
-  }
-  .chart-empty {
-    font-size: 16px !important;
-  }
-
-  /* Popular albums */
-  .rank { gap: 15px !important; }
-  .rank-row {
-    grid-template-columns: 34px 1fr auto !important;
-    gap: 11px !important;
-  }
-  .badge {
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 17px !important;
-  }
-  .rank-title {
-    font-size: 16px !important;
-    line-height: 1.35 !important;
-  }
-  .rank-value {
-    font-size: 22px !important;
-  }
-  .rank-value small {
-    font-size: 14px !important;
-  }
-
-  /* Summary cards */
-  .big {
-    font-size: 40px !important;
-  }
-  .big small {
-    font-size: 17px !important;
-  }
-  .desc {
-    font-size: 15px !important;
-    line-height: 1.6 !important;
-  }
-
-  /* Device / OS */
-  .device-row,
-  .mini-row {
-    font-size: 15px !important;
-    line-height: 1.4 !important;
-  }
-  .device-row {
-    grid-template-columns: 92px 1fr 48px !important;
-  }
-  .mini-row {
-    grid-template-columns: 105px 1fr 48px !important;
-  }
-
-  /* Dashboard visitor rows */
-  .visitor {
-    font-size: 15px !important;
-    line-height: 1.45 !important;
-    gap: 13px !important;
-  }
-  .visitor b {
-    font-size: 16px !important;
-  }
-  .visitor small {
-    font-size: 14px !important;
-  }
-
-  /* Album detail */
-  #detailTitle {
-    font-size: 34px !important;
-  }
-  #detailMeta {
-    font-size: 15px !important;
-  }
-  .page-bars {
-    gap: 14px !important;
-  }
-  .page-row {
-    grid-template-columns: 45px 1fr 92px !important;
-    gap: 10px !important;
-    font-size: 15px !important;
-  }
-  .page-row b {
-    font-size: 16px !important;
-  }
-  .page-value {
-    font-size: 14px !important;
-  }
-  .page-track {
-    height: 11px !important;
-  }
-
-  /* Recent readers */
-  .reader {
-    font-size: 15px !important;
-    line-height: 1.45 !important;
-    gap: 13px !important;
-  }
-  .reader b {
-    font-size: 16px !important;
-  }
-  .reader small {
-    font-size: 14px !important;
-  }
-
-  /* Tables */
-  th, td {
-    font-size: 15px !important;
-    padding: 13px 14px !important;
-  }
-
-  footer {
-    font-size: 14px !important;
-  }
+/* Balanced phone default: 360–430px */
+@media (max-width:700px){
+ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+ body{font-size:15px!important;line-height:1.45!important}
+ .side{padding:15px 14px!important}
+ .brand{padding:2px 0 12px!important}
+ .brand b{font-size:24px!important}
+ .brand small{font-size:11px!important}
+ .nav{margin-top:10px!important}
+ .nav a{padding:8px!important;font-size:15px!important}
+ main{padding:18px 10px 38px!important}
+ .top{margin-bottom:16px!important}
+ .top h1{font-size:28px!important;line-height:1.15!important}
+ .top p{font-size:14px!important;line-height:1.5!important;margin-top:5px!important}
+ .filters{margin-top:12px!important;gap:7px!important;flex-wrap:nowrap!important}
+ .filters select,.filters button{min-width:0!important;min-height:42px!important;padding:8px 9px!important;font-size:14px!important}
+ .status,.album-meta{font-size:12px!important;line-height:1.5!important}
+ .kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;margin-bottom:14px!important}
+ .card{padding:15px!important;border-radius:14px!important}
+ .kpi{min-height:126px!important}
+ .kpi span{font-size:13px!important;line-height:1.3!important}
+ .kpi strong{font-size:34px!important;line-height:1.02!important;margin-top:7px!important}
+ .kpi strong small{font-size:15px!important}
+ .kpi em{font-size:11px!important;line-height:1.4!important}
+ .two,.three,.detail-grid{gap:14px!important;margin-bottom:14px!important}
+ .head{margin-bottom:11px!important}
+ .head h2{font-size:18px!important}
+ .muted,.head .muted{font-size:12px!important}
+ .chart-wrap{height:245px!important}
+ #trend{height:215px!important}
+ .legend{gap:12px!important;font-size:11px!important}
+ #trend text{font-size:11px!important}
+ .rank{gap:11px!important}
+ .rank-row{grid-template-columns:29px 1fr auto!important;gap:9px!important}
+ .badge{width:27px!important;height:27px!important;font-size:14px!important}
+ .rank-title{font-size:13px!important}
+ .rank-value{font-size:18px!important}
+ .rank-value small{font-size:11px!important}
+ .big{font-size:34px!important}
+ .big small{font-size:14px!important}
+ .desc{font-size:12px!important;line-height:1.55!important}
+ .device-row,.mini-row{font-size:12px!important}
+ .visitor,.reader{font-size:12px!important;line-height:1.45!important}
+ .visitor b,.reader b{font-size:13px!important}
+ .visitor small,.reader small{font-size:11px!important}
+ .page-row{grid-template-columns:38px 1fr 72px!important;gap:7px!important;font-size:12px!important}
+ .page-value{font-size:11px!important}
+ th,td{font-size:12px!important;padding:10px 11px!important}
+ footer{font-size:11px!important}
+ main .detail-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 }
-
-/* Keep the detail KPI cards readable on very narrow phones */
-@media (max-width: 480px) {
-  main .detail-kpis {
-    grid-template-columns: 1fr !important;
-  }
-  #albumDetail .kpi {
-    min-height: 146px !important;
-  }
+@media(max-width:420px){
+ main{padding-left:9px!important;padding-right:9px!important}
+ .top h1{font-size:27px!important}
+ .filters select,.filters button{font-size:13px!important;padding-left:7px!important;padding-right:7px!important}
+}
+@media(max-width:360px){
+ main .detail-kpis{grid-template-columns:1fr!important}
 }
 </style>
 
