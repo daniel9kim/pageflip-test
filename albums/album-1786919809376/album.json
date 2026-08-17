@@ -7,9 +7,17 @@
   "shelf": "장로합창단",
   "shelfKey": "elders",
   "photoCount": 12,
-  "coverIndex": 0,
+  "coverIndex": 1,
   "cover": "001.webp",
   "photos": [
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786919809376/photos/003.webp",
+      "originalName": "550265924_25182506424690690_3545205258795296206_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 313788
+    },
     {
       "file": "001.webp",
       "path": "albums/album-1786919809376/photos/001.webp",
@@ -25,14 +33,6 @@
       "width": 1350,
       "height": 1800,
       "bytes": 127734
-    },
-    {
-      "file": "003.webp",
-      "path": "albums/album-1786919809376/photos/003.webp",
-      "originalName": "550265924_25182506424690690_3545205258795296206_n.jpg",
-      "width": 1800,
-      "height": 1013,
-      "bytes": 313788
     },
     {
       "file": "004.webp",
@@ -108,5 +108,6 @@
     }
   ],
   "status": "ready",
-  "updatedAt": "2026-08-16T22:37:23.999Z"
+  "updatedAt": "2026-08-17T18:03:14.135Z",
+  "createdAt": "2026-08-17T18:03:14.135Z"
 }
