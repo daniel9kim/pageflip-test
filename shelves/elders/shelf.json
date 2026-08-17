@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1786960785558",
+      "title": "전국장로합창 대축제",
+      "date": "2026-06-13",
+      "summary": "",
+      "cover": "../../albums/album-1786960785558/photos/001.webp",
+      "album": "../../albums/album-1786960785558/album.json",
+      "photoCount": 20,
+      "updatedAt": "2026-08-17T10:00:37.366Z"
+    },
+    {
       "id": "album-1786878756888",
       "title": "승영중학교 초청연주",
       "date": "2026-05-20",
