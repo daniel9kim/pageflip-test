@@ -121,6 +121,47 @@
     }
 
   </style>
+
+<style>
+/* PAGE FLIP album detail KPI final layout */
+@media (min-width: 900px) {
+  #albumDetailView .kpi-grid,
+  #albumDetailView .detail-kpi-grid,
+  #albumDetailView .stats-grid,
+  #albumDetailView .metric-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 899px) and (min-width: 600px) {
+  #albumDetailView .kpi-grid,
+  #albumDetailView .detail-kpi-grid,
+  #albumDetailView .stats-grid,
+  #albumDetailView .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 599px) {
+  #albumDetailView .kpi-grid,
+  #albumDetailView .detail-kpi-grid,
+  #albumDetailView .stats-grid,
+  #albumDetailView .metric-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+</style>
+
+<style>
+@media (min-width: 900px) {
+  #albumDetailView .status,
+  #albumDetailView .kpis,
+  #albumDetailView .detail-kpis,
+  #albumDetailView .card,
+  #albumDetailView .kpi {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -179,7 +220,7 @@
     </section>
 
     <section class="card">
-      <div class="head"><h2>인기 앨범 상세</h2><span class="muted">실제 album_open 기준</span></div>
+      <div class="head"><h2>인기 앨범 상세</h2><span class="muted">실제 열람 기준</span></div>
       <div class="table">
         <table><thead><tr><th>앨범</th><th>열람 횟수</th><th>방문자</th><th>앨범 ID</th></tr></thead><tbody id="albumTable"></tbody></table>
       </div>
