@@ -203,10 +203,10 @@
       <p id="detailStatus" class="status"></p>
 
       <section class="kpis detail-kpis">
-        <article class="card kpi"><span>고유 방문자</span><strong id="detailVisitors">-</strong><em>album_open 기준</em></article>
+        <article class="card kpi"><span>고유 방문자</span><strong id="detailVisitors">-</strong><em>열람 기준</em></article>
         <article class="card kpi"><span>앨범 열람</span><strong id="detailOpens">-</strong><em>album_open</em></article>
         <article class="card kpi"><span>페이지 열람</span><strong id="detailPages">-</strong><em>page_view</em></article>
-        <article class="card kpi"><span>최대 도달 페이지</span><strong id="detailMaxDepth">-</strong><em>가장 멀리 열람한 페이지</em></article>
+        <article class="card kpi"><span>최대 도달 페이지</span><strong id="detailMaxDepth">-</strong><em>최고 도달</em></article>
         <article class="card kpi"><span>완독률</span><strong id="detailCompletionRate">-</strong><em id="detailCompletionMeta">완독 계산 데이터 없음</em></article>
       </section>
 
@@ -429,7 +429,7 @@ async function loadAlbumDetail(){
     if(eligible > 0){
       $("detailCompletionRate").innerHTML = fmt(rate) + "<small>%</small>";
       $("detailCompletionMeta").textContent =
-        `완독 ${fmt(completedVisitors)}명 · 대상 ${fmt(eligible)}회 · 평균 진행률 ${fmt(avgProgress)}%`;
+        `완독 ${fmt(completedVisitors)}명 · 대상 ${fmt(eligible)}회`;
     }else{
       $("detailCompletionRate").textContent = "-";
       $("detailCompletionMeta").textContent = "완독 계산 가능한 새 열람 데이터가 없습니다.";
