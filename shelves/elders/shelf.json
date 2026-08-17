@@ -14,6 +14,16 @@
       "updatedAt": "2026-08-16T11:13:05.130Z"
     },
     {
+      "id": "album-1786959638062",
+      "title": "단원수첩 만들기",
+      "date": "2026-03-07",
+      "summary": "",
+      "cover": "../../albums/album-1786959638062/photos/001.webp",
+      "album": "../../albums/album-1786959638062/album.json",
+      "photoCount": 5,
+      "updatedAt": "2026-08-17T09:40:51.742Z"
+    },
+    {
       "id": "album-1786921653277",
       "title": "문호교회 초청연주",
       "date": "2025-12-07",
