@@ -9,14 +9,14 @@ let editAlbum=null;
 const isEditMode=()=>/^album-[0-9]+$/.test(String(editAlbumId||''));
 const PUBLIC_BASE='https://daniel9kim.github.io/pageflip-test/';
 const SHELF_SOURCES=[
-  {key:'elders',label:'장로합창단',url:new URL('../shelves/elders/shelf.json',location.href).href},
+  {key:'elders',label:'장로성가단',url:new URL('../shelves/elders/shelf.json',location.href).href},
   {key:'handbell',label:'핸드벨',url:new URL('../shelves/handbell/shelf.json',location.href).href},
   {key:'family',label:'가족사진',url:new URL('../shelves/family/shelf.json',location.href).href},
   {key:'personal',label:'개인사진',url:new URL('../shelves/personal/shelf.json',location.href).href}
 ];
 
 const SHELF_KEY_BY_LABEL={
-  '장로합창단':'elders',
+  '장로성가단':'elders',
   '핸드벨':'handbell',
   '가족':'family',
   '가족사진':'family',
@@ -536,7 +536,7 @@ function shelfLabelFromAlbum(album){
   if(label==='가족') label='가족사진';
   if(label==='영춘이 개인') label='개인사진';
   const map={
-    elders:'장로합창단',
+    elders:'장로성가단',
     handbell:'핸드벨',
     family:'가족사진',
     personal:'개인사진'
@@ -1277,7 +1277,7 @@ ensureAdminPanel();
   if(!btn||!select) return;
 
   const map={
-    '장로합창단':'elders',
+    '장로성가단':'elders',
     '핸드벨':'handbell',
     '가족':'family',
     '가족사진':'family',
