@@ -4,75 +4,19 @@
   "date": "2025-08-07",
   "summary": "",
   "story": "영춘이네 합창단은 \n무더운 8월 한달동안 \n여름방학에 들어갔어요.\n하지만 \n바리톤파트는\n방학중에 단합대회로 \n방학 중간에 모임을 갖는데요.\n오늘 단합대회는 \n도봉산 산행 및 점심식사로 모였어요.\n영춘이네 막내딸 재은이가 \n합창단 단합대회를 위해 \n작은 간식을 정성스럽게 \n준비해 주었어요.\n도봉산 중턱에서 \n시원한 개울물에 발 담그고 \n두런두런 이야기 나누고\n맛있는 식사하고 \n커피 마시고...\n좋은 사람들과 함께한\n여름날의 행복한 시간,\n오래 기억에 남을 것 같아요.",
-  "shelf": "장로합창단",
+  "shelf": "장로성가단",
   "shelfKey": "elders",
   "photoCount": 10,
   "coverIndex": 0,
-  "cover": "001.webp",
+  "cover": "010.webp",
   "photos": [
     {
-      "file": "001.webp",
-      "path": "albums/album-1786805234955/photos/001.webp",
-      "originalName": "528909630_24791127367161933_5757766561161786404_n.jpg",
+      "file": "010.webp",
+      "path": "albums/album-1786805234955/photos/010.webp",
+      "originalName": "528996135_24791127847161885_7533026466188219012_n.jpg",
       "width": 1350,
       "height": 1800,
-      "bytes": 325284
-    },
-    {
-      "file": "002.webp",
-      "path": "albums/album-1786805234955/photos/002.webp",
-      "originalName": "529337361_24791126950495308_4928326475687812638_n.jpg",
-      "width": 1350,
-      "height": 1800,
-      "bytes": 220944
-    },
-    {
-      "file": "003.webp",
-      "path": "albums/album-1786805234955/photos/003.webp",
-      "originalName": "530280145_24791126580495345_4348008270392779274_n.jpg",
-      "width": 1350,
-      "height": 1800,
-      "bytes": 355494
-    },
-    {
-      "file": "004.webp",
-      "path": "albums/album-1786805234955/photos/004.webp",
-      "originalName": "528637110_24791126030495400_8698058704888898435_n.jpg",
-      "width": 1800,
-      "height": 1350,
-      "bytes": 386090
-    },
-    {
-      "file": "005.webp",
-      "path": "albums/album-1786805234955/photos/005.webp",
-      "originalName": "529821169_24791125553828781_4881212492021696665_n.jpg",
-      "width": 1800,
-      "height": 1350,
-      "bytes": 544208
-    },
-    {
-      "file": "006.webp",
-      "path": "albums/album-1786805234955/photos/006.webp",
-      "originalName": "528646968_24791125040495499_4246042038041346646_n.jpg",
-      "width": 1350,
-      "height": 1800,
-      "bytes": 507968
-    },
-    {
-      "file": "007.webp",
-      "path": "albums/album-1786805234955/photos/007.webp",
-      "originalName": "529938745_24791123993828937_4735487709780133634_n.jpg",
-      "width": 1800,
-      "height": 1013,
-      "bytes": 509838
-    },
-    {
-      "file": "008.webp",
-      "path": "albums/album-1786805234955/photos/008.webp",
-      "originalName": "528683424_24791123493828987_8445545691848750493_n.jpg",
-      "width": 1800,
-      "height": 1350,
-      "bytes": 287482
+      "bytes": 272398
     },
     {
       "file": "009.webp",
@@ -83,14 +27,71 @@
       "bytes": 194678
     },
     {
-      "file": "010.webp",
-      "path": "albums/album-1786805234955/photos/010.webp",
-      "originalName": "528996135_24791127847161885_7533026466188219012_n.jpg",
+      "file": "008.webp",
+      "path": "albums/album-1786805234955/photos/008.webp",
+      "originalName": "528683424_24791123493828987_8445545691848750493_n.jpg",
+      "width": 1800,
+      "height": 1350,
+      "bytes": 287482
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1786805234955/photos/007.webp",
+      "originalName": "529938745_24791123993828937_4735487709780133634_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 509838
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1786805234955/photos/006.webp",
+      "originalName": "528646968_24791125040495499_4246042038041346646_n.jpg",
       "width": 1350,
       "height": 1800,
-      "bytes": 272398
+      "bytes": 507968
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786805234955/photos/005.webp",
+      "originalName": "529821169_24791125553828781_4881212492021696665_n.jpg",
+      "width": 1800,
+      "height": 1350,
+      "bytes": 544208
+    },
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786805234955/photos/001.webp",
+      "originalName": "528909630_24791127367161933_5757766561161786404_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 325284
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786805234955/photos/004.webp",
+      "originalName": "528637110_24791126030495400_8698058704888898435_n.jpg",
+      "width": 1800,
+      "height": 1350,
+      "bytes": 386090
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786805234955/photos/003.webp",
+      "originalName": "530280145_24791126580495345_4348008270392779274_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 355494
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786805234955/photos/002.webp",
+      "originalName": "529337361_24791126950495308_4928326475687812638_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 220944
     }
   ],
   "status": "ready",
-  "updatedAt": "2026-08-15T14:47:53.595Z"
+  "updatedAt": "2026-08-19T12:59:42.648Z",
+  "createdAt": "2026-08-19T12:59:42.648Z"
 }
