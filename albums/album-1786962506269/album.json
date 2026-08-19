@@ -7,16 +7,16 @@
   "shelf": "장로성가단",
   "shelfKey": "elders",
   "photoCount": 8,
-  "coverIndex": 1,
-  "cover": "006.webp",
+  "coverIndex": 0,
+  "cover": "008.webp",
   "photos": [
     {
-      "file": "007.webp",
-      "path": "albums/album-1786962506269/photos/007.webp",
-      "originalName": "736621661_28073599345581369_5220249822197800683_n.jpg",
-      "width": 1800,
-      "height": 1013,
-      "bytes": 125168
+      "file": "008.webp",
+      "path": "albums/album-1786962506269/photos/008.webp",
+      "originalName": "738616351_28073599038914733_883026558446864053_n.jpg",
+      "width": 1376,
+      "height": 768,
+      "bytes": 133916
     },
     {
       "file": "006.webp",
@@ -25,6 +25,14 @@
       "width": 1800,
       "height": 1013,
       "bytes": 149938
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1786962506269/photos/007.webp",
+      "originalName": "736621661_28073599345581369_5220249822197800683_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 125168
     },
     {
       "file": "005.webp",
@@ -65,17 +73,9 @@
       "width": 1800,
       "height": 1013,
       "bytes": 105962
-    },
-    {
-      "file": "008.webp",
-      "path": "albums/album-1786962506269/photos/008.webp",
-      "originalName": "738616351_28073599038914733_883026558446864053_n.jpg",
-      "width": 1376,
-      "height": 768,
-      "bytes": 133916
     }
   ],
   "status": "ready",
-  "updatedAt": "2026-08-19T12:19:14.779Z",
+  "updatedAt": "2026-08-19T12:34:14.232Z",
   "createdAt": "2026-08-19T11:37:15.699Z"
 }
