@@ -7,8 +7,8 @@
   "shelf": "장로성가단",
   "shelfKey": "elders",
   "photoCount": 6,
-  "coverIndex": 2,
-  "cover": "001.webp",
+  "coverIndex": 0,
+  "cover": "005.webp",
   "photos": [
     {
       "file": "005.webp",
@@ -27,20 +27,20 @@
       "bytes": 180730
     },
     {
-      "file": "001.webp",
-      "path": "albums/album-1786801252128/photos/001.webp",
-      "originalName": "490736807_23896593389948673_2969102494722619025_n.jpg",
-      "width": 1800,
-      "height": 1013,
-      "bytes": 136880
-    },
-    {
       "file": "002.webp",
       "path": "albums/album-1786801252128/photos/002.webp",
       "originalName": "491923335_23896593223282023_8918358538474600055_n.jpg",
       "width": 1800,
       "height": 1013,
       "bytes": 143804
+    },
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786801252128/photos/001.webp",
+      "originalName": "490736807_23896593389948673_2969102494722619025_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 136880
     },
     {
       "file": "003.webp",
@@ -60,6 +60,6 @@
     }
   ],
   "status": "ready",
-  "updatedAt": "2026-08-19T13:08:12.617Z",
+  "updatedAt": "2026-08-19T13:17:32.631Z",
   "createdAt": "2026-08-19T13:08:12.617Z"
 }
