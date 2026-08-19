@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V12.6 — mobile photo order controls
+// PAGE FLIP Maker V12.7 — edit save verification + cover file lock
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -1085,6 +1085,8 @@ document.querySelector('#make').onclick=async()=>{
         ...metadata,
         photoCount:photos.length,
         coverIndex:safeCover,
+        // V12.7: 표지는 배열 위치뿐 아니라 실제 파일명도 함께 전달합니다.
+        // 사진 순서가 바뀌어도 같은 사진을 표지로 확실하게 저장할 수 있습니다.
         cover:photos[safeCover]?.file||''
       };
 
@@ -1101,7 +1103,32 @@ document.querySelector('#make').onclick=async()=>{
       const d=await r.json();
       if(!r.ok||!d.ok)throw new Error(d.message||`HTTP ${r.status}`);
 
-      document.querySelector('#stageEdit').textContent='저장 완료';
+      // V12.7: 성공 응답만 믿지 않고 Worker가 방금 저장한 album.json을 즉시 다시 읽어
+      // 사진 순서와 표지 파일이 실제로 반영됐는지 검증합니다.
+      const verifyRes=await fetch(
+        `${API_BASE}/api/album/${encodeURIComponent(editAlbumId)}?t=${Date.now()}`,
+        {credentials:'include',cache:'no-store'}
+      );
+      const verify=await verifyRes.json();
+      if(!verifyRes.ok||!verify.ok)throw new Error(verify.message||'수정 저장 검증에 실패했습니다.');
+
+      const savedAlbum=verify.album||{};
+      const savedPhotos=Array.isArray(savedAlbum.photos)?savedAlbum.photos:[];
+      const expectedOrder=photos.map(p=>String(p?.file||''));
+      const savedOrder=savedPhotos.map(p=>String(p?.file||''));
+      const orderOk=
+        expectedOrder.length===savedOrder.length &&
+        expectedOrder.every((file,i)=>file===savedOrder[i]);
+      const expectedCover=String(editMetadata.cover||'');
+      const coverOk=String(savedAlbum.cover||'')===expectedCover;
+
+      if(!orderOk || !coverOk){
+        throw new Error(
+          `GitHub 저장 검증 불일치: 사진순서 ${orderOk?'정상':'불일치'}, 표지 ${coverOk?'정상':'불일치'}`
+        );
+      }
+
+      document.querySelector('#stageEdit').textContent='저장·검증 완료';
       document.querySelector('#stageEdit').className='tag ready';
       document.querySelector('#stageShelf').textContent='갱신 완료';
       document.querySelector('#stageShelf').className='tag ready';
@@ -1110,7 +1137,7 @@ document.querySelector('#make').onclick=async()=>{
       selected=[];
       cover=safeCover;
       fill.style.width='100%';
-      msg.textContent='새 사진 추가와 사진책 수정 저장이 완료되었습니다.';
+      msg.textContent='사진 순서와 표지까지 실제 저장된 것을 확인했습니다.';
       renderExistingStats();
       renderExistingThumbs();
       updateEditAddStatus();
