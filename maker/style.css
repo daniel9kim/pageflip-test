@@ -304,3 +304,10 @@ header{height:70px;padding:0 32px;display:flex;align-items:center;justify-conten
   letter-spacing:-.02em !important;
   pointer-events:none !important;
 }
+
+/* V12.11 — 사진 번호는 상단 중앙, 이동 버튼은 하단 중앙 */
+@media(max-width:760px){
+  .thumb-move-controls{
+    bottom:5px !important;
+  }
+}

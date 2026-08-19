@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V12.10 — edit save verification + cover file lock
+// PAGE FLIP Maker V12.11 — edit save verification + cover file lock
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -715,10 +715,26 @@ function renderExistingThumbs(){
     order.textContent=String(i+1);
     order.title='드래그해서 사진 순서 변경';
     Object.assign(order.style,{
-      position:'absolute',left:'4px',bottom:'4px',minWidth:'20px',height:'20px',
-      display:'grid',placeItems:'center',padding:'0 5px',borderRadius:'999px',
-      background:'rgba(255,253,248,.92)',color:'#4a4037',fontSize:'10px',
-      fontWeight:'800',zIndex:'2',boxShadow:'0 1px 5px rgba(0,0,0,.12)'
+      // V12.11: 사진 번호는 이동 화살표와 겹치지 않도록 상단 중앙에 표시합니다.
+      position:'absolute',
+      left:'50%',
+      top:'5px',
+      bottom:'auto',
+      transform:'translateX(-50%)',
+      minWidth:'22px',
+      height:'22px',
+      display:'grid',
+      placeItems:'center',
+      padding:'0 6px',
+      borderRadius:'999px',
+      background:'rgba(255,253,248,.96)',
+      color:'#4a4037',
+      border:'1px solid rgba(74,52,37,.18)',
+      fontSize:'11px',
+      fontWeight:'800',
+      zIndex:'25',
+      boxShadow:'0 1px 6px rgba(0,0,0,.14)',
+      pointerEvents:'none'
     });
     d.appendChild(order);
 
@@ -1085,7 +1101,7 @@ document.querySelector('#make').onclick=async()=>{
         ...metadata,
         photoCount:photos.length,
         coverIndex:safeCover,
-        // V12.10: 표지는 배열 위치뿐 아니라 실제 파일명도 함께 전달합니다.
+        // V12.11: 표지는 배열 위치뿐 아니라 실제 파일명도 함께 전달합니다.
         // 사진 순서가 바뀌어도 같은 사진을 표지로 확실하게 저장할 수 있습니다.
         cover:photos[safeCover]?.file||''
       };
@@ -1103,7 +1119,7 @@ document.querySelector('#make').onclick=async()=>{
       const d=await r.json();
       if(!r.ok||!d.ok)throw new Error(d.message||`HTTP ${r.status}`);
 
-      // V12.10: 성공 응답만 믿지 않고 Worker가 방금 저장한 album.json을 즉시 다시 읽어
+      // V12.11: 성공 응답만 믿지 않고 Worker가 방금 저장한 album.json을 즉시 다시 읽어
       // 사진 순서와 표지 파일이 실제로 반영됐는지 검증합니다.
       const verifyRes=await fetch(
         `${API_BASE}/api/album/${encodeURIComponent(editAlbumId)}?t=${Date.now()}`,
@@ -1333,7 +1349,7 @@ window.addEventListener('focus',()=>{
 });
 
 
-// V12.10 — 현재 사진 전체 순서를 한 번에 역순으로 변경합니다.
+// V12.11 — 현재 사진 전체 순서를 한 번에 역순으로 변경합니다.
 // 표지는 index가 아니라 표지 사진의 file 값으로 추적해 같은 사진을 유지합니다.
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('#reversePhotoOrder');
@@ -1371,7 +1387,7 @@ document.addEventListener('click', (e) => {
 
 
 
-// V12.10 — 표지 사진 자체에 독립적인 "표지" 배지를 직접 생성합니다.
+// V12.11 — 표지 사진 자체에 독립적인 "표지" 배지를 직접 생성합니다.
 // 기존 번호/이동 버튼의 DOM 구조에 의존하지 않습니다.
 function applyEditCoverMarker(){
   if(!Array.isArray(editAlbum?.photos) || !editAlbum.photos.length) return;
