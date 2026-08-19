@@ -4,67 +4,19 @@
   "date": "2025-10-12",
   "summary": "",
   "story": "영춘이 합창단은\n이번에 창립 70주년을 맞이하는\n영등포 [당일교회] 초청연주회를 가졌어요.\n규모가 작은 교회여서\n100명 합창단이 모두 무대에 설 수 없어\n기역자 모양으로 어색하게 배치해야 했어요.\n주차 공간도 협소해서 \n인근 공영주차장을 안내받았지요.\n교회에 도착해보니 현수막에\n[한국 장로 성가단]이 아닌\n[전국 장로 찬양단]이라고 적혀 있어서\n살짝 걱정이 되었어요.\n그런데 \n목사님도 그렇게 소개 하셔서 \n조금은 혼란스러웠습니다.\n하지만, 연주가 시작되자\n걱정은 조금씩 잦아들었어요.\n남성 합창 100명의 찬양이\n작은 예배당을 가득 채우며 울려 퍼지자,\n성도들의 긴장된 표정도 조금씩 펴졌어요.\n그리고,\n94세 선배 장로님의 독창이 이어지자\n감동의 눈물을 보이기도 했답니다.\n노래하는 영춘이 마음에도\n감동이 고스란히 전해졌어요.\n생각해보니 \n지난달에 찾았던 거대한 대형교회에서는\n결코 느낄 수 없었던 벅찬 울림이었어요.\n연주가 끝난 후, \n교회에서 준비한 도시락을 대접받어요.\n그 식사 속에는 단순한 환대가 아니라,\n진심 어린 감사와 사랑이 담겨 있었어요.\n연주가 끝난후에도 \n오래동안 여운이 가시지 않네요.\n머리속에 여러가지 생각이 많았어요.\n영춘이는 왜 노래하는 걸까?\n우리의 노래는 무엇일까?\n우리은 어떤 노래를 불러야 하는걸까?\n그날의 연주는 단순한 무대가 아니라,\n이 질문을 마음 깊이 새기게 한\n참으로 의미 있는 시간이었습니다.",
-  "shelf": "장로합창단",
+  "shelf": "장로성가단",
   "shelfKey": "elders",
   "photoCount": 10,
   "coverIndex": 0,
-  "cover": "001.webp",
+  "cover": "010.webp",
   "photos": [
     {
-      "file": "001.webp",
-      "path": "albums/album-1786920247161/photos/001.webp",
-      "originalName": "561755028_25409465968661400_8056953052106192111_n.jpg",
+      "file": "010.webp",
+      "path": "albums/album-1786920247161/photos/010.webp",
+      "originalName": "560568817_25409462308661766_2876368926603961761_n.jpg",
       "width": 1800,
-      "height": 1013,
-      "bytes": 110120
-    },
-    {
-      "file": "002.webp",
-      "path": "albums/album-1786920247161/photos/002.webp",
-      "originalName": "562364126_25409465678661429_3723134738332018328_n.jpg",
-      "width": 1800,
-      "height": 1013,
-      "bytes": 135226
-    },
-    {
-      "file": "003.webp",
-      "path": "albums/album-1786920247161/photos/003.webp",
-      "originalName": "564659867_25409465328661464_7425363963357917595_n.jpg",
-      "width": 1800,
-      "height": 1013,
-      "bytes": 195312
-    },
-    {
-      "file": "004.webp",
-      "path": "albums/album-1786920247161/photos/004.webp",
-      "originalName": "563447426_25409464948661502_8768210741500646787_n.jpg",
-      "width": 1800,
-      "height": 1013,
-      "bytes": 160694
-    },
-    {
-      "file": "005.webp",
-      "path": "albums/album-1786920247161/photos/005.webp",
-      "originalName": "561342601_25409464528661544_8918288958650204729_n.jpg",
-      "width": 1800,
-      "height": 1013,
-      "bytes": 183408
-    },
-    {
-      "file": "006.webp",
-      "path": "albums/album-1786920247161/photos/006.webp",
-      "originalName": "560613267_25409464091994921_496109686734545315_n.jpg",
-      "width": 1013,
-      "height": 1800,
-      "bytes": 250130
-    },
-    {
-      "file": "007.webp",
-      "path": "albums/album-1786920247161/photos/007.webp",
-      "originalName": "561746354_25409463581994972_932206311990136650_n.jpg",
-      "width": 1350,
-      "height": 1800,
-      "bytes": 401914
+      "height": 1350,
+      "bytes": 181414
     },
     {
       "file": "008.webp",
@@ -83,14 +35,63 @@
       "bytes": 107938
     },
     {
-      "file": "010.webp",
-      "path": "albums/album-1786920247161/photos/010.webp",
-      "originalName": "560568817_25409462308661766_2876368926603961761_n.jpg",
+      "file": "007.webp",
+      "path": "albums/album-1786920247161/photos/007.webp",
+      "originalName": "561746354_25409463581994972_932206311990136650_n.jpg",
+      "width": 1350,
+      "height": 1800,
+      "bytes": 401914
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1786920247161/photos/006.webp",
+      "originalName": "560613267_25409464091994921_496109686734545315_n.jpg",
+      "width": 1013,
+      "height": 1800,
+      "bytes": 250130
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786920247161/photos/005.webp",
+      "originalName": "561342601_25409464528661544_8918288958650204729_n.jpg",
       "width": 1800,
-      "height": 1350,
-      "bytes": 181414
+      "height": 1013,
+      "bytes": 183408
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1786920247161/photos/004.webp",
+      "originalName": "563447426_25409464948661502_8768210741500646787_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 160694
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1786920247161/photos/003.webp",
+      "originalName": "564659867_25409465328661464_7425363963357917595_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 195312
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1786920247161/photos/002.webp",
+      "originalName": "562364126_25409465678661429_3723134738332018328_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 135226
+    },
+    {
+      "file": "001.webp",
+      "path": "albums/album-1786920247161/photos/001.webp",
+      "originalName": "561755028_25409465968661400_8056953052106192111_n.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 110120
     }
   ],
   "status": "ready",
-  "updatedAt": "2026-08-16T22:44:29.761Z"
+  "updatedAt": "2026-08-19T12:56:31.847Z",
+  "createdAt": "2026-08-19T12:56:31.847Z"
 }
