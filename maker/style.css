@@ -311,3 +311,56 @@ header{height:70px;padding:0 32px;display:flex;align-items:center;justify-conten
     bottom:5px !important;
   }
 }
+
+/* V12.12 — 표지 선택 안내 */
+.maker-cover-hint{
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  transform:translate(-50%,-50%) scale(.96) !important;
+  z-index:40 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  white-space:nowrap !important;
+  padding:6px 9px !important;
+  border-radius:999px !important;
+  background:rgba(47,37,29,.88) !important;
+  color:#fff !important;
+  border:1px solid rgba(255,255,255,.82) !important;
+  box-shadow:0 3px 10px rgba(0,0,0,.22) !important;
+  font-size:11px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+  transition:opacity .14s ease,transform .14s ease,visibility .14s ease !important;
+}
+.photo-card:hover > .maker-cover-hint,
+.edit-photo-card:hover > .maker-cover-hint,
+.photo-item:hover > .maker-cover-hint,
+.thumb:hover > .maker-cover-hint,
+.photo-thumb:hover > .maker-cover-hint,
+.maker-cover-selected:hover > .maker-cover-hint{
+  opacity:1 !important;
+  visibility:visible !important;
+  transform:translate(-50%,-50%) scale(1) !important;
+}
+.maker-cover-selected > .maker-cover-hint{
+  display:none !important;
+}
+@media (hover:none), (pointer:coarse){
+  .maker-cover-hint{
+    top:auto !important;
+    bottom:31px !important;
+    transform:translateX(-50%) !important;
+    padding:4px 7px !important;
+    font-size:10px !important;
+    opacity:.88 !important;
+    visibility:visible !important;
+  }
+  .maker-cover-selected > .maker-cover-hint{
+    display:none !important;
+  }
+}
