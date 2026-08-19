@@ -170,3 +170,39 @@ header{height:70px;padding:0 32px;display:flex;align-items:center;justify-conten
     border-radius:9px;
   }
 }
+
+
+/* V12.8 — 표지 배지와 순서 이동 버튼이 겹치지 않도록 분리 */
+.photo-card, .edit-photo-card, .photo-item, .thumb {
+  position: relative;
+}
+.cover-badge, .badge-cover, [data-role="cover-badge"] {
+  position: absolute !important;
+  top: 6px !important;
+  left: 6px !important;
+  bottom: auto !important;
+  z-index: 20 !important;
+  padding: 4px 7px !important;
+  border-radius: 999px !important;
+  line-height: 1 !important;
+  pointer-events: none;
+}
+.photo-card.is-cover, .edit-photo-card.is-cover, .photo-item.is-cover,
+.photo-card.cover, .edit-photo-card.cover, .photo-item.cover {
+  outline: 3px solid #b07a38;
+  outline-offset: 2px;
+}
+.reverse-order-btn {
+  white-space: nowrap;
+  margin-right: 8px;
+}
+@media (max-width: 720px) {
+  .cover-badge, .badge-cover, [data-role="cover-badge"] {
+    top: 5px !important;
+    left: 5px !important;
+    font-size: 12px !important;
+  }
+  .reverse-order-btn {
+    min-height: 42px;
+  }
+}
