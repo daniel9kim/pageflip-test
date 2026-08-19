@@ -1,4 +1,4 @@
-// PAGE FLIP Maker V12.8 — edit save verification + cover file lock
+// PAGE FLIP Maker V12.9 — edit save verification + cover file lock
 const API_BASE = "https://pageflip-api.withme-jesus.workers.dev";
 
 const drop=document.querySelector('#drop'),input=document.querySelector('#files'),choose=document.querySelector('#choose');
@@ -1085,7 +1085,7 @@ document.querySelector('#make').onclick=async()=>{
         ...metadata,
         photoCount:photos.length,
         coverIndex:safeCover,
-        // V12.8: 표지는 배열 위치뿐 아니라 실제 파일명도 함께 전달합니다.
+        // V12.9: 표지는 배열 위치뿐 아니라 실제 파일명도 함께 전달합니다.
         // 사진 순서가 바뀌어도 같은 사진을 표지로 확실하게 저장할 수 있습니다.
         cover:photos[safeCover]?.file||''
       };
@@ -1103,7 +1103,7 @@ document.querySelector('#make').onclick=async()=>{
       const d=await r.json();
       if(!r.ok||!d.ok)throw new Error(d.message||`HTTP ${r.status}`);
 
-      // V12.8: 성공 응답만 믿지 않고 Worker가 방금 저장한 album.json을 즉시 다시 읽어
+      // V12.9: 성공 응답만 믿지 않고 Worker가 방금 저장한 album.json을 즉시 다시 읽어
       // 사진 순서와 표지 파일이 실제로 반영됐는지 검증합니다.
       const verifyRes=await fetch(
         `${API_BASE}/api/album/${encodeURIComponent(editAlbumId)}?t=${Date.now()}`,
@@ -1333,7 +1333,7 @@ window.addEventListener('focus',()=>{
 });
 
 
-// V12.8 — 현재 사진 전체 순서를 한 번에 역순으로 변경합니다.
+// V12.9 — 현재 사진 전체 순서를 한 번에 역순으로 변경합니다.
 // 표지는 index가 아니라 표지 사진의 file 값으로 추적해 같은 사진을 유지합니다.
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('#reversePhotoOrder');
@@ -1366,3 +1366,55 @@ document.addEventListener('click', (e) => {
   const stage = document.querySelector('#stageEdit');
   if (stage) stage.textContent = '사진 순서를 역순으로 변경했습니다. 수정 저장을 눌러 반영하세요.';
 });
+
+
+// V12.9 — 표지 배지를 사진 좌상단에 강제 배치하고 표지 카드를 강조합니다.
+function normalizeEditCoverBadge(){
+  const cards=[...document.querySelectorAll(
+    '.edit-photo-card,.photo-card,.photo-item,#editPhotos > *,#editPhotoList > *'
+  )].filter(el=>el.querySelector('img'));
+
+  if(!cards.length || !Array.isArray(editAlbum?.photos)) return;
+
+  const coverFile=
+    editAlbum.photos?.[Number(editAlbum.coverIndex || 0)]?.file ||
+    editAlbum.cover ||
+    '';
+
+  cards.forEach((card,i)=>{
+    card.classList.toggle(
+      'is-cover',
+      String(editAlbum.photos?.[i]?.file||'')===String(coverFile)
+    );
+
+    // 기존 표지 텍스트가 있으면 배지 클래스로 승격합니다.
+    [...card.querySelectorAll('span,small,div,b')].forEach(el=>{
+      if(el.children.length===0 && el.textContent.trim()==='표지'){
+        el.classList.add('cover-badge');
+      }
+    });
+
+    if(card.classList.contains('is-cover') && !card.querySelector('.cover-badge')){
+      const badge=document.createElement('span');
+      badge.className='cover-badge';
+      badge.textContent='표지';
+      card.appendChild(badge);
+    }
+  });
+}
+
+document.addEventListener('click',()=>{
+  setTimeout(normalizeEditCoverBadge,0);
+});
+window.addEventListener('load',()=>setTimeout(normalizeEditCoverBadge,100));
+
+
+// V12.9 — 사진 목록이 다시 그려질 때도 배지 위치를 자동 보정합니다.
+const editPhotoBadgeObserver=new MutationObserver(()=>normalizeEditCoverBadge());
+const editPhotoHost=
+  document.querySelector('#editPhotos') ||
+  document.querySelector('#editPhotoList') ||
+  document.querySelector('.edit-photo-list');
+if(editPhotoHost){
+  editPhotoBadgeObserver.observe(editPhotoHost,{childList:true,subtree:true});
+}

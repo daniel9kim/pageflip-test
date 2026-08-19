@@ -206,3 +206,68 @@ header{height:70px;padding:0 32px;display:flex;align-items:center;justify-conten
     min-height: 42px;
   }
 }
+
+/* V12.9 — 표지 배지/역순 버튼 최종 정리 */
+.edit-photo-card,
+.photo-card,
+.photo-item,
+#editPhotos > *,
+#editPhotoList > * {
+  position: relative !important;
+}
+
+.cover-badge{
+  position:absolute !important;
+  top:6px !important;
+  left:6px !important;
+  right:auto !important;
+  bottom:auto !important;
+  z-index:50 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  padding:4px 8px !important;
+  border-radius:999px !important;
+  background:#7a5436 !important;
+  color:#fff !important;
+  border:1px solid rgba(255,255,255,.55) !important;
+  box-shadow:0 2px 8px rgba(47,36,27,.20) !important;
+  font-size:11px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  pointer-events:none !important;
+}
+
+.is-cover{
+  outline:3px solid #b88755 !important;
+  outline-offset:2px !important;
+  border-radius:10px;
+}
+
+.reverse-order-btn{
+  border:1px solid #d8cabc !important;
+  border-radius:999px !important;
+  padding:11px 18px !important;
+  background:#f3eadf !important;
+  color:#4a3425 !important;
+  font-weight:700 !important;
+  cursor:pointer !important;
+  min-height:44px;
+}
+
+.reverse-order-btn:hover{
+  background:#eadbc9 !important;
+}
+
+@media(max-width:760px){
+  .cover-badge{
+    top:5px !important;
+    left:5px !important;
+    font-size:12px !important;
+    padding:4px 7px !important;
+  }
+  .reverse-order-btn{
+    width:auto !important;
+    min-height:42px !important;
+    padding:10px 14px !important;
+  }
+}
