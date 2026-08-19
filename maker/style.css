@@ -271,3 +271,36 @@ header{height:70px;padding:0 32px;display:flex;align-items:center;justify-conten
     padding:10px 14px !important;
   }
 }
+
+/* V12.10 — 독립 표지 마커 */
+.maker-cover-selected{
+  position:relative !important;
+  outline:3px solid #b88755 !important;
+  outline-offset:2px !important;
+  border-radius:10px !important;
+}
+.maker-cover-marker{
+  position:absolute !important;
+  top:5px !important;
+  left:5px !important;
+  right:auto !important;
+  bottom:auto !important;
+  z-index:999 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-width:34px !important;
+  min-height:22px !important;
+  padding:4px 8px !important;
+  box-sizing:border-box !important;
+  border-radius:999px !important;
+  background:#6f4a2f !important;
+  color:#fff !important;
+  border:1px solid rgba(255,255,255,.8) !important;
+  box-shadow:0 2px 7px rgba(0,0,0,.22) !important;
+  font-size:11px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  letter-spacing:-.02em !important;
+  pointer-events:none !important;
+}
