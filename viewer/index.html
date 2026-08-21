@@ -4,15 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PAGE FLIP</title>
-  <link rel="stylesheet" href="style.css?v=11.7.4" />
+  <link rel="stylesheet" href="style.css?v=11.7.5" />
   <link rel="stylesheet" href="./episode-fix.css?v=921">
 </head>
 <body>
   <main id="app">
     <section id="coverView" class="view active">
       <header class="cover-topbar">
-        <button class="text-btn" id="backToShelf">← 책장으로 돌아가기</button>
-        <div class="eyebrow">YOUNGCHOON'S PHOTO BOOK</div>
+        <button class="text-btn" id="backToShelf"><span class="desktop-label">← 책장으로 돌아가기</span><span class="mobile-label">← 책장으로</span></button>
+        <div class="eyebrow"><span class="desktop-label">YOUNGCHOON&#39;S PHOTO BOOK</span><span class="mobile-label">영춘 PHOTO BOOK</span></div>
         <button id="shareBtn" class="icon-btn" title="공유" aria-label="앨범 공유">↗</button>
       </header>
 
@@ -78,6 +78,6 @@
   <div id="shareToast" class="share-toast" role="status" aria-live="polite"></div>
   <div id="loadError" style="display:none;position:fixed;inset:0;z-index:9999;background:#fffdf8;padding:40px;text-align:center;color:#9b3f3f"></div>
 
-  <script src="app.js?v=11.7.4"></script>
+  <script src="app.js?v=11.7.5"></script>
 </body>
 </html>

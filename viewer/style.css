@@ -1176,3 +1176,51 @@ button[aria-label="닫기"]::after{
     font-size:14px;
   }
 }
+
+
+/* PAGE FLIP Viewer V11.7.5 — compact mobile header */
+.mobile-label{
+  display:none;
+}
+
+@media (max-width:760px){
+  .desktop-label{
+    display:none !important;
+  }
+  .mobile-label{
+    display:inline !important;
+  }
+
+  header{
+    height:58px !important;
+    padding:0 14px !important;
+    gap:8px !important;
+  }
+
+  header .back,
+  header a,
+  header button{
+    white-space:nowrap;
+  }
+
+  header .brand,
+  header .book-brand,
+  header .center-title{
+    font-size:15px !important;
+    letter-spacing:.08em !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+  }
+
+  header .back,
+  header .back-link{
+    font-size:14px !important;
+    line-height:1 !important;
+  }
+
+  header .open-external,
+  header .external-link{
+    font-size:20px !important;
+    line-height:1 !important;
+  }
+}

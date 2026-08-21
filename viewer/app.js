@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.7.4 — Sticky Story Close
+// PAGE FLIP Viewer V11.7.5 — Mobile Compact Header
 let album=null;
 let photos=[];
 let story='';
