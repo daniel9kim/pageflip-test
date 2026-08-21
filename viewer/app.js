@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.7.2 — Safe Cover Click Hotfix
+// PAGE FLIP Viewer V11.7.4 — Sticky Story Close
 let album=null;
 let photos=[];
 let story='';

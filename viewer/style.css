@@ -1099,3 +1099,80 @@
   outline:3px solid rgba(166,106,45,.45);
   outline-offset:4px;
 }
+
+
+
+
+/* PAGE FLIP Viewer V11.7.4 — sticky compact story close */
+.story-close,
+#storyClose,
+.fullstory-close,
+.modal-close,
+.episode-close,
+button[aria-label="닫기"]{
+  position:sticky !important;
+  top:12px !important;
+  margin-left:auto !important;
+  z-index:1100 !important;
+  width:auto !important;
+  min-width:64px !important;
+  height:38px !important;
+  min-height:38px !important;
+  padding:0 12px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:5px !important;
+  border-radius:999px !important;
+  font-size:14px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+  cursor:pointer !important;
+  box-shadow:0 4px 12px rgba(47,36,27,.16) !important;
+}
+
+/* If the button only contains ×, show an explicit label without changing JS. */
+.story-close::after,
+#storyClose::after,
+.fullstory-close::after,
+.modal-close::after,
+.episode-close::after,
+button[aria-label="닫기"]::after{
+  content:"닫기";
+  font-size:13px;
+  font-weight:800;
+}
+
+/* Keep the control visible while the long story content scrolls. */
+.story-modal-content,
+.fullstory-content,
+.episode-modal-content,
+.story-sheet,
+.story-panel{
+  position:relative;
+}
+
+@media (max-width:760px){
+  .story-close,
+  #storyClose,
+  .fullstory-close,
+  .modal-close,
+  .episode-close,
+  button[aria-label="닫기"]{
+    top:10px !important;
+    min-width:72px !important;
+    height:42px !important;
+    min-height:42px !important;
+    padding:0 13px !important;
+    font-size:16px !important;
+  }
+  .story-close::after,
+  #storyClose::after,
+  .fullstory-close::after,
+  .modal-close::after,
+  .episode-close::after,
+  button[aria-label="닫기"]::after{
+    font-size:14px;
+  }
+}
