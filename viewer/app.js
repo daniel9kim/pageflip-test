@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.7.9 — Mobile Two-Line Cover
+// PAGE FLIP Viewer V11.8.0 — Mobile Header + Viewport Fit
 let album=null;
 let photos=[];
 let story='';

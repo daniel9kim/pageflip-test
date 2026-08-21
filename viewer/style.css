@@ -1277,3 +1277,58 @@ button[aria-label="닫기"]::after{
     display:none !important;
   }
 }
+
+
+/* PAGE FLIP Viewer V11.8.0 — mobile header and viewport fit */
+@media(max-width:760px){
+  header{
+    height:48px !important;
+    min-height:48px !important;
+    padding:0 12px !important;
+  }
+
+  header .back,
+  header .back-link,
+  header a:first-child{
+    font-size:17px !important;
+    font-weight:700 !important;
+    line-height:1 !important;
+  }
+
+  header .brand,
+  header .book-brand,
+  header .center-title{
+    font-size:15px !important;
+    letter-spacing:.07em !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+  }
+
+  #coverView,
+  .cover-view{
+    padding-top:8px !important;
+  }
+
+  .cover-stage{
+    padding-top:8px !important;
+    padding-bottom:8px !important;
+    min-height:0 !important;
+  }
+
+  /* Keep cover prominent, but prevent tall portrait covers from pushing
+     thumbnails below the first screen. */
+  .physical-book{
+    max-height:calc(100dvh - 250px) !important;
+  }
+
+  .physical-book .cover-photo-wrap,
+  .physical-book .cover-photo,
+  .physical-book .cover-image,
+  .physical-book img.cover-photo{
+    max-height:calc(100dvh - 430px) !important;
+  }
+
+  .thumb-strip{
+    margin-top:10px !important;
+  }
+}
