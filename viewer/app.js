@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.7.6 — Mobile Cover Fit + Compact Meta
+// PAGE FLIP Viewer V11.7.7 — Date + Photo Count One Line
 let album=null;
 let photos=[];
 let story='';
@@ -223,7 +223,9 @@ function bindAlbum(){
   document.querySelector('#coverImg').src=photoSrc(coverPhoto);
   document.querySelector('#coverTitle').textContent=title;
   document.querySelector('#coverDate').textContent=date;
-  document.querySelector('#coverSummary').textContent=summary;
+  const coverSummary=document.querySelector('#coverSummary');
+  coverSummary.textContent=summary;
+  coverSummary.style.display=summary.trim()?'':'none';
   document.querySelector('#coverMeta').textContent=`사진 ${photos.length}장`;
   document.querySelector('#storyMark').style.display=story.trim()?'':'none';
   document.querySelector('#readerTitle').textContent=title;
