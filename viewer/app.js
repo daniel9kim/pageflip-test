@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.6 — Cover Thumbnail Direct Navigation
+// PAGE FLIP Viewer V11.7 — Click Cover To Open
 let album=null;
 let photos=[];
 let story='';
@@ -1322,3 +1322,42 @@ shareBtn.onclick=async()=>{
   });
   observer.observe(spreadEl,{childList:true});
 })();
+
+
+// V11.7 — 표지 전체를 클릭/탭하면 바로 책을 펼칩니다.
+function openBookFromCover(){
+  show('reader');
+  render();
+}
+
+function bindCoverOpen(){
+  const cover =
+    document.querySelector('#coverView') ||
+    document.querySelector('.cover-view') ||
+    document.querySelector('.cover-stage') ||
+    document.querySelector('.cover-card') ||
+    document.querySelector('.cover');
+
+  if(!cover) return;
+
+  cover.classList.add('click-to-open');
+  cover.setAttribute('role','button');
+  cover.setAttribute('tabindex','0');
+  cover.setAttribute('aria-label','앨범을 클릭하여 책 펼치기');
+
+  const activate=(e)=>{
+    // 썸네일/링크/별도 컨트롤 클릭은 기존 기능을 우선합니다.
+    if(e.target.closest('a,button,.thumb-strip,.thumbnail-strip,.thumbs')) return;
+    openBookFromCover();
+  };
+
+  cover.addEventListener('click',activate);
+  cover.addEventListener('keydown',e=>{
+    if(e.key==='Enter' || e.key===' '){
+      e.preventDefault();
+      openBookFromCover();
+    }
+  });
+}
+
+window.addEventListener('load',bindCoverOpen);

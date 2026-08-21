@@ -1085,3 +1085,21 @@
 .thumb-strip img:active{
   transform:translateY(0) scale(.98);
 }
+
+
+/* PAGE FLIP Viewer V11.7 — click cover to open */
+#openBook,
+.open-book-button,
+button[data-action="open-book"]{
+  display:none !important;
+}
+.click-to-open{
+  cursor:pointer;
+}
+.click-to-open:hover{
+  filter:brightness(1.015);
+}
+.click-to-open:focus-visible{
+  outline:3px solid rgba(166,106,45,.45);
+  outline-offset:4px;
+}
