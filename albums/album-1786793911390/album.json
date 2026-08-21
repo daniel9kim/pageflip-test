@@ -4,7 +4,7 @@
   "date": "2025-02-09",
   "summary": "",
   "story": "",
-  "shelf": "장로합창단",
+  "shelf": "장로성가단",
   "shelfKey": "elders",
   "photoCount": 5,
   "coverIndex": 0,
@@ -17,6 +17,14 @@
       "width": 1800,
       "height": 1350,
       "bytes": 327330
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1786793911390/photos/005.webp",
+      "originalName": "1739092984304.jpg",
+      "width": 1400,
+      "height": 1050,
+      "bytes": 284088
     },
     {
       "file": "003.webp",
@@ -35,14 +43,6 @@
       "bytes": 128552
     },
     {
-      "file": "005.webp",
-      "path": "albums/album-1786793911390/photos/005.webp",
-      "originalName": "1739092984304.jpg",
-      "width": 1400,
-      "height": 1050,
-      "bytes": 284088
-    },
-    {
       "file": "006.webp",
       "path": "albums/album-1786793911390/photos/006.webp",
       "originalName": "1739152017176.jpg",
@@ -52,5 +52,6 @@
     }
   ],
   "status": "ready",
-  "updatedAt": "2026-08-21T22:08:44.800Z"
+  "updatedAt": "2026-08-21T22:08:52.003Z",
+  "createdAt": "2026-08-21T22:08:52.003Z"
 }
