@@ -1,9 +1,9 @@
-// PAGE FLIP Viewer V11.8.1 — Thumbnail Target Fix
+// PAGE FLIP Viewer V11.8.2 — Mobile Exact Thumbnail Target
 let album=null;
 let photos=[];
 let story='';
 let spreads=[];
-let current=0,locked=false,drag=null;
+let current=0,mobileItemOffset=0,locked=false,drag=null;
 let albumUrl=null;
 
 // =========================================================
@@ -43,7 +43,10 @@ function analyticsOS(){
 function currentAnalyticsPageNo(){
   const s=spreads[current];
   if(!s) return current+1;
-  if(Number.isFinite(Number(s.start))) return Number(s.start)+1;
+  if(Number.isFinite(Number(s.start))){
+    const offset=(mobile() && s.type==='pair') ? mobileItemOffset : 0;
+    return Number(s.start)+offset+1;
+  }
   return current+1;
 }
 
@@ -261,6 +264,18 @@ function bindAlbum(){
       if(target<0) return;
 
       current=target;
+      mobileItemOffset=0;
+      const targetSpread=spreads[target];
+      if(mobile() && targetSpread?.type==='pair'){
+        const targetFile=String(p.file ?? p.f ?? '');
+        const exactIndex=targetSpread.items.findIndex(item=>{
+          if(item===p) return true;
+          const itemFile=String(item?.file ?? item?.f ?? '');
+          return Boolean(itemFile && targetFile && itemFile===targetFile);
+        });
+        mobileItemOffset=exactIndex>=0 ? exactIndex : 0;
+      }
+
       lastTrackedPageKey='';
       show('reader');
       render();
@@ -530,9 +545,16 @@ function render(){
     spreadEl.appendChild(d);
 
   }else{
-    spreadEl.appendChild(makePage(s.items[0],'left',s.start+1));
-    if(!mobile()){
-      spreadEl.appendChild(makePage(s.items[1],'right',s.items[1]?s.start+2:''));
+    if(mobile() && s.type==='pair'){
+      const safeOffset=Math.max(0,Math.min(mobileItemOffset,s.items.length-1));
+      spreadEl.appendChild(
+        makePage(s.items[safeOffset],'left',s.start+safeOffset+1)
+      );
+    }else{
+      spreadEl.appendChild(makePage(s.items[0],'left',s.start+1));
+      if(!mobile()){
+        spreadEl.appendChild(makePage(s.items[1],'right',s.items[1]?s.start+2:''));
+      }
     }
   }
 
@@ -881,6 +903,38 @@ function animateTo(from,to,dur,done,direction=turnDirection){
 
 function turn(delta){
   if(locked)return;
+
+  if(mobile()){
+    const s=spreads[current];
+
+    if(s?.type==='pair'){
+      if(delta>0 && mobileItemOffset<s.items.length-1){
+        mobileItemOffset++;
+        lastTrackedPageKey='';
+        render();
+        return;
+      }
+      if(delta<0 && mobileItemOffset>0){
+        mobileItemOffset--;
+        lastTrackedPageKey='';
+        render();
+        return;
+      }
+    }
+
+    const next=current+delta;
+    if(next<0||next>=spreads.length)return;
+
+    current=next;
+    const target=spreads[current];
+    mobileItemOffset=(delta<0 && target?.type==='pair')
+      ? Math.max(0,target.items.length-1)
+      : 0;
+    lastTrackedPageKey='';
+    render();
+    return;
+  }
+
   const next=current+delta;
   if(next<0||next>=spreads.length)return;
 
@@ -910,7 +964,7 @@ document.querySelector('#backToShelf').onclick=()=>{
   location.href=`../shelves/${encodeURIComponent(shelfKey)}/`;
 };
 document.querySelector('#backToCover').onclick=()=>show('cover');
-document.querySelector('#openReader').onclick=()=>{current=0;show('reader');render()};
+document.querySelector('#openReader').onclick=()=>{current=0;mobileItemOffset=0;show('reader');render()};
 
 // V11.7.2: Clicking/tapping the actual album cover opens the reader.
 // #openReader remains in the DOM (hidden by CSS), preserving the known-good V11.6 startup path.
@@ -923,6 +977,7 @@ if(clickableAlbumCover){
   const openFromAlbumCover=(e)=>{
     if(e?.target?.closest?.('a,button')) return;
     current=0;
+    mobileItemOffset=0;
     show('reader');
     render();
   };
