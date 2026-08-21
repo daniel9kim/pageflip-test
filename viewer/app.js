@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.7 — Click Cover To Open
+// PAGE FLIP Viewer V11.7.1 — Click Cover To Open Hotfix
 let album=null;
 let photos=[];
 let story='';
@@ -898,7 +898,8 @@ document.querySelector('#backToShelf').onclick=()=>{
   location.href=`../shelves/${encodeURIComponent(shelfKey)}/`;
 };
 document.querySelector('#backToCover').onclick=()=>show('cover');
-document.querySelector('#openReader').onclick=()=>{current=0;show('reader');render()};
+const legacyOpenReader=document.querySelector('#openReader');
+if(legacyOpenReader) legacyOpenReader.onclick=()=>{current=0;show('reader');render()};
 document.querySelector('#storyClose').onclick=()=>document.querySelector('#storyModal').classList.remove('open');
 document.querySelector('#storyModal').onclick=e=>{
   if(e.target.id==='storyModal') e.currentTarget.classList.remove('open');
@@ -1332,9 +1333,7 @@ function openBookFromCover(){
 
 function bindCoverOpen(){
   const cover =
-    document.querySelector('#coverView') ||
-    document.querySelector('.cover-view') ||
-    document.querySelector('.cover-stage') ||
+    document.querySelector('.physical-book') ||
     document.querySelector('.cover-card') ||
     document.querySelector('.cover');
 
@@ -1347,7 +1346,7 @@ function bindCoverOpen(){
 
   const activate=(e)=>{
     // 썸네일/링크/별도 컨트롤 클릭은 기존 기능을 우선합니다.
-    if(e.target.closest('a,button,.thumb-strip,.thumbnail-strip,.thumbs')) return;
+    if(e.target.closest('a,button')) return;
     openBookFromCover();
   };
 
