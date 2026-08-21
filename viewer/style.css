@@ -1087,19 +1087,15 @@
 }
 
 
-/* PAGE FLIP Viewer V11.7 — click cover to open */
-#openBook,
-.open-book-button,
-button[data-action="open-book"]{
+/* PAGE FLIP Viewer V11.7.2 — safe cover click
+   Keep #openReader in DOM for compatibility, but hide it visually. */
+#openReader{
   display:none !important;
 }
-.click-to-open{
+.physical-book{
   cursor:pointer;
 }
-.click-to-open:hover{
-  filter:brightness(1.015);
-}
-.click-to-open:focus-visible{
+.physical-book:focus-visible{
   outline:3px solid rgba(166,106,45,.45);
   outline-offset:4px;
 }
