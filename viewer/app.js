@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.8.0 — Mobile Header + Viewport Fit
+// PAGE FLIP Viewer V11.8.1 — Thumbnail Target Fix
 let album=null;
 let photos=[];
 let story='';
@@ -243,11 +243,21 @@ function bindAlbum(){
     img.dataset.photoIndex=String(photoIndex);
 
     const openPhoto=()=>{
+      // V11.8.1:
+      // spread.start 범위 계산은 portrait-story/essay 조합에서 한 칸 앞 spread를
+      // 선택할 수 있습니다. 실제 spread.items 안의 사진 객체를 기준으로 찾습니다.
       const target=spreads.findIndex(s=>{
         if(!s || !Array.isArray(s.items)) return false;
-        const count=s.items.length;
-        return photoIndex>=Number(s.start||0) && photoIndex<Number(s.start||0)+count;
+        return s.items.some(item=>{
+          if(!item) return false;
+          const itemFile=String(item.file ?? item.f ?? '');
+          const targetFile=String(p.file ?? p.f ?? '');
+          if(item===p) return true;
+          if(itemFile && targetFile && itemFile===targetFile) return true;
+          return false;
+        });
       });
+
       if(target<0) return;
 
       current=target;
