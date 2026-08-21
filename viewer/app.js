@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.5.5 — Analytics Album Snapshot Metadata
+// PAGE FLIP Viewer V11.6 — Cover Thumbnail Direct Navigation
 let album=null;
 let photos=[];
 let story='';
@@ -232,10 +232,35 @@ function bindAlbum(){
 
   const strip=document.querySelector('#thumbStrip');
   strip.innerHTML='';
-  photos.slice(0,8).forEach(p=>{
+  photos.forEach((p,photoIndex)=>{
     const img=document.createElement('img');
     img.src=photoSrc(p);
-    img.alt='미리보기';
+    img.alt=`${photoIndex+1}번 사진 — 클릭하여 바로 보기`;
+    img.title=`${photoIndex+1}번 사진 바로 보기`;
+    img.tabIndex=0;
+    img.dataset.photoIndex=String(photoIndex);
+
+    const openPhoto=()=>{
+      const target=spreads.findIndex(s=>{
+        if(!s || !Array.isArray(s.items)) return false;
+        const count=s.items.length;
+        return photoIndex>=Number(s.start||0) && photoIndex<Number(s.start||0)+count;
+      });
+      if(target<0) return;
+
+      current=target;
+      lastTrackedPageKey='';
+      show('reader');
+      render();
+    };
+
+    img.addEventListener('click',openPhoto);
+    img.addEventListener('keydown',e=>{
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        openPhoto();
+      }
+    });
     strip.appendChild(img);
   });
 }

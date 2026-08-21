@@ -1067,3 +1067,21 @@
     will-change:transform;
   }
 }
+
+
+/* PAGE FLIP Viewer V11.6 — cover thumbnail direct navigation */
+.thumb-strip img{
+  cursor:pointer;
+  transition:transform .16s ease, box-shadow .16s ease, outline-color .16s ease;
+  outline:2px solid transparent;
+  outline-offset:2px;
+}
+.thumb-strip img:hover,
+.thumb-strip img:focus-visible{
+  transform:translateY(-2px);
+  box-shadow:0 7px 16px rgba(74,55,37,.20);
+  outline-color:rgba(184,135,85,.72);
+}
+.thumb-strip img:active{
+  transform:translateY(0) scale(.98);
+}
