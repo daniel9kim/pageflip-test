@@ -1259,3 +1259,12 @@ button[aria-label="닫기"]::after{
     margin-top:6px !important;
   }
 }
+
+
+/* PAGE FLIP Viewer V11.7.8 — mobile: hide one-line summary only */
+@media(max-width:760px){
+  #coverSummary,
+  .cover-summary{
+    display:none !important;
+  }
+}

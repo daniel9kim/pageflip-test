@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.7.7 — Date + Photo Count One Line
+// PAGE FLIP Viewer V11.7.8 — Hide Cover Summary on Mobile
 let album=null;
 let photos=[];
 let story='';
