@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.7.5 — Mobile Compact Header
+// PAGE FLIP Viewer V11.7.6 — Mobile Cover Fit + Compact Meta
 let album=null;
 let photos=[];
 let story='';
@@ -224,7 +224,7 @@ function bindAlbum(){
   document.querySelector('#coverTitle').textContent=title;
   document.querySelector('#coverDate').textContent=date;
   document.querySelector('#coverSummary').textContent=summary;
-  document.querySelector('#coverMeta').textContent=`사진 ${photos.length}장 · 자동 편집`;
+  document.querySelector('#coverMeta').textContent=`사진 ${photos.length}장`;
   document.querySelector('#storyMark').style.display=story.trim()?'':'none';
   document.querySelector('#readerTitle').textContent=title;
   document.querySelector('#readerDate').textContent=date;
