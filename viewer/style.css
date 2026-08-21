@@ -1268,3 +1268,12 @@ button[aria-label="닫기"]::after{
     display:none !important;
   }
 }
+
+
+/* PAGE FLIP Viewer V11.7.9 — mobile cover: title + date/photo count only */
+@media(max-width:760px){
+  #storyMark,
+  .story-mark{
+    display:none !important;
+  }
+}

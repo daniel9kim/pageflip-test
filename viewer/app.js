@@ -1,4 +1,4 @@
-// PAGE FLIP Viewer V11.7.8 — Hide Cover Summary on Mobile
+// PAGE FLIP Viewer V11.7.9 — Mobile Two-Line Cover
 let album=null;
 let photos=[];
 let story='';
