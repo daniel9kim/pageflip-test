@@ -1394,3 +1394,27 @@ button[aria-label="닫기"]::after{
     background:rgba(226,181,79,.30);
   }
 }
+
+
+/* PAGE FLIP Viewer V11.8.5 — mobile Marker Sweep exact text width */
+@media(max-width:760px){
+  /* .physical-book becomes a flex column on mobile. Flex items stretch by
+     default, which made the marker pseudo-element wider than the text.
+     Center + shrink-wrap the two highlighted text elements instead. */
+  #coverTitle,
+  #coverDate{
+    align-self:center;
+    width:max-content;
+    max-width:100%;
+  }
+
+  #coverTitle::before{
+    left:0;
+    right:0;
+  }
+
+  #coverDate::before{
+    left:0;
+    right:0;
+  }
+}
