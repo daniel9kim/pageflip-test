@@ -1370,3 +1370,27 @@ button[aria-label="닫기"]::after{
   #coverTitle.marker-sweep-on::before,
   #coverDate.marker-sweep-on::before{animation-duration:.01ms;}
 }
+
+/* PAGE FLIP Viewer V11.8.4 — Marker Sweep mobile refinement */
+@media(max-width:760px){
+  /* On narrow screens the full-height sweep can read like a banner.
+     Keep the desktop treatment intact and make only the mobile sweep
+     lighter, slimmer and closer to a hand-drawn marker stroke. */
+  #coverTitle::before{
+    left:.02em;
+    right:.02em;
+    bottom:.08em;
+    height:.54em;
+    border-radius:.14em;
+    background:rgba(229,137,108,.30);
+  }
+
+  #coverDate::before{
+    left:-.04em;
+    right:-.04em;
+    bottom:.05em;
+    height:.60em;
+    border-radius:.13em;
+    background:rgba(226,181,79,.30);
+  }
+}
