@@ -1332,3 +1332,41 @@ button[aria-label="닫기"]::after{
     margin-top:10px !important;
   }
 }
+
+/* PAGE FLIP Viewer V11.8.3 — Marker Sweep (cover title -> date) */
+#coverTitle,
+#coverDate{
+  position:relative;
+  z-index:0;
+  isolation:isolate;
+}
+#coverTitle{display:inline-block;}
+#coverDate{display:inline-block;}
+#coverTitle::before,
+#coverDate::before{
+  content:"";
+  position:absolute;
+  left:-.08em;
+  right:-.08em;
+  bottom:.05em;
+  height:.78em;
+  border-radius:.08em;
+  transform:scaleX(0);
+  transform-origin:left center;
+  z-index:-1;
+  pointer-events:none;
+}
+#coverTitle::before{background:rgba(229,137,108,.34);}
+#coverDate::before{background:rgba(226,181,79,.34);}
+#coverTitle.marker-sweep-on::before{
+  animation:markerSweepTitle .82s cubic-bezier(.22,.72,.28,1) both;
+}
+#coverDate.marker-sweep-on::before{
+  animation:markerSweepDate .68s cubic-bezier(.22,.72,.28,1) both;
+}
+@keyframes markerSweepTitle{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes markerSweepDate{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){
+  #coverTitle.marker-sweep-on::before,
+  #coverDate.marker-sweep-on::before{animation-duration:.01ms;}
+}

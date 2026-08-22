@@ -215,6 +215,22 @@ function buildSpreads(){
   ];
 }
 
+function startCoverMarkerSweep(){
+  const titleEl=document.querySelector('#coverTitle');
+  const dateEl=document.querySelector('#coverDate');
+  if(!titleEl||!dateEl) return;
+
+  titleEl.classList.remove('marker-sweep-on');
+  dateEl.classList.remove('marker-sweep-on');
+  void titleEl.offsetWidth;
+
+  // 제목을 먼저 긋고, 끝난 뒤 날짜를 이어서 긋습니다.
+  requestAnimationFrame(()=>{
+    titleEl.classList.add('marker-sweep-on');
+    window.setTimeout(()=>dateEl.classList.add('marker-sweep-on'),900);
+  });
+}
+
 function bindAlbum(){
   const title=album.title||'제목 없는 앨범';
   const date=formatDate(album.date);
@@ -230,6 +246,7 @@ function bindAlbum(){
   coverSummary.textContent=summary;
   coverSummary.style.display=summary.trim()?'':'none';
   document.querySelector('#coverMeta').textContent=`사진 ${photos.length}장`;
+  startCoverMarkerSweep();
   document.querySelector('#storyMark').style.display=story.trim()?'':'none';
   document.querySelector('#readerTitle').textContent=title;
   document.querySelector('#readerDate').textContent=date;
