@@ -8,8 +8,121 @@
   "shelfKey": "elders",
   "photoCount": 14,
   "coverIndex": 1,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-08-25T20:01:25.877Z",
-  "updatedAt": "2026-08-25T20:01:25.877Z"
+  "cover": "002.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1787688085877/photos/001.webp",
+      "originalName": "KakaoTalk_20260825_165036200_04.jpg",
+      "width": 893,
+      "height": 1587,
+      "bytes": 103462
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1787688085877/photos/002.webp",
+      "originalName": "KakaoTalk_20260825_165036200.jpg",
+      "width": 968,
+      "height": 1366,
+      "bytes": 126400
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1787688085877/photos/003.webp",
+      "originalName": "KakaoTalk_20260825_165036200_01.jpg",
+      "width": 968,
+      "height": 1367,
+      "bytes": 147828
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1787688085877/photos/004.webp",
+      "originalName": "KakaoTalk_20260825_165036200_12.jpg",
+      "width": 1050,
+      "height": 1400,
+      "bytes": 232110
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1787688085877/photos/005.webp",
+      "originalName": "KakaoTalk_20260825_165036200_13.jpg",
+      "width": 1400,
+      "height": 1050,
+      "bytes": 267324
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1787688085877/photos/006.webp",
+      "originalName": "KakaoTalk_20260825_165036200_08.jpg",
+      "width": 1536,
+      "height": 864,
+      "bytes": 148542
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1787688085877/photos/007.webp",
+      "originalName": "KakaoTalk_20260825_165036200_09.jpg",
+      "width": 1536,
+      "height": 864,
+      "bytes": 114740
+    },
+    {
+      "file": "008.webp",
+      "path": "albums/album-1787688085877/photos/008.webp",
+      "originalName": "KakaoTalk_20260825_165036200_10.jpg",
+      "width": 1050,
+      "height": 1400,
+      "bytes": 136300
+    },
+    {
+      "file": "009.webp",
+      "path": "albums/album-1787688085877/photos/009.webp",
+      "originalName": "KakaoTalk_20260825_165036200_11.jpg",
+      "width": 864,
+      "height": 1536,
+      "bytes": 142022
+    },
+    {
+      "file": "010.webp",
+      "path": "albums/album-1787688085877/photos/010.webp",
+      "originalName": "KakaoTalk_20260825_165036200_05.jpg",
+      "width": 1587,
+      "height": 893,
+      "bytes": 153482
+    },
+    {
+      "file": "011.webp",
+      "path": "albums/album-1787688085877/photos/011.webp",
+      "originalName": "KakaoTalk_20260825_165036200_06.jpg",
+      "width": 1587,
+      "height": 893,
+      "bytes": 122492
+    },
+    {
+      "file": "012.webp",
+      "path": "albums/album-1787688085877/photos/012.webp",
+      "originalName": "KakaoTalk_20260825_165036200_07.jpg",
+      "width": 1587,
+      "height": 893,
+      "bytes": 129322
+    },
+    {
+      "file": "013.webp",
+      "path": "albums/album-1787688085877/photos/013.webp",
+      "originalName": "KakaoTalk_20260825_165036200_02.jpg",
+      "width": 901,
+      "height": 1600,
+      "bytes": 218800
+    },
+    {
+      "file": "014.webp",
+      "path": "albums/album-1787688085877/photos/014.webp",
+      "originalName": "KakaoTalk_20260825_165036200_03.jpg",
+      "width": 1587,
+      "height": 893,
+      "bytes": 191392
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-08-25T20:01:59.014Z"
 }
