@@ -1,23 +1,15 @@
 {
   "id": "album-1787688085877",
-  "title": "테스트앨범",
-  "date": "",
+  "title": "전국학생 찬양경연대회",
+  "date": "2026-08-22",
   "summary": "",
-  "story": "",
+  "story": "우리 합창단은\n천안중앙교회에서 열리는\n[전국학생 찬양경연대회]에 참석했어요.\n\n[교회학교 중.고등부 전국연합회] 에서 주관하는\n[찬양대회]는 합창, 워쉽댄스, 밴드 부문에서\n전국 69개 노회에서 선발된 23개 팀이 출전했어요.\n\n우리 합창단은\n대회 시작 전 예배 찬양을 맡아서\n[주기도문], [Living Hope] 2곡을 찬양했어요.\n\n예전 찬양대회는 \n모두 노래하는 합창팀 이었는데\n요즘에는 워십댄스팀이 가장 많고\n밴드팀도 점점 늘고 있데요.\n단순한 율동을 넘어\n온몸으로 찬양을 표현하는 워십댄스가\n학생들에게 가장 인기라고 해요.\n\n대회 시작전 짧은 리허설 시간에\n어린 학생들의 발랄하고 순수한 모습이\n너무나 부러워서 온통 마음을 빼앗겼어요.\n내가 저런 아이였으면 좋겠다고 생각했죠.\n\n이윽고,\n우리 합창단이\n첫 소절을 부르기 시작하자\n산만하던 앞줄 아이의 움직임이 딱 멈춰 섰어요.\n나지막이 조용하게,\n때론 물결치듯 우렁차게 부르는\n우리 합창단의 노래가 끝나자\n환호와 함께 열렬한 박수로 호응해 주었어요.\n숨을 죽인 채 우리 입모양을 따라 벙긋거리던\n그 아이의 표정이 잊혀지지 않아요.\n\n무대에서 자리로 돌아가는데,\n한 학생이 영춘이를 향해 엄지손가락을\n치켜세워 보였어요.\n\"진짜 멋있어요\"라고 말하는 듯한\n그 야무진 눈짓과 손짓에\n묵직한 감격이 차올랐습니다.\n\n돌아오는 길에도\n우리를 향해 들어주던 손짓이\n자꾸 생각났어요.\n\n젊어도 좋고, 나이가 들어도 좋고,\n노래해도 좋고, 춤을 춰도 좋은 것 같아요.\n내가 가장 기쁘게 드릴 수 있는 고백으로\n찬양할 수 있다면\n그것으로 참 좋겠다는 생각이 들었어요.",
   "shelf": "장로성가단",
   "shelfKey": "elders",
   "photoCount": 14,
-  "coverIndex": 1,
+  "coverIndex": 0,
   "cover": "002.webp",
   "photos": [
-    {
-      "file": "001.webp",
-      "path": "albums/album-1787688085877/photos/001.webp",
-      "originalName": "KakaoTalk_20260825_165036200_04.jpg",
-      "width": 893,
-      "height": 1587,
-      "bytes": 103462
-    },
     {
       "file": "002.webp",
       "path": "albums/album-1787688085877/photos/002.webp",
@@ -35,78 +27,6 @@
       "bytes": 147828
     },
     {
-      "file": "004.webp",
-      "path": "albums/album-1787688085877/photos/004.webp",
-      "originalName": "KakaoTalk_20260825_165036200_12.jpg",
-      "width": 1050,
-      "height": 1400,
-      "bytes": 232110
-    },
-    {
-      "file": "005.webp",
-      "path": "albums/album-1787688085877/photos/005.webp",
-      "originalName": "KakaoTalk_20260825_165036200_13.jpg",
-      "width": 1400,
-      "height": 1050,
-      "bytes": 267324
-    },
-    {
-      "file": "006.webp",
-      "path": "albums/album-1787688085877/photos/006.webp",
-      "originalName": "KakaoTalk_20260825_165036200_08.jpg",
-      "width": 1536,
-      "height": 864,
-      "bytes": 148542
-    },
-    {
-      "file": "007.webp",
-      "path": "albums/album-1787688085877/photos/007.webp",
-      "originalName": "KakaoTalk_20260825_165036200_09.jpg",
-      "width": 1536,
-      "height": 864,
-      "bytes": 114740
-    },
-    {
-      "file": "008.webp",
-      "path": "albums/album-1787688085877/photos/008.webp",
-      "originalName": "KakaoTalk_20260825_165036200_10.jpg",
-      "width": 1050,
-      "height": 1400,
-      "bytes": 136300
-    },
-    {
-      "file": "009.webp",
-      "path": "albums/album-1787688085877/photos/009.webp",
-      "originalName": "KakaoTalk_20260825_165036200_11.jpg",
-      "width": 864,
-      "height": 1536,
-      "bytes": 142022
-    },
-    {
-      "file": "010.webp",
-      "path": "albums/album-1787688085877/photos/010.webp",
-      "originalName": "KakaoTalk_20260825_165036200_05.jpg",
-      "width": 1587,
-      "height": 893,
-      "bytes": 153482
-    },
-    {
-      "file": "011.webp",
-      "path": "albums/album-1787688085877/photos/011.webp",
-      "originalName": "KakaoTalk_20260825_165036200_06.jpg",
-      "width": 1587,
-      "height": 893,
-      "bytes": 122492
-    },
-    {
-      "file": "012.webp",
-      "path": "albums/album-1787688085877/photos/012.webp",
-      "originalName": "KakaoTalk_20260825_165036200_07.jpg",
-      "width": 1587,
-      "height": 893,
-      "bytes": 129322
-    },
-    {
       "file": "013.webp",
       "path": "albums/album-1787688085877/photos/013.webp",
       "originalName": "KakaoTalk_20260825_165036200_02.jpg",
@@ -121,8 +41,89 @@
       "width": 1587,
       "height": 893,
       "bytes": 191392
+    },
+    {
+      "file": "012.webp",
+      "path": "albums/album-1787688085877/photos/012.webp",
+      "originalName": "KakaoTalk_20260825_165036200_07.jpg",
+      "width": 1587,
+      "height": 893,
+      "bytes": 129322
+    },
+    {
+      "file": "011.webp",
+      "path": "albums/album-1787688085877/photos/011.webp",
+      "originalName": "KakaoTalk_20260825_165036200_06.jpg",
+      "width": 1587,
+      "height": 893,
+      "bytes": 122492
+    },
+    {
+      "file": "010.webp",
+      "path": "albums/album-1787688085877/photos/010.webp",
+      "originalName": "KakaoTalk_20260825_165036200_05.jpg",
+      "width": 1587,
+      "height": 893,
+      "bytes": 153482
+    },
+    {
+      "file": "001.webp",
+      "path": "albums/album-1787688085877/photos/001.webp",
+      "originalName": "KakaoTalk_20260825_165036200_04.jpg",
+      "width": 893,
+      "height": 1587,
+      "bytes": 103462
+    },
+    {
+      "file": "009.webp",
+      "path": "albums/album-1787688085877/photos/009.webp",
+      "originalName": "KakaoTalk_20260825_165036200_11.jpg",
+      "width": 864,
+      "height": 1536,
+      "bytes": 142022
+    },
+    {
+      "file": "008.webp",
+      "path": "albums/album-1787688085877/photos/008.webp",
+      "originalName": "KakaoTalk_20260825_165036200_10.jpg",
+      "width": 1050,
+      "height": 1400,
+      "bytes": 136300
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1787688085877/photos/004.webp",
+      "originalName": "KakaoTalk_20260825_165036200_12.jpg",
+      "width": 1050,
+      "height": 1400,
+      "bytes": 232110
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1787688085877/photos/007.webp",
+      "originalName": "KakaoTalk_20260825_165036200_09.jpg",
+      "width": 1536,
+      "height": 864,
+      "bytes": 114740
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1787688085877/photos/006.webp",
+      "originalName": "KakaoTalk_20260825_165036200_08.jpg",
+      "width": 1536,
+      "height": 864,
+      "bytes": 148542
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1787688085877/photos/005.webp",
+      "originalName": "KakaoTalk_20260825_165036200_13.jpg",
+      "width": 1400,
+      "height": 1050,
+      "bytes": 267324
     }
   ],
   "status": "ready",
-  "updatedAt": "2026-08-25T20:01:59.014Z"
+  "updatedAt": "2026-08-25T20:04:42.893Z",
+  "createdAt": "2026-08-25T20:04:42.893Z"
 }
