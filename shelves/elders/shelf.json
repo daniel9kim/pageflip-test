@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1787688085877",
+      "title": "전국학생 찬양경연대회",
+      "date": "2026-08-22",
+      "summary": "",
+      "cover": "../../albums/album-1787688085877/photos/002.webp",
+      "album": "../../albums/album-1787688085877/album.json",
+      "photoCount": 14,
+      "updatedAt": "2026-08-25T20:04:42.893Z"
+    },
+    {
       "id": "album-1786962506269",
       "title": "2026 전국장로수련회",
       "date": "2026-07-01",
@@ -352,16 +362,6 @@
       "album": "../../albums/album-1786795371683/album.json",
       "photoCount": 3,
       "updatedAt": "2026-08-19T11:46:31.880Z"
-    },
-    {
-      "id": "album-1787688085877",
-      "title": "테스트앨범",
-      "date": "",
-      "summary": "",
-      "cover": "../../albums/album-1787688085877/photos/002.webp",
-      "album": "../../albums/album-1787688085877/album.json",
-      "photoCount": 14,
-      "updatedAt": "2026-08-25T20:01:59.014Z"
     }
   ]
 }
