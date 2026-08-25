@@ -352,6 +352,16 @@
       "album": "../../albums/album-1786795371683/album.json",
       "photoCount": 3,
       "updatedAt": "2026-08-19T11:46:31.880Z"
+    },
+    {
+      "id": "album-1787688085877",
+      "title": "테스트앨범",
+      "date": "",
+      "summary": "",
+      "cover": "../../albums/album-1787688085877/photos/002.webp",
+      "album": "../../albums/album-1787688085877/album.json",
+      "photoCount": 14,
+      "updatedAt": "2026-08-25T20:01:59.014Z"
     }
   ]
 }
