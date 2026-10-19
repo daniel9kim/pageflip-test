@@ -8,8 +8,73 @@
   "shelfKey": "elders",
   "photoCount": 8,
   "coverIndex": 0,
-  "photos": [],
-  "status": "uploading",
-  "createdAt": "2026-10-19T18:59:38.531Z",
-  "updatedAt": "2026-10-19T18:59:38.531Z"
+  "cover": "001.webp",
+  "photos": [
+    {
+      "file": "001.webp",
+      "path": "albums/album-1792436378531/photos/001.webp",
+      "originalName": "KakaoTalk_20261019_085759934_07.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 78738
+    },
+    {
+      "file": "002.webp",
+      "path": "albums/album-1792436378531/photos/002.webp",
+      "originalName": "KakaoTalk_20261019_085759934_05.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 107592
+    },
+    {
+      "file": "003.webp",
+      "path": "albums/album-1792436378531/photos/003.webp",
+      "originalName": "KakaoTalk_20261019_085759934_06.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 128564
+    },
+    {
+      "file": "004.webp",
+      "path": "albums/album-1792436378531/photos/004.webp",
+      "originalName": "KakaoTalk_20261019_085759934_03.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 201624
+    },
+    {
+      "file": "005.webp",
+      "path": "albums/album-1792436378531/photos/005.webp",
+      "originalName": "KakaoTalk_20261019_085759934_04.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 131276
+    },
+    {
+      "file": "006.webp",
+      "path": "albums/album-1792436378531/photos/006.webp",
+      "originalName": "KakaoTalk_20261019_085759934_02.jpg",
+      "width": 1800,
+      "height": 1013,
+      "bytes": 125564
+    },
+    {
+      "file": "007.webp",
+      "path": "albums/album-1792436378531/photos/007.webp",
+      "originalName": "KakaoTalk_20261018_223124013.jpg",
+      "width": 1263,
+      "height": 1800,
+      "bytes": 145438
+    },
+    {
+      "file": "008.webp",
+      "path": "albums/album-1792436378531/photos/008.webp",
+      "originalName": "KakaoTalk_20261018_223124013_01.jpg",
+      "width": 1272,
+      "height": 1800,
+      "bytes": 161164
+    }
+  ],
+  "status": "ready",
+  "updatedAt": "2026-10-19T19:00:09.655Z"
 }
