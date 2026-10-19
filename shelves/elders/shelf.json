@@ -4,6 +4,16 @@
   "subtitle": "장로합창단의 찬양과 연주 기록",
   "albums": [
     {
+      "id": "album-1792436378531",
+      "title": "미라클52교회 초청연주",
+      "date": "2026-10-18",
+      "summary": "",
+      "cover": "../../albums/album-1792436378531/photos/001.webp",
+      "album": "../../albums/album-1792436378531/album.json",
+      "photoCount": 8,
+      "updatedAt": "2026-10-19T19:00:09.655Z"
+    },
+    {
       "id": "album-1787688085877",
       "title": "전국학생 찬양경연대회",
       "date": "2026-08-22",
